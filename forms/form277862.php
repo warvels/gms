@@ -1,0 +1,274 @@
+
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<link href="styleforms.css" rel="stylesheet" type="text/css">
+		<!-- calendar stuff -->
+		      <link rel="stylesheet" type="text/css" href="calendar/calendar-blue2.css" />
+		      <script type="text/javascript" src="calendar/calendar.js"></script>
+		      <script type="text/javascript" src="calendar/calendar-en.js"></script>
+		      <script type="text/javascript" src="calendar/calendar-setup.js"></script>
+		<!-- END calendar stuff -->
+
+	    <!-- expand/collapse function -->
+	    <SCRIPT type=text/javascript>
+		<!--
+		function collapseElem(obj)
+		{
+			var el = document.getElementById(obj);
+			el.style.display = 'none';
+		}
+
+
+		function expandElem(obj)
+		{
+			var el = document.getElementById(obj);
+			el.style.display = '';
+		}
+
+
+		//-->
+		</SCRIPT>
+		<!-- expand/collapse function -->
+
+
+		<!-- expand/collapse function -->
+		    <SCRIPT type=text/javascript>
+			<!--
+
+			// collapse all elements, except the first one
+			function collapseAll()
+			{
+				var numFormPages = 1;
+
+				for(i=2; i <= numFormPages; i++)
+				{
+					currPageId = ('mainForm_' + i);
+					collapseElem(currPageId);
+				}
+			}
+
+
+			//-->
+			</SCRIPT>
+		<!-- expand/collapse function -->
+
+
+		 <!-- validate -->
+		<SCRIPT type=text/javascript>
+		<!--
+			function validateField(fieldId, fieldBoxId, fieldType, required)
+			{
+				fieldBox = document.getElementById(fieldBoxId);
+				fieldObj = document.getElementById(fieldId);
+
+				if(fieldType == 'text'  ||  fieldType == 'textarea'  ||  fieldType == 'password'  ||  fieldType == 'file'  ||  fieldType == 'phone'  || fieldType == 'website')
+				{	
+					if(required == 1 && fieldObj.value == '')
+					{
+						fieldObj.setAttribute("class","mainFormError");
+						fieldObj.setAttribute("className","mainFormError");
+						fieldObj.focus();
+						return false;					
+					}
+
+				}
+
+
+				else if(fieldType == 'menu'  || fieldType == 'country'  || fieldType == 'state')
+				{	
+					if(required == 1 && fieldObj.selectedIndex == 0)
+					{				
+						fieldObj.setAttribute("class","mainFormError");
+						fieldObj.setAttribute("className","mainFormError");
+						fieldObj.focus();
+						return false;					
+					}
+
+				}
+
+
+				else if(fieldType == 'email')
+				{	
+					if((required == 1 && fieldObj.value=='')  ||  (fieldObj.value!=''  && !validate_email(fieldObj.value)))
+					{				
+						fieldObj.setAttribute("class","mainFormError");
+						fieldObj.setAttribute("className","mainFormError");
+						fieldObj.focus();
+						return false;					
+					}
+
+				}
+
+
+
+			}
+
+			function validate_email(emailStr)
+			{		
+				apos=emailStr.indexOf("@");
+				dotpos=emailStr.lastIndexOf(".");
+
+				if (apos<1||dotpos-apos<2) 
+				{
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+
+
+			function validateDate(fieldId, fieldBoxId, fieldType, required,  minDateStr, maxDateStr)
+			{
+				retValue = true;
+
+				fieldBox = document.getElementById(fieldBoxId);
+				fieldObj = document.getElementById(fieldId);	
+				dateStr = fieldObj.value;
+
+
+				if(required == 0  && dateStr == '')
+				{
+					return true;
+				}
+
+
+				if(dateStr.charAt(2) != '/'  || dateStr.charAt(5) != '/' || dateStr.length != 10)
+				{
+					retValue = false;
+				}	
+
+				else	// format's okay; check max, min
+				{
+					currDays = parseInt(dateStr.substr(0,2),10) + parseInt(dateStr.substr(3,2),10)*30  + parseInt(dateStr.substr(6,4),10)*365;
+					//alert(currDays);
+
+					if(maxDateStr != '')
+					{
+						maxDays = parseInt(maxDateStr.substr(0,2),10) + parseInt(maxDateStr.substr(3,2),10)*30  + parseInt(maxDateStr.substr(6,4),10)*365;
+						//alert(maxDays);
+						if(currDays > maxDays)
+							retValue = false;
+					}
+
+					if(minDateStr != '')
+					{
+						minDays = parseInt(minDateStr.substr(0,2),10) + parseInt(minDateStr.substr(3,2),10)*30  + parseInt(minDateStr.substr(6,4),10)*365;
+						//alert(minDays);
+						if(currDays < minDays)
+							retValue = false;
+					}
+				}
+
+				if(retValue == false)
+				{
+					fieldObj.setAttribute("class","mainFormError");
+					fieldObj.setAttribute("className","mainFormError");
+					fieldObj.focus();
+					return false;
+				}
+			}
+		//-->
+		</SCRIPT>
+		<!-- end validate -->
+
+
+
+
+	</head>
+
+	<body onLoad="collapseAll()">
+
+	<div id="mainForm">
+
+
+
+
+		<div id="formHeader">
+				<h2 class="formInfo">GMS Registration Form</h2>
+				<p class="formInfo">Registrater for Global Mind Share</p>
+		</div>
+
+
+		<BR/><!-- begin form -->
+		<form method=post enctype=multipart/form-data action=processor277862.php onSubmit="return validatePage1();"><ul class=mainForm id="mainForm_1">
+
+				<li class="mainForm" id="fieldBox_1">
+					<label class="formFieldQuestion">Username&nbsp;*</label><input class=mainForm type=text name=field_1 id=field_1 size='40' value=''></li>
+
+				<li class="mainForm" id="fieldBox_2">
+					<label class="formFieldQuestion">Password</label><input class=mainForm type=password name=field_2 id=field_2 size='40' value=''></li>
+
+				<li class="mainForm" id="fieldBox_3">
+					<label class="formFieldQuestion">Email&nbsp;*</label><input class=mainForm type=email name=field_3 id=field_3 size=75 value="" style="background-image:url(imgs/email.png); background-repeat: no-repeat;  padding: 2px 2px 2px 25px;"></li>
+
+				<li class="mainForm" id="fieldBox_4">
+					<label class="formFieldQuestion">First Name&nbsp;*</label><input class=mainForm type=text name=field_4 id=field_4 size='60' value=''></li>
+
+				<li class="mainForm" id="fieldBox_5">
+					<label class="formFieldQuestion">Last Name&nbsp;*</label><input class=mainForm type=text name=field_5 id=field_5 size='60' value=''></li>
+
+				<li class="mainForm" id="fieldBox_6">
+					<label class="formFieldQuestion">City&nbsp;*</label><input class=mainForm type=text name=field_6 id=field_6 size='60' value=''></li>
+
+				<li class="mainForm" id="fieldBox_7">
+					<label class="formFieldQuestion">State - US&nbsp;*</label><select class=mainForm name=field_7 id=field_7><option value=''> </option><option value="Alabama">Alabama</option><option value="Alaska">Alaska</option><option value="Arizona">Arizona</option><option value="Arkansas">Arkansas</option><option value="California">California</option><option value="Colorado">Colorado</option><option value="Connecticut">Connecticut</option><option value="Delaware">Delaware</option><option value="Florida">Florida</option><option value="Georgia">Georgia</option><option value="Hawaii">Hawaii</option><option value="Idaho">Idaho</option><option value="Illinois">Illinois</option><option value="Indiana">Indiana</option><option value="Iowa">Iowa</option><option value="Kansas">Kansas</option><option value="Kentucky">Kentucky</option><option value="Louisiana">Louisiana</option><option value="Maine">Maine</option><option value="Maryland">Maryland</option><option value="Massachusetts">Massachusetts</option><option value="Michigan">Michigan</option><option value="Minnesota">Minnesota</option><option value="Mississippi">Mississippi</option><option value="Missouri">Missouri</option><option value="Montana">Montana</option><option value="Nebraska">Nebraska</option><option value="Nevada">Nevada</option><option value="New Hampshire">New Hampshire</option><option value="New Jersey">New Jersey</option><option value="New Mexico">New Mexico</option><option value="New York">New York</option><option value="North Carolina">North Carolina</option><option value="North Dakota">North Dakota</option><option value="Ohio">Ohio</option><option value="Oklahoma">Oklahoma</option><option value="Oregon">Oregon</option><option value="Pennsylvania">Pennsylvania</option><option value="Rhode Island">Rhode Island</option><option value="South Carolina">South Carolina</option><option value="South Dakota">South Dakota</option><option value="Tennessee">Tennessee</option><option value="Texas">Texas</option><option value="Utah">Utah</option><option value="Vermont">Vermont</option><option value="Virginia">Virginia</option><option value="Washington">Washington</option><option value="West Virginia">West Virginia</option><option value="Wisconsin">Wisconsin</option><option value="Wyoming">Wyoming</option></SELECT></li>
+
+				<li class="mainForm" id="fieldBox_8">
+					<label class="formFieldQuestion">Country</label><select class=mainForm name=field_8 id=field_8><option value=''> </option><option value="Abkhazia">Abkhazia</option><option value="Afghanistan">Afghanistan</option><option value="Aland">Aland</option><option value="Albania">Albania</option><option value="Algeria">Algeria</option><option value="American Samoa">American Samoa</option><option value="Andorra">Andorra</option><option value="Angola">Angola</option><option value="Anguilla">Anguilla</option><option value="Antarctica">Antarctica</option><option value="Antigua and Barbuda">Antigua and Barbuda</option><option value="Argentina">Argentina</option><option value="Armenia">Armenia</option><option value="Aruba">Aruba</option><option value="Ascension">Ascension</option><option value="Ashmore and Cartier Islands">Ashmore and Cartier Islands</option><option value="Australia">Australia</option><option value="Australian Antarctic Territory">Australian Antarctic Territory</option><option value="Austria">Austria</option><option value="Azerbaijan">Azerbaijan</option><option value="Bahamas, The">Bahamas, The</option><option value="Bahrain">Bahrain</option><option value="Baker Island">Baker Island</option><option value="Bangladesh">Bangladesh</option><option value="Barbados">Barbados</option><option value="Belarus">Belarus</option><option value="Belgium">Belgium</option><option value="Belize">Belize</option><option value="Benin">Benin</option><option value="Bermuda">Bermuda</option><option value="Bhutan">Bhutan</option><option value="Bolivia">Bolivia</option><option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option><option value="Botswana">Botswana</option><option value="Bouvet Island">Bouvet Island</option><option value="Brazil">Brazil</option><option value="British Antarctic Territory">British Antarctic Territory</option><option value="British Indian Ocean Territory">British Indian Ocean Territory</option><option value="British Sovereign Base Areas">British Sovereign Base Areas</option><option value="British Virgin Islands">British Virgin Islands</option><option value="Brunei">Brunei</option><option value="Bulgaria">Bulgaria</option><option value="Burkina Faso">Burkina Faso</option><option value="Burundi">Burundi</option><option value="Cambodia">Cambodia</option><option value="Cameroon">Cameroon</option><option value="Canada">Canada</option><option value="Cape Verde">Cape Verde</option><option value="Cayman Islands">Cayman Islands</option><option value="Central African Republic">Central African Republic</option><option value="Chad">Chad</option><option value="Chile">Chile</option><option value="China, People's Republic of">China, People's Republic of</option><option value="China, Republic of (Taiwan)">China, Republic of (Taiwan)</option><option value="Christmas Island">Christmas Island</option><option value="Clipperton Island">Clipperton Island</option><option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option><option value="Colombia">Colombia</option><option value="Comoros">Comoros</option><option value="Congo, Democratic Republic of the (Congo  Kinshasa)">Congo, Democratic Republic of the (Congo  Kinshasa)</option><option value="Congo, Republic of the (Congo  Brazzaville)">Congo, Republic of the (Congo  Brazzaville)</option><option value="Cook Islands">Cook Islands</option><option value="Coral Sea Islands">Coral Sea Islands</option><option value="Costa Rica">Costa Rica</option><option value="Cote d'Ivoire (Ivory Coast)">Cote d'Ivoire (Ivory Coast)</option><option value="Croatia">Croatia</option><option value="Cuba">Cuba</option><option value="Cyprus">Cyprus</option><option value="Czech Republic">Czech Republic</option><option value="Denmark">Denmark</option><option value="Djibouti">Djibouti</option><option value="Dominica">Dominica</option><option value="Dominican Republic">Dominican Republic</option><option value="Ecuador">Ecuador</option><option value="Egypt">Egypt</option><option value="El Salvador">El Salvador</option><option value="Equatorial Guinea">Equatorial Guinea</option><option value="Eritrea">Eritrea</option><option value="Estonia">Estonia</option><option value="Ethiopia">Ethiopia</option><option value="Falkland Islands (Islas Malvinas)">Falkland Islands (Islas Malvinas)</option><option value="Faroe Islands">Faroe Islands</option><option value="Fiji">Fiji</option><option value="Finland">Finland</option><option value="France">France</option><option value="French Guiana">French Guiana</option><option value="French Polynesia">French Polynesia</option><option value="French Scattered Islands in the Indian Ocean">French Scattered Islands in the Indian Ocean</option><option value="French Southern and Antarctic Lands">French Southern and Antarctic Lands</option><option value="Gabon">Gabon</option><option value="Gambia, The">Gambia, The</option><option value="Georgia">Georgia</option><option value="Germany">Germany</option><option value="Ghana">Ghana</option><option value="Gibraltar">Gibraltar</option><option value="Greece">Greece</option><option value="Greenland">Greenland</option><option value="Grenada">Grenada</option><option value="Guadeloupe">Guadeloupe</option><option value="Guam">Guam</option><option value="Guatemala">Guatemala</option><option value="Guernsey">Guernsey</option><option value="Guinea">Guinea</option><option value="Guinea-Bissau">Guinea-Bissau</option><option value="Guyana">Guyana</option><option value="Haiti">Haiti</option><option value="Heard Island and McDonald Islands">Heard Island and McDonald Islands</option><option value="Honduras">Honduras</option><option value="Hong Kong">Hong Kong</option><option value="Howland Island">Howland Island</option><option value="Hungary">Hungary</option><option value="Iceland">Iceland</option><option value="India">India</option><option value="Indonesia">Indonesia</option><option value="Iran">Iran</option><option value="Iraq">Iraq</option><option value="Ireland">Ireland</option><option value="Isle of Man">Isle of Man</option><option value="Israel">Israel</option><option value="Italy">Italy</option><option value="Jamaica">Jamaica</option><option value="Japan">Japan</option><option value="Jarvis Island">Jarvis Island</option><option value="Jersey">Jersey</option><option value="Johnston Atoll">Johnston Atoll</option><option value="Jordan">Jordan</option><option value="Kazakhstan">Kazakhstan</option><option value="Kenya">Kenya</option><option value="Kingman Reef">Kingman Reef</option><option value="Kiribati">Kiribati</option><option value="Korea, Democratic People's Republic of (North Korea)">Korea, Democratic People's Republic of (North Korea)</option><option value="Korea, Republic of  (South Korea)">Korea, Republic of  (South Korea)</option><option value="Kosovo">Kosovo</option><option value="Kuwait">Kuwait</option><option value="Kyrgyzstan">Kyrgyzstan</option><option value="Laos">Laos</option><option value="Latvia">Latvia</option><option value="Lebanon">Lebanon</option><option value="Lesotho">Lesotho</option><option value="Liberia">Liberia</option><option value="Libya">Libya</option><option value="Liechtenstein">Liechtenstein</option><option value="Lithuania">Lithuania</option><option value="Luxembourg">Luxembourg</option><option value="Macau">Macau</option><option value="Macedonia">Macedonia</option><option value="Madagascar">Madagascar</option><option value="Malawi">Malawi</option><option value="Malaysia">Malaysia</option><option value="Maldives">Maldives</option><option value="Mali">Mali</option><option value="Malta">Malta</option><option value="Marshall Islands">Marshall Islands</option><option value="Martinique">Martinique</option><option value="Mauritania">Mauritania</option><option value="Mauritius">Mauritius</option><option value="Mayotte">Mayotte</option><option value="Mexico">Mexico</option><option value="Micronesia">Micronesia</option><option value="Midway Islands">Midway Islands</option><option value="Moldova">Moldova</option><option value="Monaco">Monaco</option><option value="Mongolia">Mongolia</option><option value="Montenegro">Montenegro</option><option value="Montserrat">Montserrat</option><option value="Morocco">Morocco</option><option value="Mozambique">Mozambique</option><option value="Myanmar (Burma)">Myanmar (Burma)</option><option value="Nagorno-Karabakh">Nagorno-Karabakh</option><option value="Namibia">Namibia</option><option value="Nauru">Nauru</option><option value="Navassa Island">Navassa Island</option><option value="Nepal">Nepal</option><option value="Netherlands">Netherlands</option><option value="Netherlands Antilles">Netherlands Antilles</option><option value="New Caledonia">New Caledonia</option><option value="New Zealand">New Zealand</option><option value="Nicaragua">Nicaragua</option><option value="Niger">Niger</option><option value="Nigeria">Nigeria</option><option value="Niue">Niue</option><option value="Norfolk Island">Norfolk Island</option><option value="Northern Cyprus">Northern Cyprus</option><option value="Northern Mariana Islands">Northern Mariana Islands</option><option value="Norway">Norway</option><option value="Oman">Oman</option><option value="Pakistan">Pakistan</option><option value="Palau">Palau</option><option value="Palestine">Palestine</option><option value="Palmyra Atoll">Palmyra Atoll</option><option value="Panama">Panama</option><option value="Papua New Guinea">Papua New Guinea</option><option value="Paraguay">Paraguay</option><option value="Peru">Peru</option><option value="Peter I Island">Peter I Island</option><option value="Philippines">Philippines</option><option value="Pitcairn Islands">Pitcairn Islands</option><option value="Poland">Poland</option><option value="Portugal">Portugal</option><option value="Pridnestrovie (Transnistria)">Pridnestrovie (Transnistria)</option><option value="Puerto Rico">Puerto Rico</option><option value="Qatar">Qatar</option><option value="Queen Maud Land">Queen Maud Land</option><option value="Reunion">Reunion</option><option value="Romania">Romania</option><option value="Ross Dependency">Ross Dependency</option><option value="Russia">Russia</option><option value="Rwanda">Rwanda</option><option value="Saint Helena">Saint Helena</option><option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option><option value="Saint Lucia">Saint Lucia</option><option value="Saint Pierre and Miquelon">Saint Pierre and Miquelon</option><option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option><option value="Samoa">Samoa</option><option value="San Marino">San Marino</option><option value="Sao Tome and Principe">Sao Tome and Principe</option><option value="Saudi Arabia">Saudi Arabia</option><option value="Senegal">Senegal</option><option value="Serbia">Serbia</option><option value="Seychelles">Seychelles</option><option value="Sierra Leone">Sierra Leone</option><option value="Singapore">Singapore</option><option value="Slovakia">Slovakia</option><option value="Slovenia">Slovenia</option><option value="Solomon Islands">Solomon Islands</option><option value="Somalia">Somalia</option><option value="Somaliland">Somaliland</option><option value="South Africa">South Africa</option><option value="South Georgia and the South Sandwich Islands">South Georgia and the South Sandwich Islands</option><option value="South Ossetia">South Ossetia</option><option value="Spain">Spain</option><option value="Sri Lanka">Sri Lanka</option><option value="Sudan">Sudan</option><option value="Suriname">Suriname</option><option value="Svalbard">Svalbard</option><option value="Swaziland">Swaziland</option><option value="Sweden">Sweden</option><option value="Switzerland">Switzerland</option><option value="Syria">Syria</option><option value="Tajikistan">Tajikistan</option><option value="Tanzania">Tanzania</option><option value="Thailand">Thailand</option><option value="Timor-Leste (East Timor)">Timor-Leste (East Timor)</option><option value="Togo">Togo</option><option value="Tokelau">Tokelau</option><option value="Tonga">Tonga</option><option value="Trinidad and Tobago">Trinidad and Tobago</option><option value="Tristan da Cunha">Tristan da Cunha</option><option value="Tunisia">Tunisia</option><option value="Turkey">Turkey</option><option value="Turkmenistan">Turkmenistan</option><option value="Turks and Caicos Islands">Turks and Caicos Islands</option><option value="Tuvalu">Tuvalu</option><option value="U.S. Virgin Islands">U.S. Virgin Islands</option><option value="Uganda">Uganda</option><option value="Ukraine">Ukraine</option><option value="United Arab Emirates">United Arab Emirates</option><option value="United Kingdom">United Kingdom</option><option value="United States">United States</option><option value="Uruguay">Uruguay</option><option value="Uzbekistan">Uzbekistan</option><option value="Vanuatu">Vanuatu</option><option value="Vatican City">Vatican City</option><option value="Venezuela">Venezuela</option><option value="Viet Nam">Viet Nam</option><option value="Wake Island">Wake Island</option><option value="Wallis and Futuna">Wallis and Futuna</option><option value="Western Sahara">Western Sahara</option><option value="Yemen">Yemen</option><option value="Zambia">Zambia</option><option value="Zimbabwe">Zimbabwe</option></SELECT></li>
+		
+		
+		<!-- end of this page -->
+
+		<!-- page validation -->
+		<SCRIPT type=text/javascript>
+		<!--
+			function validatePage1()
+			{
+				retVal = true;
+				if (validateField('field_1','fieldBox_1','text',1) == false)
+ retVal=false;
+if (validateField('field_2','fieldBox_2','password',0) == false)
+ retVal=false;
+if (validateField('field_3','fieldBox_3','email',1) == false)
+ retVal=false;
+if (validateField('field_4','fieldBox_4','text',1) == false)
+ retVal=false;
+if (validateField('field_5','fieldBox_5','text',1) == false)
+ retVal=false;
+if (validateField('field_6','fieldBox_6','text',1) == false)
+ retVal=false;
+if (validateField('field_7','fieldBox_7','state',1) == false)
+ retVal=false;
+if (validateField('field_8','fieldBox_8','country',0) == false)
+ retVal=false;
+
+				if(retVal == false)
+				{
+					alert('Please correct the errors.  Fields marked with an asterisk (*) are required');
+					return false;
+				}
+				return retVal;
+			}
+		//-->
+		</SCRIPT>
+
+		<!-- end page validaton -->
+
+
+
+		<!-- next page buttons --><li class="mainForm">
+								<label class="formFieldQuestion">
+									Type the following (case sensitive): &nbsp;<a class=info href=#><img src=imgs/tip_small.png border=0><span class=infobox>For security purposes, please type the letters in the image.</span></a><BR><img src="CaptchaSecurityImages.php" />
+								</label>
+
+								<input id="captchaForm" name="security_code" class="mainForm" type="text"/>
+							</li><li class="mainForm">
+					<input id="saveForm" class="mainForm" type="submit" value="Submit" />
+				</li>
+
+			</form>
+			<!-- end of form -->
+		<!-- close the display stuff for this page -->
+		</ul></div><div id="footer"><p class="footer">
+		<a class=footer href=http://phpformgen.sourceforge.net>Generated by phpFormGenerator</a></p></div>

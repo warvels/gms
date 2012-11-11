@@ -1,0 +1,53 @@
+/* style sheet for all GMS content pages*/
+
+
+h3
+	{margin-right:0in;
+	margin-left:0in;
+	font-size:13.5pt;
+	font-family:"Calibri","sans-serif";
+	color:#0B75AF;   /* this is the Blue of GMS */
+	color:white;
+	}
+h4
+	{margin-right:0in;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Calibri","sans-serif";
+	color:#0B75AF;   /* this is the Blue of GMS */
+	color:white;
+	}
+
+/* style for Content paragraph text  */
+ p.MsoNormal
+	{mso-style-parent:"";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	color:#0B75AF;   /* this is the Blue of GMS */
+	color:white;
+	}
+
+/* style for Content <li> items */
+ li.MsoNormal
+	{mso-style-parent:"";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	color:#0B75AF;   /* this is the Blue of GMS */
+	color:white;
+	
+	}
+
+
+	
+	
+	

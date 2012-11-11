@@ -1,0 +1,103 @@
+/* style sheet for GMS */
+
+
+body 
+{
+}
+
+
+
+#debugInfo
+{
+	position: relative;
+	width: 100%;
+	background-color: #ffffff;
+	margin:0 0 0 0;
+}
+
+h2.debugInfo
+{
+	text-align: left;
+	margin:0 0 0 0;
+	font-family: Tahoma, Arial, Verdana, sans-serif;
+	font-weight:normal;
+	font-size:20px;
+	position:relative;
+	left:20px;
+	top:0px;
+	letter-spacing: 1px;
+	line-height:150%;
+	color: #ffffff;
+}
+
+p.debugInfo
+{
+	text-align: left;
+	margin:0 0 0 0;
+	font-family: Tahoma, Arial, Verdana, sans-serif;
+	font-weight:normal;
+	color: #000000;
+	font-size:12px;
+	position:relative;
+	left:20px;
+	top:0px;
+	color: #ffffff;
+}
+
+
+
+p.gmsFooter
+{
+	text-align: right;
+	margin:0 0 0 0;
+	font-family: Tahoma, Arial, Verdana, sans-serif;
+	font-weight:normal;
+	color: #ffffff;
+	font-size:9px;
+	position:relative;
+	top:4px;
+	left:-140px;
+	letter-spacing: 2px;
+}
+
+a.gmsFooter
+{
+	text-align: right;
+	margin:0 0 0 0;
+	font-family: Tahoma, Arial, Verdana, sans-serif;
+	font-weight:normal;
+	color: #ffffff;
+	font-size:9px;
+	position:relative;
+	top:4px;
+	letter-spacing: 2px;
+}
+
+
+/* Table styles
+ use with:    <table class="gridtable">
+*/
+<!-- CSS for general purpose tables -->
+table.gridtable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+}
+table.gridtable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dedede;
+}
+table.gridtable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+
