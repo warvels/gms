@@ -64,46 +64,16 @@
 	
 <body>
 
-<!-- Display GMS website version - -->
-<?php 
-  $gmsversion_file = 'gmsversion.php';
-  if (file_exists($gmsversion_file)) {include $gmsversion_file;}
-?>
-<!--
-  <hr><a href="javascript: alert('foo!');">Click Me</a>
--->
-  
-  
-  
-<!-- Contact-us Global Mind Share - -->
-<div id="ContactRight">
-<!-- <p align="right"><strong><span class="grays-subtitle">Connect to GMS</span></strong></p> 
-	<a href="index.php">GMS</a>
--->
-	<p align="right">
-	<a href="http://www.facebook.com/globalmindshare" target="_blank">
-	 <img title="Follow GMS ON Facebook" style="BORDER-BOTTOM: 0px solid; BORDER-LEFT: 0px solid; WIDTH: 24px; HEIGHT: 24px; BORDER-TOP: 0px solid; BORDER-RIGHT: 0px solid" alt="Follow GMS ON Facebook" src="images/facebook-follow-lg.png" border="0"></a>
-	<a href="https://twitter.com/globalmindshare" target="_blank">
-	 <img title="Follow GMS ON Twitter" style="BORDER-BOTTOM: 0px solid; BORDER-LEFT: 0px solid; WIDTH: 24px; HEIGHT: 24px; BORDER-TOP: 0px solid; BORDER-RIGHT: 0px solid" alt="Follow GMS ON Twitter" src="images/twitter-follow-lg.png" border="0"></a>
-	<a href="http://www.youtube.com/globalmindshare" target="_blank">
-	 <img title="Follow GMS ON YouTube" style="BORDER-BOTTOM: 0px solid; BORDER-LEFT: 0px solid; WIDTH: 24px; HEIGHT: 24px; BORDER-TOP: 0px solid; BORDER-RIGHT: 0px solid" alt="Follow GMS ON YouTube" src="images/youtube-follow-lg.png" border="0"></a>
-<!-- 
-	 <a href="http://www.linkedin.com/company/9211" target="_blank">
-	 <img title="Follow GMS ON LinkedIn" style="BORDER-BOTTOM: 0px solid; BORDER-LEFT: 0px solid; WIDTH: 24px; HEIGHT: 24px; BORDER-TOP: 0px solid; BORDER-RIGHT: 0px solid" alt="Follow GMS ON LinkedIn" src="images/linkedin-follow-lg.png" border="0"></a>
- -->	 
-	</p>
-</div>
-
-
 
 <!--
-<h1><a href="index.php">home</a></h1> 
+  Original Area for gms version and social media links 
 -->				
 	
 <!-- slide down menu -->	
 <div class="content">
+
 	<!-- this puts the GMS logo image above. make it a link to home too. -->
-	<a href="index.php">  	<h1 class="title"></h1>        	</a>
+	<a href="index.php"> <h1 class="title"></h1>	</a>
 	<ul id="sdt_menu" class="sdt_menu">
 		<li>
 			<!-- Vision -->
@@ -117,6 +87,7 @@
 			</a>
 		</li>
 		<li>
+			<!-- About Us -->
 			<a href="index.php?page=aboutus">
 				<img src="images/aboutus.jpg" alt=""/>
 				<span class="sdt_active"></span>
@@ -155,6 +126,18 @@
 				</span>
 			</a>
 		</li>
+
+		<li>
+			<!--View Submitted-->
+			<a href="showSubmittedBasic.php">
+				<img src="images/globehand.jpg" alt=""/>
+				<span class="sdt_active"></span>
+				<span class="sdt_wrap">
+					<span class="sdt_link">View Submitted</span>
+					<span class="sdt_descr">View all Submitted Problems</span>
+				</span>
+			</a>
+		</li>
 		
 		<li>
 			<!--Terms of use-->
@@ -179,9 +162,9 @@
 				</span>
 			</a>
 		</li>
-		
+<!-- 		 Query DB 
+
 		<li>
-			<!-- Query DB -->
 			<a href="#">
 				<img src="images/globehand.jpg" alt=""/>
 				<span class="sdt_active"></span>
@@ -191,22 +174,28 @@
 				</span>
 			</a>
 			<div class="sdt_box">
-				<a href="fellow_select.php">List Fellow</a>
+				<a href="showSubmittedBasic.php">View Submitted <b>V 1.0</b></a>
 				<a href="showTableINPUT.php">List Input <b>V 2.0</b></a>
 				<a href="input_select.php">List Input V 1.0</a>
+				<a href="fellow_select.php">List Fellow</a>
 				<a href="index.php?page=register">Register User</a>
 			</div>
 		</li>
+-->
+		
 	</ul>
 </div>
 
 
-<!-- --------------- separator ---------------- -->	
+<!-- --------------- separator ---------------- which also KEEPS Social Media icons at bottom -->	
 <div style="height:150px;margin-bottom:10px">   </div>
 
 
 <!-- --------------- div for the Content below Menu ----------------  -->	
+<!--
 <div style="float:left;width:100%;height:150px;border:0px solid #000" class="gmscontent">		
+-->
+<div style="float:left;width:100%;border:0px solid #000" class="gmscontent">		
 
 <?php
 # Navigation :  use url page=xxx to control which php pages to include
@@ -238,7 +227,8 @@ $pages = array(
 #echo $pages['vision'];
 #echo "<br><hr>"; echo $pages['vision']; echo "<br><hr>";
 
-echo "<br><hr>";
+# line delim
+#echo "<br><hr>";
 
 if ( isset($_GET['page']) and array_key_exists($_GET['page'],$pages)  )
 
@@ -267,9 +257,45 @@ else {
 ?>
 </div>
 
-<div><span class="reference">
 
-</span></div>
+  
+<!-- Contact-us Global Mind Share - Social Media Links -->
+<div id="ContactRight">
+<!-- <p align="right"><strong><span class="grays-subtitle">Connect to GMS</span></strong></p> 
+	<a href="index.php">GMS</a>
+-->
+	<p align="right">
+	<a href="http://www.facebook.com/globalmindshare" target="_blank">
+	 <img title="Follow GMS ON Facebook" style="BORDER-BOTTOM: 0px solid; BORDER-LEFT: 0px solid; WIDTH: 24px; HEIGHT: 24px; BORDER-TOP: 0px solid; BORDER-RIGHT: 0px solid" alt="Follow GMS ON Facebook" src="images/facebook-follow-lg.png" border="0"></a>
+	<a href="https://twitter.com/globalmindshare" target="_blank">
+	 <img title="Follow GMS ON Twitter" style="BORDER-BOTTOM: 0px solid; BORDER-LEFT: 0px solid; WIDTH: 24px; HEIGHT: 24px; BORDER-TOP: 0px solid; BORDER-RIGHT: 0px solid" alt="Follow GMS ON Twitter" src="images/twitter-follow-lg.png" border="0"></a>
+	<a href="http://www.youtube.com/globalmindshare" target="_blank">
+	 <img title="Follow GMS ON YouTube" style="BORDER-BOTTOM: 0px solid; BORDER-LEFT: 0px solid; WIDTH: 24px; HEIGHT: 24px; BORDER-TOP: 0px solid; BORDER-RIGHT: 0px solid" alt="Follow GMS ON YouTube" src="images/youtube-follow-lg.png" border="0"></a>
+<!-- 
+	 <a href="http://www.linkedin.com/company/9211" target="_blank">
+	 <img title="Follow GMS ON LinkedIn" style="BORDER-BOTTOM: 0px solid; BORDER-LEFT: 0px solid; WIDTH: 24px; HEIGHT: 24px; BORDER-TOP: 0px solid; BORDER-RIGHT: 0px solid" alt="Follow GMS ON LinkedIn" src="images/linkedin-follow-lg.png" border="0"></a>
+ -->	 
+	</p>
+</div>
+
+
+
+<!-- Display GMS website version - -->
+<?php 
+  $gmsversion_file = 'gmsversion.php';
+  if (file_exists($gmsversion_file)) {include $gmsversion_file;}
+?>
+  
+
+<!-- include GMS developer links  - -->
+<?php 
+  $developer_file = 'developer-links.php';
+  if (file_exists($developer_file)) {include $developer_file ;}
+?>
+
+  
+  
+<div><span class="reference"></span></div>
 
 <!-- --------------- footer for social media ---------------- -->	
 <!-- 

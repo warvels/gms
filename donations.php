@@ -19,6 +19,6 @@ If you believe in what we are doing and would like to help us pay our expenses, 
 </p>
 
 <p class="MsoNormal" style="line-height: normal">We appreciate your interest and support.<br>
-We have applied for a501(c)(3) tax exempt status and, once that is approved, all donations will be tax deductible.
+We have applied for a 501(c)(3) tax exempt status and, once that is approved, all donations will be tax deductible.
  </p>
 

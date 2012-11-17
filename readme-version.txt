@@ -11,4 +11,8 @@ Version
 	1.4c	2012-10-09 Showing all dates in UTC (for display only) and Order INPUT table descending (newest first)
 	1.4d	2012-11-01 changed all menu images. Added 'liked' and 'disliked' cols to Tables input and comment and query
 			Fixed bug with registration confirmation
-	1.5	2012-11-06 Cleaned up wordking on all page per Gary. Added Donations page. Moved Register page to link from "Query DB menu itme.
+	1.5	2012-11-06 Cleaned up wording on all page per Gary. Added Donations page. Moved Register page to link from "Query DB menu item".
+	1.6	2012-11-11 Moved social media links to footer area - same with gms version.
+	1.7	2012-11-14 Added "View submitted" Menu / feature. Removed "query DB" menu (will add those links to footer on existance of developer-links.php)
+		Testing Text colors for better viewing pages. Tidy up "submit form". 
+	

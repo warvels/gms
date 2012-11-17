@@ -224,7 +224,7 @@
 					<label class="formFieldQuestion">Email 
 					<!-- &nbsp;*   adds a tool tip with "info" icon -->
 					<a class=info href=#><img src=imgs/tip_small.png border=0>
-					<span class=infobox>Your email address will be used to identify this submission</span>
+					<span class=infobox>Your email is Optional. You can enter this to help identify your submission</span>
 					</a>
 					</label>
 					<input class=mainForm type=email name=field_3 id=field_3 size=80 value="" 

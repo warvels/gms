@@ -31,7 +31,7 @@ We encourage each of you to submit questions or problems that you personally con
 </p>
 
 <p class="MsoNormal" style="line-height: normal">Your inputs will be published on
- our dashboard (<a href="index.php?page=submitinput"><span style="color: #0070C0">View Submitted</a></span>) 
+ our dashboard (<a href="showSubmittedBasic.php"><span style="color: #0070C0">View Submitted</a></span>) 
  only if they only meet simple and obvious <a href="index.php?page=termsofuse"><span style="color: #0070C0">Terms of Use</span></a>.
 All of them will be analyzed, aggregated, and prepared for voting. 
 Finally, together we will determine a list of the most important questions and current problems of humanity. 

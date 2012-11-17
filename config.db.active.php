@@ -2,7 +2,7 @@
  # config.db.active.php  - GMS db configuration file
  
  # Jeff testing WAMP localhost 
- $db_host = "localhost";$db_user = "jeffuser";$db_pass = "marmot";$db_name = "gms2";  
+ $db_host = "localhost";$db_user = "jeff";$db_pass = "marmot";$db_name = "gms2";  
  
  # Tables
  $table_fellow = 'fellow';
