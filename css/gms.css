@@ -1,4 +1,10 @@
-* {
+*, .gms {
     background-color: #000d1e;
-    //border: solid #98fb98 1px;
+}
+#main {
+    margin:20px;
+}
+
+#earth-img {
+    display:none;
 }
