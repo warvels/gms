@@ -154,7 +154,7 @@
 		<li>
 			<!--Donations-->
 			<a href="index.php?page=donations">
-				<img src="images/donate-button-blue.jpg" alt=""/>
+				<img src="images/donate-favorite-1.jpg" alt=""/>
 				<span class="sdt_active"></span>
 				<span class="sdt_wrap">
 					<span class="sdt_link">Donations</span>
