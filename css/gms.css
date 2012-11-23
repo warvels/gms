@@ -1,0 +1,10 @@
+*, .gms {
+    background-color: #000d1e;
+}
+#main {
+    margin:20px;
+}
+
+#earth-img {
+    display:none;
+}
