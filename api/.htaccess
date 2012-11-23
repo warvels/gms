@@ -1,0 +1,20 @@
+RewriteEngine On
+
+# Some hosts may require you to use the `RewriteBase` directive.
+# If you need to use the `RewriteBase` directive, it should be the
+# absolute physical path to the directory that contains this htaccess file.
+#
+# RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+
+# JSW
+# The mod_rewrite feature in apache does requires some server config : 
+#	enable this:   
+#		LoadModule rewrite_module modules/mod_rewrite.so
+#	and allow access to this  <directory> elements
+#		 Options All
+#		AllowOverride All
+
+

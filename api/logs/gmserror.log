@@ -1,0 +1,8 @@
+2012-11-23 16:50:51 UTC ;api.getSubjectareas;SQLSTATE[HY000] [1045] Access denied for user 'jeffs'@'localhost' (using password: YES);
+2012-11-23 16:50:56 UTC ;api.getSubjectareas;SQLSTATE[HY000] [1045] Access denied for user 'jeffs'@'localhost' (using password: YES);
+2012-11-23 16:53:15UTC ;api.getSubjectareas;SQLSTATE[HY000] [1045] Access denied for user 'jeffs'@'localhost' (using password: YES);
+2012-11-23 16:53:16UTC ;api.getSubjectareas;SQLSTATE[HY000] [1045] Access denied for user 'jeffs'@'localhost' (using password: YES);
+2012-11-23 16:53:17UTC ;api.getSubjectareas;SQLSTATE[HY000] [1045] Access denied for user 'jeffs'@'localhost' (using password: YES);
+2012-11-23 16:53:17UTC ;api.getSubjectareas;SQLSTATE[HY000] [1045] Access denied for user 'jeffs'@'localhost' (using password: YES);
+2012-11-23 16:53:18UTC ;api.getSubjectareas;SQLSTATE[HY000] [1045] Access denied for user 'jeffs'@'localhost' (using password: YES);
+2012-11-23 16:53:18UTC ;api.getSubjectareas;SQLSTATE[HY000] [1045] Access denied for user 'jeffs'@'localhost' (using password: YES);
