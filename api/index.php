@@ -1,7 +1,7 @@
 <?php
 /* GMS database API 
  * 
- * REST functions using Slim for mapping of database to json objects
+ * REST functions using Slim framework for PHP (connects REST to php functions). Will return all database data in json objects
  * 2012-11-23 (JSW) created GET functions for problems (input table joined with subjare and fellow)
  *   users (fellow table) , subjectareas (subjectarea table),  inputs (input table)
  * 
@@ -16,6 +16,7 @@ require('Slim/Slim.php');
 $app = new Slim();
 $app->get('/problems',      'getProblems');
 $app->get('/problems/:id',	'getProblem');
+$app->post('/problems',	'addProblem');
 $app->get('/users',     'getUsers');
 $app->get('/users/:id',	'getUser');
 $app->get('/subjectareas',      'getSubjectareas');
@@ -26,10 +27,15 @@ $app->run();
 
 
 
-# ====================================================
+
+
+/**  
+ * Database open based on gms config file 
+ * @param 
+ * @return $dbh     PDO database handle
+ * @throws
+*/
 function getConnection() {
-	/*  database open 
-	*/
 	require("config.db.php");
 	$dbh = new PDO($pdo_connect, $dbuser, $dbpass);	
 	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -39,7 +45,12 @@ function getConnection() {
 
 
 
-# ====================================================
+/**  
+ * REST GET function for all rows in the table 'input' 
+ * @param 
+ * @return  via Echo : the json object for all 'input' rows. will return {error:error text}
+ * @throws
+*/
 function getInputs() {
 	$sql = "select * FROM input ORDER BY created_dt";
 	try {
@@ -54,7 +65,14 @@ function getInputs() {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 }
-# ====================================================
+
+
+/**  
+ * REST GET function for a single row form the table 'input' 
+ * @param 
+ * @return  via Echo : the json object for the row from table 'input'. will return {error:error text}
+ * @throws
+*/
 function getInput($id) {
 	$sql = "SELECT * FROM input WHERE idinput=:id";
 	try {
@@ -73,8 +91,12 @@ function getInput($id) {
 }
 
 
-
-# ====================================================
+/**  
+ * REST GET function for all rows in the table 'fellow'   (users to you and me)
+ * @param 
+ * @return  via Echo : the json object for all 'fellow' rows. will return {error:error text}
+ * @throws
+*/
 function getUsers() {
 	$sql = "select * FROM fellow ORDER BY updated_dt desc";
 	try {
@@ -89,7 +111,15 @@ function getUsers() {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 }
-# ====================================================
+
+
+
+/**  
+ * REST GET function for a single row form the table 'fellow' - user to you and me
+ * @param 
+ * @return  via Echo : the json object for the row from table 'fellow'. will return {error:error text}
+ * @throws
+*/
 function getUser($id) {
 	$sql = "SELECT * FROM fellow WHERE idfellow=:id";
 	try {
@@ -108,8 +138,12 @@ function getUser($id) {
 }
 
 
-
-# ====================================================
+/**  
+ * REST GET function for all rows in the table 'subjarea
+ * @param 
+ * @return  via Echo : the json object for all 'subjarea' rows. will return {error:error text}
+ * @throws
+*/
 function getSubjectareas() {
 	$sql = "select * FROM subjarea ORDER BY area";
 	try {
@@ -124,7 +158,13 @@ function getSubjectareas() {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 }
-# ====================================================
+
+/**  
+ * REST GET function for all rows in the table 'subjarea'   (available Categories for problems)
+ * @param 
+ * @return  via Echo : the json object for all 'subjarea' rows. will return {error:error text}
+ * @throws
+*/
 function getSubjectarea($id) {
 	$sql = "SELECT * FROM subjarea WHERE idsubjarea=:id";
 	try {
@@ -172,6 +212,8 @@ function getProblems() {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 }
+
+
 # ====================================================
 function getProblem($id) {
 	$sql = "SELECT * FROM input WHERE idinput=:id";
@@ -182,6 +224,7 @@ function getProblem($id) {
 		$stmt->execute();
 		$problem = $stmt->fetchObject();  
 		$db = null;
+		gmsLog( 'getProblem', '', '', '' );		
 		echo json_encode($problem); 
 	} catch(PDOException $e) {
 		gmsError( 'api.getProblem' , $e->getMessage(), '', '' );
@@ -192,10 +235,68 @@ function getProblem($id) {
 
 
 
+#### ---------------------------------------------------------------------------------------------------
+/**  
+ * REST function to POST a new 'problem' - Problem will update the table 'input' and link via FK to the 
+ *  table 'subjarea' for the category selected.
+ * @param 
+ * @return  via Echo : the resulting json 'problem' object for the row commited to table 'input' (with id :)
+ * @throws
+*/
+function addProblem() {
+	gmsLog('addProblem', '', '', '' );
+
+	// get the form values posted and convert to json 
+	$request = Slim::getInstance()->request();
+	$problem = json_decode($request->getBody());
+
+	$subject = strtoupper($problem->problem_category);
+	// find the ID of the subject area from the db (what to do on error?)
+	$subject_id = rand(10, 18);  # for testing
+	$today_date_time = gmdate('Y-m-d H:i:s');     // using UTC for now. can decode to any timezone later.
+
+	$db_table = 'input';
+	$sql = "INSERT into input (suggestion, idsubject, email, details, created_dt) VALUES (:suggestion, :idsubject, :email, :details, :created_dt )";
+				
+	gmsLog( "POST Request : ". $request->getBody(),  '', '', '' );
+	gmsLog( "DB Insert : ". $sql, '', '', '' );
+
+	try {
+		$db = getConnection();
+		$stmt = $db->prepare($sql);  
+
+		// Bind the values to the parameters in the Sql statment
+		$stmt->bindParam("suggestion", $problem->problem );
+		$stmt->bindParam("idsubject", $subject_id );
+		$stmt->bindParam("email", $problem->problem_email );
+		$stmt->bindParam("details", $problem->problem_details );
+		$stmt->bindParam("created_dt", $today_date_time);
+		
+
+		// commit to db and return the ID used 
+		$stmt->execute();
+		$lastID = $db->lastInsertId();
+		$problem->id = $lastID;
+		$db = null;
+		
+		// return json object to ui
+		echo json_encode($problem); 
+#echo "email - ";
+
+	} catch(PDOException $e) {
+		gmsError( 'api.postProblem' , $e->getMessage(), '', '' );
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+
+
+
+
 # ========================================================================================================
 # ========================================================================================================
 #
-#  wine Cellar examples for REST crud functions
+#  Wine Cellar - EXAMPLES only --- for REST crud functions
 #
 # ========================================================================================================
 # ========================================================================================================

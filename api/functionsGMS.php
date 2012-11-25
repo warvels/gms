@@ -23,12 +23,59 @@ function gmsError( $errorCode, $errorText, $av1, $av2 )
 	$log_file = 'logs/gmserror.log';
 	$dlm = ';';
 	# create an entry with date.time, errorcode, error text. to get NEWLINE must put \r\n in double quotes.
-	$logdata = gmdate('Y-m-d H:i:s'). 'UTC '. $dlm. $errorCode. $dlm. $errorText. $dlm. "\r\n";
+	$logdata = gmdate('Y-m-d H:i:s'). ' UTC '. $dlm. $errorCode. $dlm. $errorText. $dlm. "\r\n";
 	error_log($logdata, 3, $log_file);
 	return 1;
 }
 
+function gmsLog( $logData, $newFile, $av1, $av2 )
+{
+	# 
+	$log_file = 'logs/gmslog.log';
+	$dlm = ';';
+	# create an entry with date.time, errorcode, error text. to get NEWLINE must put \r\n in double quotes.
+	$logdata = gmdate('Y-m-d H:i:s'). ' UTC '. $dlm. $logData. "\r\n";
+	error_log($logdata, 3, $log_file);
+	return 1;
+}
 
+# ==============================================================================================
+# GMS OS level file writer
+
+function gmsfwrite( $filename, $content )
+{
+// Let's make sure the file exists and is writable first.
+if (is_writable($filename)) {
+
+    // In our example we're opening $filename in append mode.
+    // The file pointer is at the bottom of the file hence
+    // that's where $somecontent will go when we fwrite() it.
+    if (!$handle = fopen($filename, 'a')) {
+         #   set error stateecho 
+		 $error ="Cannot open file ($filename)";
+         return 0;
+    }
+
+	// bindary :   fwrite($fh,utf8_encode($content)); 
+	// fwrite($fp, pack('L',$content) );
+	
+	
+    // Write $somecontent to our opened file.
+    if (fwrite($handle, $content) === FALSE) {
+        #   set error state 
+		$error = "Cannot write to file ($filename)";
+        return 0;
+    }
+
+    # Success, wrote $content) to file ($filename)";
+    fclose($handle);
+
+} else {
+    $error = "The file $filename is not writable";
+	return 0;
+}
+
+}
 
 
 
@@ -129,5 +176,7 @@ function dbupdateGMS( $db_link, $insert_query, $insertId, $av1)
 	#return $insertId;
 
 }
+
+
 
 ?>
