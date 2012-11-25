@@ -1,6 +1,7 @@
 var ProblemDataSource = function (options) {
     this._formatter = options.formatter;
     this._columns = options.columns;
+    this.buffer = { empty:true, response:{} };
 };
 
 ProblemDataSource.prototype = {
@@ -19,13 +20,12 @@ ProblemDataSource.prototype = {
      * @param {function} callback To be called with the requested data.
      */
     data:function (options, callback) {
-
+        self = this;
         // var url = 'http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=d6d798f51bbd5ec0a1f9e9f1e62c43ab&format=json';
         var url = 'api/problems';
         var self = this;
 
         if (options.search) {
-
 
             // TODO:  add search functionality
 
@@ -43,6 +43,7 @@ ProblemDataSource.prototype = {
                     // Prepare data to return to Datagrid
                     //debugger;
                     var data = response.problem;
+
                     var count = 50;
                     var startIndex = 1;
                     var endIndex = 50;
@@ -71,36 +72,52 @@ ProblemDataSource.prototype = {
 
         } else {
 
-            // initial load of data without any filters
-            $.ajax(url, {
-
-                dataType:'json',
-                type:'GET'
-
-            }).done(function (response) {
-
-                    // Prepare data to return to Datagrid
-                    //debugger;
-                    var data = response.problem;
-                    var count = 50;
-                    var startIndex = 1;
-                    var endIndex = 50;
-                    var start = 1;
-                    var end = 50;
-                    var pages = 1;
-                    var page = 1;
+            if (self.buffer.empty) {
 
 
-                    // Allow client code to format the data
-                    if (self._formatter) self._formatter(data);
+                // initial load of data without any filters
+                $.ajax(url, {
+                    dataType:'json',
+                    type:'GET'
+                }).done(function (response) {
+                        self.buffer.response = response;
+                        self.getPage( options, callback)
+                    });
 
-                    // Return data to Datagrid
-                    callback({ data:data, start:start, end:end, count:count, pages:pages, page:page });
-
-                });
-
-
-
+            } else {
+                self.getPage( options, callback )
+            }
         }
+    },
+
+    getPage:function (options, callback) {
+        self = this;
+        var response = self.buffer.response;
+        // Prepare data to return to Datagrid
+        //debugger;
+        var data = response.problem;
+        var count = response.problem.length
+        // save to buffer in DataSource object, so we don't have to
+        // hit server for every page
+        self.buffer.response = response;
+        self.buffer.empty = false;
+
+        var startIndex = options.pageIndex * options.pageSize;
+        var endIndex = startIndex + options.pageSize;
+        var end = (endIndex > count) ? count : endIndex;
+        var pages = Math.ceil(count / options.pageSize);
+        var page = options.pageIndex + 1;
+        var start = startIndex + 1;
+
+        data = data.slice(startIndex, endIndex);
+
+
+        // Allow client code to format the data
+        if (self._formatter) self._formatter(data);
+
+        // Return data to Datagrid
+        callback({ data:data, start:start, end:end, count:count, pages:pages, page:page });
+
+
     }
 };
