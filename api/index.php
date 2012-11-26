@@ -11,7 +11,7 @@
 require('functionsGMS.php');
 
 
-# REST api setup using Slim : object , functions
+# REST api setup using Slim : Rest Noun / object , corresponding local function to execute
 require('Slim/Slim.php');
 $app = new Slim();
 $app->get('/problems',      'getProblems');
@@ -42,7 +42,11 @@ function getConnection() {
 	return $dbh;
 }
 
-
+/* 
+ ----------------------------------------------------------------------
+ GET functions
+ ----------------------------------------------------------------------
+*/
 
 
 /**  
@@ -184,12 +188,17 @@ function getSubjectarea($id) {
 
 
 
-
-# ====================================================
+/**  
+ * REST GET function for all "PROBLEMS" (join of tables)
+ * @param 
+ * @return  via Echo : the json object for all "PROBLEMS" problems are a join of 'input' 
+ *          'subjarea' and later the 'fellow' table
+ * @throws
+*/
 function getProblems() {
-	# need the table names for query
+	# include config for table names for query
 	require("config.db.php");
-	# selec to join input, subjarea, fellow for all submitted problems.
+	# select to join input, subjarea, fellow for all submitted problems.
 	$sql = 
 	'select f.nick, f.fname, f.lname, f.email as fellow_email, i.created_by, i.created_dt, i.email, sa.area, 
 	i.suggestion, i.details, i.liked, i.disliked from '.
@@ -214,7 +223,13 @@ function getProblems() {
 }
 
 
-# ====================================================
+/**  
+ * REST GET function to get single "PROBLEM" (join of tables)
+ * @param 
+ * @return  via Echo : the json object the submitted "PROBLEMS" which is a join of 'input' 
+ *          'subjarea' and later the 'fellow' table
+ * @throws
+*/
 function getProblem($id) {
 	$sql = "SELECT * FROM input WHERE idinput=:id";
 	try {
@@ -233,10 +248,14 @@ function getProblem($id) {
 	}
 }
 
+/* 
+ ----------------------------------------------------------------------
+ POST functions
+ ----------------------------------------------------------------------
+*/
 
 
-#### ---------------------------------------------------------------------------------------------------
-/**  
+/**  JSW
  * REST function to POST a new 'problem' - Problem will update the table 'input' and link via FK to the 
  *  table 'subjarea' for the category selected.
  * @param 
@@ -250,7 +269,7 @@ function addProblem() {
 	$request = Slim::getInstance()->request();
 	$problem = json_decode($request->getBody());
 
-	$subject = strtoupper($problem->problem_category);
+	$subject = strtoupper($problem->subjarea);
 	// find the ID of the subject area from the db (what to do on error?)
 	$subject_id = rand(10, 18);  # for testing
 	$today_date_time = gmdate('Y-m-d H:i:s');     // using UTC for now. can decode to any timezone later.
@@ -261,15 +280,18 @@ function addProblem() {
 	gmsLog( "POST Request : ". $request->getBody(),  '', '', '' );
 	gmsLog( "DB Insert : ". $sql, '', '', '' );
 
+	# example POST 
+	# {"id":"", "suggestion":"It is a REAL problem", "email":"restpost@testemail.com", "subjarea":"Education", "details":"this is how we solve the POST data problem" }
+	
 	try {
 		$db = getConnection();
 		$stmt = $db->prepare($sql);  
 
 		// Bind the values to the parameters in the Sql statment
-		$stmt->bindParam("suggestion", $problem->problem );
+		$stmt->bindParam("suggestion", $problem->suggestion );
 		$stmt->bindParam("idsubject", $subject_id );
-		$stmt->bindParam("email", $problem->problem_email );
-		$stmt->bindParam("details", $problem->problem_details );
+		$stmt->bindParam("email", $problem->email );
+		$stmt->bindParam("details", $problem->details );
 		$stmt->bindParam("created_dt", $today_date_time);
 		
 
