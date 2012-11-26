@@ -68,9 +68,21 @@
 <!--
   Original Area for gms version and social media links 
 -->				
+
+
+
+
+
+<table border="1" width="100%" cellspacing="0" cellpadding="0">
+	<tr>
+		<td width="80%" align="left" valign="top"><font color="white"></font>
+		
+		
 	
 <!-- slide down menu -->	
 <div class="content">
+
+
 
 	<!-- this puts the GMS logo image above. make it a link to home too. -->
 	<a href="index.php"> <h1 class="title"></h1>	</a>
@@ -290,6 +302,25 @@ else {
 
 
 
+		</td>
+		<td width="20%" align="left" valign="top" bordercolordark="#008000">
+		<p></p>
+		<font color="white"><b>Announcements</b></font>
+		<ul style = "padding-left:5%;">
+			<li>
+			<font color="#0B75AF">
+			<b>2012-11-25</b></font><font color="white"> - liftoff : we have now launched the amazing GMS website for all members of the Earth to join in a unilateral effort to solve the problems that face us all</font>
+			</li>
+		</ul>
+		</td>
+	</tr>
+</table>
+
+
+
+<!-- ------------------------------------------------ -->
+<!-- Develope Only links -->
+
 <!-- Display GMS website version - -->
 <?php 
   $gmsversion_file = 'gmsversion.php';
@@ -303,8 +334,7 @@ else {
   if (file_exists($developer_file)) {include $developer_file ;}
 ?>
 
-  
-  
+ 
 <div><span class="reference"></span></div>
 
 <!-- --------------- footer for social media ---------------- -->	
@@ -332,7 +362,6 @@ else {
 -->
 
 
-		
 
 		
     </body>

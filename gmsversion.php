@@ -2,7 +2,7 @@
  # show the latest GMS Website Version
  # see Also readme-version.txt
 
- $gms_version = '1.8';
+ $gms_version = '1.9';
  
  echo '<p style = "text-align: left;
 	margin:0 0 0 0;

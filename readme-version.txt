@@ -16,4 +16,5 @@ Version
 	1.7	2012-11-14 Added "View submitted" Menu / feature. Removed "query DB" menu (will add those links to footer on existance of developer-links.php)
 		Testing Text colors for better viewing pages. Tidy up "submit form". 
 	1.8	2012-11-18 Revert to white text. Add donate image from George. Cleanup 
+	1.9	2012-11-26 Added Annoucements Section as a right panel 
 	
