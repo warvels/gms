@@ -4,7 +4,8 @@
  * REST functions using Slim framework for PHP (connects REST to php functions). Will return all database data in json objects
  * 2012-11-23 (JSW) created GET functions for problems (input table joined with subjare and fellow)
  *   users (fellow table) , subjectareas (subjectarea table),  inputs (input table)
- * 
+ * Revisions
+ * 2012-11-26 - added this revisions section of the comment
 */
 
 # GMS basic fuctions.
