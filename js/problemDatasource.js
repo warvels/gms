@@ -1,3 +1,7 @@
+// this defines the data source that will provide an array of data for the Problems data grid
+// we'll keep a local buffer, and fetch from the server with an ajax call when we need
+// data not in the buffer
+
 var ProblemDataSource = function (options) {
     this._formatter = options.formatter;
     this._columns = options.columns;
@@ -20,8 +24,7 @@ ProblemDataSource.prototype = {
      * @param {function} callback To be called with the requested data.
      */
     data:function (options, callback) {
-        self = this;
-        // var url = 'http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=d6d798f51bbd5ec0a1f9e9f1e62c43ab&format=json';
+         // var url = 'http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=d6d798f51bbd5ec0a1f9e9f1e62c43ab&format=json';
         var url = 'api/problems';
         var self = this;
 
