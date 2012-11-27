@@ -1,6 +1,6 @@
 <?php
 # ==============================================================================================
-# functionsGMS.php
+# \apps\wamp\www\gms\functionsGMS.php
 # ==============================================================================================
 # some good Error logging
 #  http://php.net/manual/en/function.error-log.php
@@ -376,7 +376,7 @@ function dbqueryGMS( $db_link, $query_str, $row_count, $av1)
 		$result = $db_link->query( $query_str );
 		$row_count = $result->rowCount();
 	} catch (PDOException $e) {
-print_r($db_link->errorInfo());
+#print_r($db_link->errorInfo());
 		gmsError( 'ECDBQUERY', $e->getMessage(), '', '', '' );
 		$row_count = 0;
 		return null;
@@ -391,7 +391,7 @@ function dbqueryfetchallGMS( $db_link, $query_str, $av2, $av1)
 	try {
 		$stmt = $db_link->query( $query_str );
 	} catch (PDOException $e) {
-	print_r($db_link->errorInfo());
+	#print_r($db_link->errorInfo());
 		gmsError( 'ECDBQUERY', $e->getMessage(), '', '', '' );
 		$row_count = 0;
 		return null;
@@ -402,7 +402,7 @@ function dbqueryfetchallGMS( $db_link, $query_str, $av2, $av1)
 		$row_count = $stmt->rowCount();    
 		return $result;
 	} catch (PDOException $e) {
-	print_r($db_link->errorInfo());
+	#print_r($db_link->errorInfo());
 		gmsError( 'ECDBFETCHALL', $e->getMessage(), '', '', '' );
 		$row_count = 0;
 		return null;

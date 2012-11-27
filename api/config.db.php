@@ -8,6 +8,7 @@
  $table_fellow = 'fellow';
  $table_input = 'input';
  $table_subjarea = 'subjarea';
+ $table_announcements = 'rostrum';
   
  # connection string for PDO objects to mysql db
  $pdo_connect = "mysql:host=$dbhost;dbname=$dbname";

@@ -3,6 +3,10 @@
   GMS nice slide down menu navigation
   using ?page=xxx.php  and include() function for menu navigaiton
   gms/index.php
+  REVISIONS
+	1.9 - 2012-11-26 Added a table that has all content in left col And annoucements in the right panel - 20%  
+
+  
 -->
 
 <html>
@@ -65,13 +69,11 @@
 <body>
 
 
-<!--
-  Original Area for gms version and social media links 
--->				
+<!--   Original Area for gms version and social media links  -->				
 
 
 
-
+<!--   Added a table that has all content in left col And annoucements in the right panel - 20%   -->
 
 <table border="1" width="100%" cellspacing="0" cellpadding="0">
 	<tr>
@@ -300,18 +302,31 @@ else {
 	</p>
 </div>
 
-
-
 		</td>
+		
+		<!--  table Cell 2 - the Announcements -->
 		<td width="20%" align="left" valign="top" bordercolordark="#008000">
 		<p></p>
 		<font color="white"><b>Announcements</b></font>
-		<ul style = "padding-left:5%;">
+		<!--  use php to select all rows from announcements and display -->
+		<?php 
+			$announce_file = 'showAnnouncements.php';
+			if (file_exists($announce_file )) {include $announce_file;}
+		?>
+<!--		
+		<ul style = "padding-left:7%;">
 			<li>
 			<font color="#0B75AF">
-			<b>2012-11-25</b></font><font color="white"> - liftoff : we have now launched the amazing GMS website for all members of the Earth to join in a unilateral effort to solve the problems that face us all</font>
+			<b>2012-11-25</b></font>
+			<font color="white"> - liftoff : we have now launched the amazing GMS website for all members of the Earth to join in a unilateral effort to solve the problems that face us all</font>
+			</li>
+			<li>
+			<font color="#0B75AF">
+			<b>2012-11-21</b></font><font color="white"> - API created for Version 2</font>
 			</li>
 		</ul>
+-->
+		
 		</td>
 	</tr>
 </table>
@@ -319,7 +334,7 @@ else {
 
 
 <!-- ------------------------------------------------ -->
-<!-- Develope Only links -->
+<!-- Developer Only links -->
 
 <!-- Display GMS website version - -->
 <?php 
