@@ -73,13 +73,13 @@ if (!file_exists( $gmsfunctions_page )) {
 #				echo $html;
 
 				# fetch the query data from $queryStatement and build the output of this. Can be html <tr> table rows
-				$html = '<ul style = "padding-left:7%;">';
+				$html = '<ul style = "padding-left:8%;">';
 				$i = 0;	
 				while ( $row = $qresult->fetch(PDO::FETCH_ASSOC) ) {
 					$i = $i + 1;
 					if ($debuggms)  { print_r( $row );   echo '<br><hr>';	}
 					# add the date and text of announcement
-					$line =  '<b>'. $row['created_on']. '</b></font>';
+					$line =  '<b>'. date("Y-m-d", strtotime($row['created_on']) ). '</b></font>';
 					$line .= '<font color="white" size="2"> - '. $row['our_text'];
 					$line .= '</font>';
 					$row = '<li><font color="#0B75AF">'. $line. "</li>";
