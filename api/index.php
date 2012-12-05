@@ -6,6 +6,7 @@
  *   users (fellow table) , subjectareas (subjectarea table),  inputs (input table)
  * Revisions
  * 2012-11-26 - added this revisions section of the comment
+ * 2012-12-04 - added this get functions for new table 'comment' 
 */
 
 # GMS basic fuctions.
@@ -24,6 +25,8 @@ $app->get('/subjectareas',      'getSubjectareas');
 $app->get('/subjectareas/:id',	'getSubjectarea');
 $app->get('/inputs',      'getInputs');
 $app->get('/inputs/:id',	'getInput');
+$app->get('/comments',      'getComments');
+$app->get('/comments/:id',	'getComment');
 $app->run();
 
 
@@ -190,6 +193,52 @@ function getSubjectarea($id) {
 
 
 /**  
+ * REST GET function for all rows in the table 'subjarea
+ * @param 
+ * @return  via Echo : the json object for all 'subjarea' rows. will return {error:error text}
+ * @throws
+*/
+function getComments() {
+	$sql = "select * FROM comment ORDER BY related_to, created_dt";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);  
+		$subjectareas = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+		echo '{"comments": ' . json_encode($subjectareas) . '}';
+	} catch(PDOException $e) {
+		gmsError( 'api.getComments' , $e->getMessage(), '', '' );
+		# returns error as json objects
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+/**  
+ * REST GET function for all rows in the table 'subjarea'   (available Categories for problems)
+ * @param 
+ * @return  via Echo : the json object for all 'subjarea' rows. will return {error:error text}
+ * @throws
+*/
+function getComment($id) {
+	$sql = "SELECT * FROM comment WHERE idcomment=:id";
+	try {
+		$db = getConnection();
+		$stmt = $db->prepare($sql);  
+		$stmt->bindParam("id", $id);            # binds the "id" in sql to the "id" from API
+		$stmt->execute();
+		$subjectarea = $stmt->fetchObject();  
+		$db = null;
+		echo json_encode($subjectarea); 
+	} catch(PDOException $e) {
+		gmsError( 'api.getComment' , $e->getMessage(), '', '' );
+		# returns error as json objects
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+
+
+/**  
  * REST GET function for all "PROBLEMS" (join of tables)
  * @param 
  * @return  via Echo : the json object for all "PROBLEMS" problems are a join of 'input' 
@@ -207,8 +256,7 @@ function getProblems() {
 	'join '. $table_subjarea. ' sa on (i.idsubject = sa.idsubjarea) '.
 	'join '. $table_fellow. ' f on (i.created_by = f.idfellow)'.
 	' where idinput > 0'
-	.' order by sa.area, i.created_dt '
-	.';'
+	.' order by sa.area, i.created_dt desc '.';'
 	;	
 	try {
 		$db = getConnection();
