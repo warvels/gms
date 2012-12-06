@@ -22,7 +22,7 @@ require(['jquery', 'fuelux/all', 'js/problemDatasource'], function (problemDataS
 
     //$('#myTab a:last').tab('show');
     $('.hometext').fadeOut(2).fadeIn(1000);
-    $('img').fadeOut(2).fadeIn(5000);
+    $('#earth-img').fadeOut(2).fadeIn(5000);
 
 
     // define submit button event handler for problem submit form
