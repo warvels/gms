@@ -4,7 +4,8 @@
   using ?page=xxx.php  and include() function for menu navigaiton
   gms/index.php
   REVISIONS
-	1.9 - 2012-11-26 Added a table that has all content in left col And annoucements in the right panel - 20%  
+	1.9 - 2012-11-26 Added an html table that has all content in left col And annoucements in the right panel - 20%  
+	1.91 - 2012-11-26 now load annoucements via php script that will pull all from 'rostrum' table
 
   
 -->
