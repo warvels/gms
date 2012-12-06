@@ -7,7 +7,7 @@
 // define shortcut name for paths to JavaScript code we will be including
 requirejs.config({
     paths:{
-        'jquery':'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min',
+        'jquery':'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery',
         'underscore':'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min',
         'bootstrap':'lib/bootstrap',
         'fuelux':'lib/fuelux'
@@ -20,19 +20,24 @@ requirejs.config({
 // to require.js and it will take care of things!
 require(['jquery', 'fuelux/all', 'js/problemDatasource'], function (problemDataSource) {
 
-    //$('#myTab a:last').tab('show');
-    $('.hometext').fadeOut(2).fadeIn(1000);
-    $('#earth-img').fadeOut(2).fadeIn(5000);
+    // after document is loaded, set event handlers and create grids
+
+        //$('#myTab a:last').tab('show');
+        //$('.hometext').fadeOut(2).fadeIn(1000);
+        $('#earth-img').fadeIn(1000);
 
 
-    // define submit button event handler for problem submit form
-    $('#btnProblemSubmit').click( function(){
-        addProblem()
-    });
+        // define submit button event handler for problem submit form
+        $('#btnProblemSubmit').click(function () {
+            addProblem();
+        });
 
-    // initialize and display problem data grid
-    createProblemDataGrid();
+         $('.comment-link').live('click',function(){
+             $('#commentsDiv').toggle();
+         });
 
+        // initialize and display problem data grid
+        createProblemDataGrid();
 
 
 
@@ -44,15 +49,15 @@ require(['jquery', 'fuelux/all', 'js/problemDatasource'], function (problemDataS
         console.log('adding problem');
         var data = problemFormToJSON()
         $.ajax({
-            type: 'POST',
-            contentType: 'application/json',
-            url: "api/problems",
-            dataType: "json",
-            data: data,
-            success: function(data, textStatus, jqXHR){
+            type:'POST',
+            contentType:'application/json',
+            url:"api/problems",
+            dataType:"json",
+            data:data,
+            success:function (data, textStatus, jqXHR) {
                 alert('Suggestions added successfully');
             },
-            error: function(jqXHR, textStatus, errorThrown){
+            error:function (jqXHR, textStatus, errorThrown) {
                 alert('Error adding problem: ' + textStatus);
             }
         });
@@ -70,7 +75,6 @@ require(['jquery', 'fuelux/all', 'js/problemDatasource'], function (problemDataS
             "details":$('#txtProblemDetails').val()
         });
     }
-
 
 
     // ****************  Problem datagrid functions ********************************
@@ -99,11 +103,11 @@ require(['jquery', 'fuelux/all', 'js/problemDatasource'], function (problemDataS
                     label:'Last Name',
                     sortable:true
                 },
-                {
-                    property:'email',
-                    label:'email',
-                    sortable:true
-                },
+                /*{
+                 property:'email',
+                 label:'email',
+                 sortable:true
+                 },*/
                 {
                     property:'area',
                     label:'Category',
@@ -118,15 +122,19 @@ require(['jquery', 'fuelux/all', 'js/problemDatasource'], function (problemDataS
                     property:'details',
                     label:'Details',
                     sortable:true
-                }
+                },
+                {
+                 property:'comments',
+                 label:'Comments',
+                 sortable:false
+                 }
             ],
             formatter:function (items) {
                 $.each(items, function (index, item) {
-                    item.area = item.area;
-                    item.suggestion = item.suggestion;
+                    item.comments = "<span class='comment-link'>Comments</span>";
                 });
             },
-            search:'cat'
+            search:''
         });
 
         $('#MyGrid').datagrid({
@@ -135,6 +143,12 @@ require(['jquery', 'fuelux/all', 'js/problemDatasource'], function (problemDataS
 
     }
 
+    /* function showComments(){
+     debugger;
+
+
+     }
+     */
 
 
 });

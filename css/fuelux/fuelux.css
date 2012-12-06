@@ -2493,10 +2493,14 @@ textarea.span1,
 
 .fuelux .icon-chevron-left {
   background-position: -432px -72px;
+    /* gms */
+  background-color: #ffffff;
 }
 
 .fuelux .icon-chevron-right {
   background-position: -456px -72px;
+    /* gms */
+  background-color: #ffffff;
 }
 
 .fuelux .icon-plus-sign {
@@ -2821,6 +2825,8 @@ textarea.span1,
   line-height: 20px;
   color: #333333;
   white-space: nowrap;
+    /* gms */
+    background-color:#ffffff;
 }
 
 .fuelux .dropdown-menu li > a:hover,

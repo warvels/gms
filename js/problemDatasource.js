@@ -99,7 +99,7 @@ ProblemDataSource.prototype = {
         // Prepare data to return to Datagrid
         //debugger;
         var data = response.problem;
-        var count = response.problem.length
+        var count = response.problem.length;
         // save to buffer in DataSource object, so we don't have to
         // hit server for every page
         self.buffer.response = response;
