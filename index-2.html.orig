@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<!-- UI changes using bootstrap and Fuel UX --->
+<html>
+<head>
+    <title>Global Mind Share</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap/bootstrap-cyborg.css" rel="stylesheet" media="screen">
+    <link href="css/bootstrap/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/fuelux/fuelux.css" rel="stylesheet">
+    <link href="css/fuelux/fuelux-responsive.css" rel="stylesheet">
+    <link href="css/gms.css" rel="stylesheet" media="screen">
+</head>
+<body>
+
+<script src="lib/require/require.js"></script>
+<script src="js/gms.js"></script>
+
+<div class="gms">
+<div class="container-fluid">
+
+<h2>Global Mind Share</h2>
+
+<div>
+    <ul class="nav nav-tabs">
+        <li><a href="#home" data-toggle="tab">Home</a></li>
+        <li><a href="#vision" data-toggle="tab">Vision</a></li>
+        <li><a href="#about" data-toggle="tab">About Us</a></li>
+        <li><a href="#submit" data-toggle="tab">Submit</a></li>
+        <li><a href="#view-submitted" data-toggle="tab">View Submitted</a></li>
+        <li><a href="#terms" data-toggle="tab">Terms Of Use</a></li>
+        <li><a href="#donations" data-toggle="tab">Donations - Contact Us</a></li>
+    </ul>
+</div>
+
+<div class="tab-content">
+
+<!-- ***************************** Home page ***********************************  -->
+<div class="tab-pane active" id="home">
+    <span class='comment-link'>test</span>
+
+    <div class='row-fluid'>
+        <div class="span6">
+            <div class="row-fluid">
+                <h4>Our fellow habitants of the planet Earth, may we ask you a few
+                    questions:</h4>
+
+                <div class="span3">Do you have an idea, suggestion or plan to improve our planet?</div>
+                <div class="span3">Do you think we could improve our way of living?</div>
+                <div class="span3">Would you like to help make decisions related to our future?</div>
+            </div>
+            <div class='row-fluid'>
+                <div class="span12"><h4>If you answered "yes" to any of these questions, this site is for
+                    you.</h4>
+                </div>
+            </div>
+            <div class='row-fluid'>
+                <div class="span12">The next and most important question is: How can we make things better
+                    for our planet?
+                </div>
+            </div>
+            <div class='row-fluid'>
+                <h5>The recipe is simple:</h5></div>
+
+            <div class='row-fluid'>
+
+                <div class="span3">Reveal and formulate the principal problems mankind has now.</div>
+                <div class="span3">Look for all the possible solutions for each problem.</div>
+                <div class="span3">Choose the optimal solution or the optimal combination in each case.
+                </div>
+                <div class="span3">Try to solve each problem using chosen solutions.</div>
+            </div>
+
+            <div class="row-fluid">
+                <p><br/>
+                    Each of us follow this recipe in our everyday life using our mind. But each mind, even a
+                    genius one, is
+                    too
+                    weak to comprehend the life of all mankind. Let's combine abilities of our brains (modest or
+                    genius)
+                    into
+                    one decision-making conscious. Global problems need Global Mind Share
+                </p>
+            </div>
+			
+<!-- JSW -->		
+			<div class="row-fluid">
+				<p>
+				<h4>Announcements :</h4>
+							
+				<ul style = "padding-left:7%;">
+					<li>
+					<font color="#0B75AF">
+					<b>2012-12-08</b></font>
+					<font color="white"> - Phase 1 of Global Mind Share will use the New MVC model website with fantastic Grids.</font>
+					</li>
+					<li>
+					<font color="#0B75AF">
+					<b>2012-11-25</b></font>
+					<font color="white"> - liftoff : we have now launched the amazing GMS website for all members of the Earth to join in a unilateral effort to solve the problems that face us all</font>
+					</li>
+					<li>
+					<font color="#0B75AF">
+					<b>2012-11-21</b></font><font color="white"> - API created for Version 2</font>
+					</li>
+				</ul>		
+			
+				</p>
+			</div>
+<!-- JSW -->		
+			
+			
+        </div>
+        <div class="span6"><img id="earth-img" src="images/earth_from_space_2.png"></div>
+			
+    </div>
+
+</div>
+
+<!-- ***************************** Vision page ***********************************  -->
+<div class="tab-pane" id="vision">
+    <div class="row-fluid">
+        <div class="row-fluid">
+            <div class="span3">
+                <img class="page-header-img" src="images/vision.jpg">
+            </div>
+            <div class="span8">
+                <h3>Our Vision</h3>
+
+                <p> Each of us is just a human being. All together we are the noosphere, i.e., sphere of the mind!
+                </p>
+
+                <p> This is why we, the people of the planet Earth, have come together here, on this web site to share
+                    our
+                    vision of goals and objectives that we, as the mankind, have in the nearest or foreseeable future.
+                </p>
+
+                <p> To establish such goals and objectives we want, we first need to formulate the most important and
+                    urgent questions and/or problems which require our immediate attention and solution.
+                </p>
+
+                <p> Then, we are going to discuss possible answers to these questions and different approaches to
+                    solving these problems in the most effective, simple, and harmless way.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="row-fluid">
+            <p> We encourage each of you to submit questions or problems that you personally consider as the most vital
+                for
+                all of us now. To make your input more meaningful and less general, we would like to aggregate
+                all you questions and problems into nine subject areas (see Submit Item page).
+            </p>
+
+            <p> Please formulate your question or problem related to one of these areas. Then, submit your
+                suggestion using the Submit button. </p>
+
+            <p> Your inputs will be published on our dashboard (View Submitted) only if they only meet simple and
+                obvious Terms of Use. All of them will be analyzed, aggregated, and prepared for voting. Finally,
+                together we will determine a list of the most important questions and current problems of humanity.
+                We
+                will then vote on submitted inputs of all of you.
+            </p>
+
+            <p>
+                In the next step, we will use the most effective methods of crowdsourcing, crowd creation, and crowd
+                wisdom to discuss each of the high-rated problems and find the most possible and the most effective
+                solutions.
+            </p>
+
+            <p>
+                Our PCs are already connected. Let us now connect our brains into the one Global Mind!
+
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<!-- ***************************** About page ***********************************  -->
+<div class="tab-pane" id="about">
+    <div class="row-fluid">
+        <div class="span3">
+            <img class="page-header-img" src="images/aboutus.jpg">
+        </div>
+        <div class="span8">
+            <h3>About Us</h3>
+
+            <p>Global Mind Share is an International Non-Profit Organization to connect our minds.
+            </p>
+
+            <p>Together we are building a global cognitive network that aggregates the problems faced by and
+                solutions
+                suggested by mankind. This is a tool to maximize the collective thought power of our planet to
+                improve
+                future prosperity and happiness of all people.
+            </p>
+
+            <p>All the world's people want a better future for themselves, their children, their grandchildren, and
+                all future generations. Global Mind Share will collect the problems that are most important to the
+                world, the problems that must be solved if mankind is going to survive and endure. Then, we will solve
+                them
+                together. Once solutions are suggested and rated, the most popular solutions are passed on to
+                international decision-making entities.
+            </p>
+
+            <p>Join us as anonymous participants, members, or volunteers.
+            </p>
+
+            <p>We urgently need your help!
+            </p>
+
+            <p> There is nothing that we cannot achieve together!</p>
+        </div>
+        <div class="span8">
+            <h3>Our Founders</h3>
+            <h4>George E. Mikhailovsky (Mi khile hof sky)</h4>
+
+            <p>Dear friends,<br>Let me introduce myself. I am George Mikhailovsky, President and founder of Global Mind
+                Share. I was born in Moscow, Russia and graduated from Moscow State University as a biophysicist. After
+                post-graduate education, I defended a thesis on chemical carcinogenesis and gained a Candidate of
+                Science degree. Then my interests changed to system ecology and further to bio oceanography. I
+                participated in more than twenty arctic biological expeditions and scientific cruises of Russian Academy
+                of Science into all the five oceans, and was in charge of some of them. At the same time, I elaborated
+                on multi-dimensional statistical models of plankton communities and wrote computer programs using
+                FORTRAN and later C to implement them. In 1983, I became a Doctor of Science defending a thesis on
+                system ecology.
+            </p>
+
+            <p>In 1995, after winning a Green Card in a lottery, my wife and I moved to the United States. After this, I
+                improved my programming skills learning Visual Basic and then PowerBuilder, and started a new career as
+                a programmer and then systems analyst. In 1999 I met Gary Sorrell, the most outstanding person in my
+                life. At that time Gary had 30 years experience as a corporate founder, CEO, CFO, and COO for several
+                companies. He has more recently been the Treasurer and Auditor for a non-profit organization. Gary
+                taught me a lot about life, its values and meanings.
+            </p>
+
+            <p>About a year ago I came up with an idea for Global Mind Share, a web site where all habitants of planet
+                Earth could formulate the most principal problems of mankind and discuss how to solve them. Gary was the
+                first friend outside my family with whom I shared this idea and who immediately supported me to develop
+                such a site. We decided to found an international non-profit organization called Global Mind Share and
+                to start this web site to provide everybody a place to submit the problems, to discuss them, to choose
+                the most crucial of them, and to look together for their solutions.
+            </p>
+
+            <p>Today we welcome each of you in your new home. It will be all of you, not us, who will make it cozy,
+                warm, and attractive. We will keep the web site running, but it is you who will submit problems, write
+                comments, and elaborate the best methods of collective thinking, crowd-sourcing, and crowd wisdom. Any
+                of you who are ready to volunteer in running and developing this project, please go to the About Us page
+                and send a message to us. If you want to help us, but donï¿½t have time to volunteer, you could donate any
+                amount of money affordable for you at the Donations page. Any help will be greatly appreciated.
+            </p>
+
+            <p>In the middle of the last century, French philosopher Pierre Teilhard de Chardin and Russian geochemist
+                Vladimir Vernadsky elaborated on a concept of noosphere, the sphere of human thought. They believed that
+                a time would come when creative people all over the world would combine their intellectual forces to
+                ignite a spark of the global mind. Hasnï¿½t this time come now with global spreading of the Internet and
+                social media? If you agree with this, then you are in the right place.
+            </p>
+
+            <p>Letï¿½s spin a web of noosphere togetherï¿½
+            <p>Let’s spin a web of noosphere together…   
+            </p>
+        </div>
+        <div class="span3">
+            <img class="page-header-img" src="images/George-170-2.jpg">
+        </div>
+        <div class="span8">
+            <h4>Gary Sorrell</h4>
+
+            <p>My name is Gary Sorrell, Chairman of Global Mind Share, and currently serving as Secretary and Treasurer
+                for the organization. When George first shared this concept with me, it was the most exciting idea I had
+                heard of in a long time and, of course, I encouraged George to pursue the concept and create a web site
+                to do what he wanted to do to improve our world. Not only was I excited about this, but other family
+                members found it interesting and some of them are now involved in the web site development process. With
+                Georgeï¿½s background and dedication to every project in which he has ever been involved, I knew he would
+                create something that would be beneficial for all mankind, and he has achieved that already. Under his
+                direction, the web site is now operational and will grow over time with the help of all of you who visit
+                the site and offer your suggestions and submit problems that you believe are most important to ensuring
+                our planet will continue to be a great place in which to live and raise our children. I hope you will
+                join us as we continue to use and improve the Global Mind Share web site.
+            </p>
+
+            <p>As George has said, letï¿½s spin a web of noosphere togetherï¿½
+            </p>
+        </div>
+        <div class="span3">
+            <img class="page-header-img" src="images/Gary-Sorrell-170.jpg">
+        </div>
+
+
+    </div>
+
+
+</div>
+
+<!-- ***************************** Problem submission page ***********************************  -->
+<div class="tab-pane fuelux" id="submit">
+
+    <div class="span3">
+        <img class="page-header-img" src="images/submit.jpg">
+    </div>
+    <div class="span8">
+
+
+        <h3>Submit your ideas for Global Mind Share</h3>
+
+        <form class="form-horizontal">
+
+            <div class="control-group">
+                <label class="control-label" for="inpProblemSuggestion">Problem or Question</label>
+
+                <div class="controls">
+                    <input type="text" id="inpProblemSuggestion" placeholder="Problem"/>
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <label class="control-label" for="inpProblemCategory">Category</label>
+
+                <div class="controls">
+                    <div class="input-append dropdown combobox">
+                        <input id="inpProblemCategory" class="span3" type="text"/>
+                        <button class="btn" data-toggle="dropdown"><i class="caret"></i></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Science and Tecnology</a></li>
+                            <li><a href="#">Human Rights</a></li>
+                            <li><a href="#">Education</a></li>
+                            <li><a href="#">Health and Medicine</a></li>
+                            <li><a href="#">Society and Politics</a></li>
+                            <li><a href="#">Economy and Finance</a></li>
+                            <li><a href="#">Environment and Climate Change</a></li>
+                            <li><a href="#">Art and Culture</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="inpProblemEmail">Email</label>
+
+                <div class="controls">
+                    <input type="text" id="inpProblemEmail" placeholder="Email"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="txtProblemDetails">Details</label>
+
+                <div class="controls">
+                    <textarea id="txtProblemDetails" class="span6" rows="6" placeholder="Details"></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <label class="checkbox">
+                        <input type="checkbox"/> Remember me
+                    </label>
+                    <button id="btnProblemSubmit" type="submit" class="btn">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ***************************** Display grid of submitted problems ***********************************  -->
+
+
+<div class="tab-pane fuelux" id="view-submitted">
+    <table id="MyGrid" class="table table-bordered datagrid">
+
+        <thead>
+        <tr>
+            <th>
+                <span class="datagrid-header-title">Submitted Problems Grid</span>
+
+                <div class="datagrid-header-left">
+
+                </div>
+                <div class="datagrid-header-right">
+                    <div class="input-append search">
+                        <input type="text" class="input-medium" placeholder="Search"/>
+                        <button class="btn"><i class="icon-search"></i></button>
+                    </div>
+                </div>
+            </th>
+        </tr>
+        </thead>
+
+        <tfoot>
+        <tr>
+            <th>
+                <div class="datagrid-footer-left" style="display:none;">
+                    <div class="grid-controls">
+                        <span><span class="grid-start"></span> - <span class="grid-end"></span> of <span
+                                class="grid-count"></span></span>
+                        <select class="grid-pagesize">
+                            <option>10</option>
+                            <option>20</option>
+                            <option>50</option>
+                            <option>100</option>
+                        </select>
+                        <span>Per Page</span>
+                    </div>
+                </div>
+                <div class="datagrid-footer-right" style="display:none;">
+                    <div class="grid-pager">
+                        <button class="btn grid-prevpage"><i class="icon-chevron-left"></i></button>
+                        <span>Page</span>
+
+                        <div class="input-append dropdown combobox">
+                            <input class="span1" type="text"/>
+                            <button class="btn" data-toggle="dropdown"><i class="caret"></i></button>
+                            <ul class="dropdown-menu"></ul>
+                        </div>
+                        <span>of <span class="grid-pages"></span></span>
+                        <button class="btn grid-nextpage"><i class="icon-chevron-right"></i></button>
+                    </div>
+                </div>
+            </th>
+        </tr>
+        </tfoot>
+
+    </table>
+</div>
+
+
+<!-- ***************************** Terms of Use  ***********************************  -->
+
+<div class="tab-pane" id="terms">
+
+    <div class="row-fluid">
+
+        <div class="span3">
+            <img class="page-header-img" src="images/submit.jpg">
+        </div>
+        <div class="span8">
+            <h3> Terms of Use </h3>
+
+            <p>
+                Submitted item (either question or problem) shouldn't exceed 100 characters.
+                Comments to Submitted item shouldn't exceed 1000 characters.
+            </p>
+
+            <p>
+                Any texts that contains racial, violent, extremist, fascist, or other politically incorrect meaning
+                will be rejected without any notification.
+            </p>
+
+            <p>
+                Submitting Items that are either meaningless or repeat already submitted ones could be rejected,
+                usually with notifications and short explanations.
+            </p>
+
+            <p>
+                If you submit any addition or clarification to any already submitted item including yours, you have
+                to reference the already submitted item ID. </p>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- ***************************** Doncation / Contact info  ***********************************  -->
+<div class="tab-pane" id="donations">
+    <div class="row-fluid">
+
+        <div class="span3">
+            <img class="page-header-img" src="images/donate-thCAQM49AO.jpg">
+        </div>
+        <div class="span8">
+            <h3>Donations </h3>
+
+            <p> We could use your financial support
+            </p>
+
+            <p>
+                If you believe in what we are doing and would like to help us pay our expenses, please send what you
+                can to :<br/>
+                Global Mind Share<br/>
+                6603 Tucker Avenue<br/>
+                McLean, VA 22101-5272<br/>
+            </p>
+
+            <p>
+                We appreciate your interest and support.</p>
+
+            <p>
+                We have applied for a 501(c)(3) tax exempt status and, once that is approved, all donations will be
+                tax deductible.
+            </p>
+        </div>
+
+        <div class="span8">
+            <h3>Contact Information </h3>
+
+            <p>We can be reached at : <a href="mailto:info@globalmindshare.org?Subject=Information">info@globalmindshare.org</a>
+            </p>
+
+            <p>Or the address above
+            </p>
+
+        </div>
+
+
+    </div>
+</div>
+<div id="commentsModal" class="modal hide fade" role="dialog">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Ã—</button>
+        <h4 id="myModalLabel">Comments on [problem]</h4>
+    </div>
+    <div class="modal-body">
+        <p>Comment 1</p>
+        <p>Comment 2</p>
+        <p>Comment 3</p>
+    </div>
+    <div class="modal-body">
+        <div class="control-group">
+            <label class="control-label" for="inpComment">Add a new comment</label>
+
+            <div class="controls">
+                <textarea id="inpComment" class="span5" rows="6" placeholder="Comment"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary">Save changes</button>
+    </div>
+
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>
