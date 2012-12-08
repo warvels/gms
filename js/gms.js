@@ -18,9 +18,10 @@ requirejs.config({
 // include required JS libraries
 // jquery and fuelux/all use global namespace.  problemDatasource is modularized, so pass it along
 // to require.js and it will take care of things!
-require(['jquery', 'fuelux/all', 'js/problemDatasource'], function (problemDataSource) {
+require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDataSource) {
 
     // after document is loaded, set event handlers and create grids
+    $(document).ready(function(){
 
         //$('#myTab a:last').tab('show');
         //$('.hometext').fadeOut(2).fadeIn(1000);
@@ -32,14 +33,18 @@ require(['jquery', 'fuelux/all', 'js/problemDatasource'], function (problemDataS
             addProblem();
         });
 
+        // make comments div a modal (using Twitter Bootstrap modal widget)
+        $('#commentsModal').modal({show:false});
+
+        // click handler for comment link, opens comment div modal
          $('.comment-link').live('click',function(){
-             $('#commentsDiv').toggle();
+             $('#commentsModal').modal('show');
          });
 
         // initialize and display problem data grid
         createProblemDataGrid();
 
-
+    });
 
     // ****************  Submit problem functions  ***************************
 
