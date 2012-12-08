@@ -6,7 +6,10 @@
  *   users (fellow table) , subjectareas (subjectarea table),  inputs (input table)
  * Revisions
  * 2012-11-26 - added this revisions section of the comment
- * 2012-12-04 - added this get functions for new table 'comment' 
+ * 2012-12-04 - added the get functions for new table 'comment' 
+ * 2012-12-08 - added GET calls for :   /api/problems?subjarea=Education		/api/problems/2/comments
+ *              added function : testParameters()  to test parameter passing  /api/testing
+ *              added GET calls for :  ?announcements"   /api/rostrums
 */
 
 # GMS basic fuctions.
@@ -18,6 +21,7 @@ require('Slim/Slim.php');
 $app = new Slim();
 $app->get('/problems',      'getProblems');
 $app->get('/problems/:id',	'getProblem');
+$app->get('/problems/:id/comments',	'getProblemComments');
 $app->post('/problems',	'addProblem');
 $app->get('/users',     'getUsers');
 $app->get('/users/:id',	'getUser');
@@ -27,24 +31,42 @@ $app->get('/inputs',      'getInputs');
 $app->get('/inputs/:id',	'getInput');
 $app->get('/comments',      'getComments');
 $app->get('/comments/:id',	'getComment');
+$app->get('/rostrums',      'getAnnouncements');
+$app->get('/rostrums/:id',	'getAnnouncement');
+$app->get('/testing',	'testParameters');
 $app->run();
 
 
 
 
-
 /**  
- * Database open based on gms config file 
+ * testing:  REST GET function to test parameter passing
  * @param 
- * @return $dbh     PDO database handle
+ * @return  via Echo : 
  * @throws
+ *   http://localhost/gms/api/testing?jeff=hi
+ *   http://localhost/gms/api/testing?param1=hi&param2=education
 */
-function getConnection() {
-	require("config.db.php");
-	$dbh = new PDO($pdo_connect, $dbuser, $dbpass);	
-	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	return $dbh;
+function testParameters() {
+	$p1='param1';
+	echo 'test full param get '. Slim::getInstance()->request()->get($p1);
+    echo '<br>';
+	$request = Slim::getInstance()->request();
+	echo 'Parameters : '.$p1.' = '.$request->get($p1);  echo '<br>';
+	$p1='param2';
+	echo 'Parameters : '.$p1.' = '.$request->get($p1);  echo '<br>';
+	if ($request->get($p1)) {
+		$found = 1;
+	} 
+
+	# see if you can find param to in subjarea table
+$y=$request->get($p1);	
+echo 'search for sa = '.$y.' ID= '.findSubjectArea($y);
+
+	#echo '{results}';
 }
+
+
 
 /* 
  ----------------------------------------------------------------------
@@ -153,6 +175,12 @@ function getUser($id) {
  * @throws
 */
 function getSubjectareas() {
+
+# JSW
+# get parameters (if they exist) = ?param1=xxx?param2=yyy
+#  localhost/gms/api/subjectareas?jeff=j1
+#  http://localhost/gms/api/subjectareas?jeff=whatdoyousee&jill=any
+#   will show both params
 	$sql = "select * FROM subjarea ORDER BY area";
 	try {
 		$db = getConnection();
@@ -176,6 +204,7 @@ function getSubjectareas() {
 function getSubjectarea($id) {
 	$sql = "SELECT * FROM subjarea WHERE idsubjarea=:id";
 	try {
+		#debug printf($id);	
 		$db = getConnection();
 		$stmt = $db->prepare($sql);  
 		$stmt->bindParam("id", $id);            # binds the "id" in sql to the "id" from API
@@ -238,16 +267,76 @@ function getComment($id) {
 
 
 
+
+/**  
+ * REST GET function for all rows in the table 'rostrum'  (Announcements)
+ * @param 
+ * @return  via Echo : the json object for all 'rostrum' rows
+ * @throws
+*/
+function getAnnouncements() {
+	$sql = "select * FROM rostrum ORDER BY created_on desc";
+	try {
+		$db = getConnection();
+		$stmt = $db->query($sql);  
+		$subjectareas = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+		echo '{"comments": ' . json_encode($subjectareas) . '}';
+	} catch(PDOException $e) {
+		gmsError( 'api.getAnnouncements' , $e->getMessage(), '', '' );
+		# returns error as json objects
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+/**  
+ * REST GET function for all rows in the table 'rostrum'  (Announcements)
+ * @param 
+ * @return  via Echo : the json object for all 'rostrum' rows
+ * @throws
+*/
+function getAnnouncement($id) {
+	$sql = "select * FROM rostrum WHERE idrostrum=:id";
+	try {
+		$db = getConnection();
+		$stmt = $db->prepare($sql);  
+		$stmt->bindParam("id", $id);            # binds the "id" in sql to the "id" from API
+		$stmt->execute();
+		$subjectarea = $stmt->fetchObject();  
+		$db = null;
+		echo json_encode($subjectarea); 
+	} catch(PDOException $e) {
+		gmsError( 'api.getAnnouncement' , $e->getMessage(), '', '' );
+		# returns error as json objects
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+
+
+
+
+
 /**  
  * REST GET function for all "PROBLEMS" (join of tables)
  * @param 
  * @return  via Echo : the json object for all "PROBLEMS" problems are a join of 'input' 
  *          'subjarea' and later the 'fellow' table
  * @throws
+ * @usage   /api/problems  /api/problems?subjarea=Education		http://localhost/gms/api/problems?subjarea=Education
 */
 function getProblems() {
 	# include config for table names for query
 	require("config.db.php");
+
+	# get the GET string and parameters from Slim 
+	$request = Slim::getInstance()->request();
+	
+	gmsLog( "GET Problems : request : ",  '', '', '' );
+	#gmsLog( "GET Problems Request getBody : ". $request->getBody(),  '', '', '' );
+	#gmsLog( "GET Problems Param : ". $request->get('jeff'),  '', '', '' );
+
+	# setup the sql to search for INPUT table and join with FELLOW and SUBJAREA
 	# select to join input, subjarea, fellow for all submitted problems.
 	$sql = 
 	'select f.nick, f.fname, f.lname, f.email as fellow_email, i.created_by, i.created_dt, i.email, sa.area, 
@@ -255,9 +344,22 @@ function getProblems() {
 	$table_input. ' i '.
 	'join '. $table_subjarea. ' sa on (i.idsubject = sa.idsubjarea) '.
 	'join '. $table_fellow. ' f on (i.created_by = f.idfellow)'.
-	' where idinput > 0'
-	.' order by sa.area, i.created_dt desc '.';'
-	;	
+	' where idinput > 0';
+	
+	# if passed a subjarea filter (text name of subjarea), then only return those INPUT rows for that subjrea.
+	# if passed subjarea is not found, then will return no problems.
+	$subjarea_str = $request->get('subjarea');
+	#echo 'Parameters : '.$p1.' = '.$request->get($p1);  echo '<br>';
+	if ($subjarea_str) { 
+		$sa_id = findSubjectArea($subjarea_str); 
+		if ($sa_id) {
+			$sql .= ' and sa.idsubjarea = "'. $sa_id . '"';
+		} else {
+			return;
+		}
+	}
+	# finish of sql to order by xxx	
+	$sql .= ' order by sa.area, i.created_dt desc '.';' ;	
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);  
@@ -269,6 +371,38 @@ function getProblems() {
 		# returns error as json objects
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
+	return;
+}
+
+/**  
+ * REST GET function for all COMMENTS for a single PROBLEMS (based on passed $id of INPUT table)
+ * @param 
+ * @return  via Echo : the json object for all COMMENTS for a single PROBLEMS 
+ *          
+ * @throws
+ * @usage   http://localhost/gms/api/problems/2/comments
+*/
+function getProblemComments($id) {
+	#$request = Slim::getInstance();
+	#var_dump( $request );	
+	gmsLog( 'getProblemComments', '', '', '' );		
+	
+	$sql = 'select * from comment co where co.related_to=:id Order by created_dt desc ';
+	try {
+		$db = getConnection();
+		$stmt = $db->prepare($sql);  		# preparse
+		$stmt->bindParam("id", $id);        # binds the "id" in sql to the "id" from API (parameter passed)
+		$stmt->execute();						# execute the query
+		$problemsComments = $stmt->fetchAll(PDO::FETCH_OBJ);	# fetch all rows found
+
+		$db = null;
+		echo json_encode( $problemsComments ); 
+	}  catch(PDOException $e) {
+		gmsError( 'api.getProblemComments' , $e->getMessage(), '', '' );
+		# returns error as json objects
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+	return;
 }
 
 
@@ -279,16 +413,20 @@ function getProblems() {
  *          'subjarea' and later the 'fellow' table
  * @throws
 */
+
 function getProblem($id) {
 	$sql = "SELECT * FROM input WHERE idinput=:id";
+	gmsLog( 'getProblem', '', '', '' );		
+	
 	try {
 		$db = getConnection();
+
+		
 		$stmt = $db->prepare($sql);  
 		$stmt->bindParam("id", $id);            # binds the "id" in sql to the "id" from API
 		$stmt->execute();
 		$problem = $stmt->fetchObject();  
 		$db = null;
-		gmsLog( 'getProblem', '', '', '' );		
 		echo json_encode($problem); 
 	} catch(PDOException $e) {
 		gmsError( 'api.getProblem' , $e->getMessage(), '', '' );
@@ -296,6 +434,15 @@ function getProblem($id) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 }
+
+
+
+
+
+
+
+
+
 
 /* 
  ----------------------------------------------------------------------

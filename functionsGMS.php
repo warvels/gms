@@ -1,6 +1,6 @@
 <?php
 # ==============================================================================================
-# \apps\wamp\www\gms\functionsGMS.php
+# \gms\functionsGMS.php
 # ==============================================================================================
 # some good Error logging
 #  http://php.net/manual/en/function.error-log.php
