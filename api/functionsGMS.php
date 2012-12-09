@@ -1,13 +1,20 @@
 <?php
 
 # ==============================================================================================
-# functionsGMS.php
+# /gms/api/functionsGMS.php
 # ==============================================================================================
-# fundamental functions 
-#  error logging
+# Revisions
+#  Ver 0.3 	2012/11/27	Initial GET/POST functions
+#  Ver 0.4 	2012/12/08	Database functions moved to here, Added DB function "findSubjectArea()" to find a SUBJAREA based on passed string
 # ==============================================================================================
 
 
+
+/* 
+ ----------------------------------------------------------------------
+ ERROR AND LOGGING FUNCTIONS
+ ----------------------------------------------------------------------
+*/
 
 # ==============================================================================================
 # GMS error handler
@@ -78,9 +85,67 @@ if (is_writable($filename)) {
 }
 
 
+/* 
+ ----------------------------------------------------------------------
+ CORE DATABASE  functions
+ ----------------------------------------------------------------------
+*/
+
+
+/**  
+ * Database OPEN based on gms config file 
+ * @param 
+ * @return $dbh     PDO database handle
+ * @throws
+*/
+function getConnection() {
+	require("config.db.php");
+	$dbh = new PDO($pdo_connect, $dbuser, $dbpass);	
+	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	return $dbh;
+}
 
 
 
+/**  
+ * Database FIND SUBJAREA table from passed string to match 'AREA' column
+ * @param : $subject_search = string to search for 
+ * @return : ID of subjarea row found if any
+ * @throws
+*/
+function findSubjectArea($subject_search) { 
+	#---- Calling example : 
+	#$y='education';
+	#$x = 'search for sa = '.$y.' = '.findSubjectArea($y);
+	#gmslog( $x, '', '', '');
+	#echo $x;
+
+	$lower_subject = trim( strtolower( $subject_search) );  #printf('subjectarea = '.$lower_subject);
+	#debug var_dump( $lower_subject );	
+	$db_link = getConnection();    
+	if ($db_link) {
+		# query DB for ID of the selected subject area text
+		$query = "select sa.idsubjarea, sa.* from subjarea sa where lower(area) = '". $lower_subject. "'" ;
+		$qresult = dbqueryfetchallGMS( $db_link, $query, '', '' );
+		#var_dump( $qresult ); #print_r($qresult);
+		if ($qresult) {
+			# From the resutling rows of the query, extract the First row's [0] IDsubjarea (fieldname from db)
+			$subject_id = $qresult[0]['idsubjarea'];			
+			if ($subject_id) {
+				return $subject_id;
+			}
+		}
+	}
+	return null;
+}
+
+
+# ==============================================================================================
+# ==============================================================================================
+# ==============================================================================================
+# ==============================================================================================
+# ==============================================================================================
+# EARLY FUNCTIONS
 
 # ==============================================================================================
 # dbopenGMS - Open $pdo_connect definedin included db config. return channnel or exception
