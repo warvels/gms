@@ -312,17 +312,17 @@
                 <label class="control-label" for="inpProblemSuggestion">Problem or Question</label>
 
                 <div class="controls">
-                    <input type="text" id="inpProblemSuggestion" placeholder="Problem"/>
+					<!-- size='110'   this would not work. getting input box dimensions from css? JSW -->
+                    <input type="text" id="inpProblemSuggestion" placeholder="Problem" class="span6" maxlength="100" />
                 </div>
             </div>
-
 
             <div class="control-group">
                 <label class="control-label" for="inpProblemCategory">Category</label>
 
                 <div class="controls">
                     <div class="input-append dropdown combobox">
-                        <input id="inpProblemCategory" class="span3" type="text"/>
+                        <input id="inpProblemCategory" class="span4" type="text"/>
                         <button class="btn" data-toggle="dropdown"><i class="caret"></i></button>
                         <ul class="dropdown-menu">
                             <li><a href="#">Science and Tecnology</a></li>
@@ -342,14 +342,14 @@
                 <label class="control-label" for="inpProblemEmail">Email</label>
 
                 <div class="controls">
-                    <input type="text" id="inpProblemEmail" placeholder="Email"/>
+                    <input type="text" id="inpProblemEmail" placeholder="Email" class="span4"/>
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="txtProblemDetails">Details</label>
 
                 <div class="controls">
-                    <textarea id="txtProblemDetails" class="span6" rows="6" placeholder="Details"></textarea>
+                    <textarea id="txtProblemDetails" class="span6" rows="6" placeholder="Details" maxlength="1000"></textarea>
                 </div>
             </div>
             <div class="control-group">
