@@ -173,7 +173,7 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
             // array of comments is in response.comments
             // iterate over the list, adding each comment to the displayed list
             $.each(response.comments, function (i, comment) {
-                $('ul').append('<li>' +  comment.comment_txt + '</li>');
+                $('#listComments').append('<li>' +  comment.comment_txt + '</li>');
             });
 
 
