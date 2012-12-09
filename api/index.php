@@ -1,5 +1,5 @@
 <?php
-/* GMS database API 
+/* GMS database API   	/gms/api/index.php
  * 
  * REST functions using Slim framework for PHP (connects REST to php functions). Will return all database data in json objects
  * 2012-11-23 (JSW) created GET functions for problems (input table joined with subjare and fellow)
@@ -9,7 +9,8 @@
  * 2012-12-04 - added the get functions for new table 'comment' 
  * 2012-12-08 - added GET calls for :   /api/problems?subjarea=Education		/api/problems/2/comments
  *              added function : testParameters()  to test parameter passing  /api/testing
- *              added GET calls for :  ?announcements"   /api/rostrums
+ *              added GET calls for :  "announcements"   /api/rostrums
+ * 2012-12-09 - added INPUT.IDINPUT as for element in json object for getProblems
 */
 
 # GMS basic fuctions.
@@ -339,7 +340,7 @@ function getProblems() {
 	# setup the sql to search for INPUT table and join with FELLOW and SUBJAREA
 	# select to join input, subjarea, fellow for all submitted problems.
 	$sql = 
-	'select f.nick, f.fname, f.lname, f.email as fellow_email, i.created_by, i.created_dt, i.email, sa.area, 
+	'select i.idinput, f.nick, f.fname, f.lname, f.email as fellow_email, i.created_by, i.created_dt, i.email, sa.area, 
 	i.suggestion, i.details, i.liked, i.disliked from '.
 	$table_input. ' i '.
 	'join '. $table_subjarea. ' sa on (i.idsubject = sa.idsubjarea) '.
