@@ -21,7 +21,7 @@ requirejs.config({
 require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDataSource) {
 
     // after document is loaded, set event handlers and create grids
-    $(document).ready(function(){
+    $(document).ready(function () {
 
         //$('#myTab a:last').tab('show');
         //$('.hometext').fadeOut(2).fadeIn(1000);
@@ -33,16 +33,18 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
             addProblem();
         });
 
+        // initialize and display problem data grid
+        createProblemDataGrid();
+
         // make comments div a modal (using Twitter Bootstrap modal widget)
         $('#commentsModal').modal({show:false});
 
         // click handler for comment link, opens comment div modal
-         $('.comment-link').live('click',function(){
-             $('#commentsModal').modal('show');
-         });
+        $('.comment-link').live('click', function () {
+            $('#commentsModal').modal('show');
+            getComments();
+        });
 
-        // initialize and display problem data grid
-        createProblemDataGrid();
 
     });
 
@@ -129,10 +131,10 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
                     sortable:true
                 },
                 {
-                 property:'comments',
-                 label:'Comments',
-                 sortable:false
-                 }
+                    property:'comments',
+                    label:'Comments',
+                    sortable:false
+                }
             ],
             formatter:function (items) {
                 $.each(items, function (index, item) {
@@ -148,12 +150,47 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
 
     }
 
-    /* function showComments(){
-     debugger;
+    // load comments from server
+    function getComments() {
+        console.log('GETting comments');
+        // get the DOM element for the comment list
+        $listComments = $('#listComments');
+        // clear the list
+        $listComments.html('');
+
+        // url to get a list of comments for a problem
+        var url = "api/comments";
+
+        // fire the ajax request for comments  (this is a deferred object whose .done and .fail
+        // functions don't happen until a response is received from the server
+        var req = $.ajax(url, {
+            dataType:'json',
+            type:'GET'
+        });
+
+        // when data returned successfully, populate list
+        req.done(function (response, textStatus, jqXHR) {
+            // array of comments is in response.comments
+            // iterate over the list, adding each comment to the displayed list
+            $.each(response.comments, function (i, comment) {
+                $('ul').append('<li>' +  comment.comment_txt + '</li>');
+            });
 
 
-     }
-     */
+        });
+
+        // if request fails, display an error
+        req.fail(function(jqXHR, textSTatus, errorThrown ){
+            debugger;
+        });
+
+        /*
+        // do this every time (not used)
+        req.always(function(jqXHR, textSTatus, errorThrown ){
+            debugger;
+        });
+        */
+    }
 
 
 });
