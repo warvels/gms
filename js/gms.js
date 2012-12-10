@@ -25,7 +25,7 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
 
         //$('#myTab a:last').tab('show');
         //$('.hometext').fadeOut(2).fadeIn(1000);
-         $('#earth-img').fadeIn(5000);
+        $('#earth-img').fadeIn(5000);
         //$('#earth-img').show();
 
 
@@ -50,10 +50,20 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
             var probName = $(this).attr("data-probname");
             $('#spanCommentsModalProblemName').html(probName);
             // display popup (might want to move this to happen after comments retrieved from server)
-            //$('#commentsModal').modal('show');
+            $('#commentsModal').modal('show');
 
         });
 
+        // click handler for save comment button
+        $('#btnSaveComment').live('click', function () {
+            saveComment();
+        });
+
+        // click handler for close comments modal button
+        $('#btnCloseCommentModal').live('click', function () {
+            // clear comment input
+            $('inpComment').val('');
+        });
 
     });
 
@@ -163,13 +173,19 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
 
     }
 
+
+    /* ******************************  Comments functions ***********************************  */
     // load comments from server
     function getComments(problemId) {
         console.log('GETting comments');
         // get the DOM element for the comment list
         $listComments = $('#listComments');
-        // clear the list
+        // clear the list and input
         $listComments.html('');
+        // include problemId on data-probid attribute of Save Comment button, we'll
+        // need the problem ID when we want to save the comment
+        $('#btnSaveComment').attr('data-probid',problemId);
+        $('#inpComment').val('');
 
         // url to get a list of comments for a problem
         var url = "api/problems/" + problemId + "/comments";
@@ -185,7 +201,7 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
 
         // when data returned successfully, populate list
         req.done(function (response, textStatus, jqXHR) {
-            // array of comments is in response.comments
+            // array of comments is in response
             // iterate over the list, adding each comment to the displayed list
             if (response.length) {
                 $.each(response, function (i, comment) {
@@ -195,7 +211,6 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
                 $('#listComments').append('<li>No comments on this issue</li>')
             }
 
-            $('#commentsModal').modal('show');
 
         });
 
@@ -204,12 +219,41 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
             debugger;
         });
 
-        /*
-         // do this every time (not used)
-         req.always(function(jqXHR, textSTatus, errorThrown ){
-         debugger;
-         });
-         */
+
+    }
+
+
+    // called when submit button clicked
+    // get form inputs and post to problem add API on server
+    function saveComment() {
+
+        // convert inputs to JSON string
+        var data = JSON.stringify({ id:"",
+            comment_txt:$('#inpComment').val(),
+            related_to:$('#btnSaveComment').attr('data-probid'),
+            created_by:1 });
+
+        var url = "api/comments";
+
+        var req = $.ajax(url, {
+            type:'POST',
+            contentType:'application/json',
+            dataType:"json",
+            data:data });
+
+
+        req.done(function (data, textStatus, jqXHR) {
+            // clear input
+            $('#inpComment').val('');
+            // redisplay comments
+            var probId = $('#btnSaveComment').attr('data-probid');
+            getComments(probId);
+        });
+
+        req.fail(function (jqXHR, textStatus, errorThrown) {
+            alert('Error adding comment');
+        });
+
     }
 
 
