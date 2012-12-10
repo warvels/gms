@@ -11,6 +11,8 @@
  *              added function : testParameters()  to test parameter passing  /api/testing
  *              added GET calls for :  "announcements"   /api/rostrums
  * 2012-12-09 - added INPUT.IDINPUT as for element in json object for getProblems
+ * 				added POST to add a comment to a problem  : /gms/api/comments
+ * 				POST to problems will now find subjarea ID based on passed subjarea text
 */
 
 # GMS basic fuctions.
@@ -32,6 +34,7 @@ $app->get('/inputs',      'getInputs');
 $app->get('/inputs/:id',	'getInput');
 $app->get('/comments',      'getComments');
 $app->get('/comments/:id',	'getComment');
+$app->post('/comments',	'addComment');
 $app->get('/rostrums',      'getAnnouncements');
 $app->get('/rostrums/:id',	'getAnnouncement');
 $app->get('/testing',	'testParameters');
@@ -439,18 +442,11 @@ function getProblem($id) {
 
 
 
-
-
-
-
-
-
 /* 
  ----------------------------------------------------------------------
  POST functions
  ----------------------------------------------------------------------
 */
-
 
 /**  JSW
  * REST function to POST a new 'problem' - Problem will update the table 'input' and link via FK to the 
@@ -466,9 +462,16 @@ function addProblem() {
 	$request = Slim::getInstance()->request();
 	$problem = json_decode($request->getBody());
 
-	$subject = strtoupper($problem->subjarea);
+	$subject = $problem->subjarea;
 	// find the ID of the subject area from the db (what to do on error?)
-	$subject_id = rand(10, 18);  # for testing
+	# $subject_id = rand(10, 18);  # for testing
+	if ( findSubjectArea($subject) ) {
+		$subject_id = findSubjectArea($subject);
+	} else {
+		gmsLog('addProblem could not find subjarea: '. $subject, '', '', '' );
+		$subject_id = 14;     # default is : "Education"
+	}
+	
 	$today_date_time = gmdate('Y-m-d H:i:s');     // using UTC for now. can decode to any timezone later.
 
 	$db_table = 'input';
@@ -477,8 +480,9 @@ function addProblem() {
 	gmsLog( "POST Request : ". $request->getBody(),  '', '', '' );
 	gmsLog( "DB Insert : ". $sql, '', '', '' );
 
-	# example POST 
+	# example POST  a submitted item 
 	# {"id":"", "suggestion":"It is a REAL problem", "email":"restpost@testemail.com", "subjarea":"Education", "details":"this is how we solve the POST data problem" }
+	# {"id":"", "suggestion":"New problem", "email":"restme@testemail.com", "subjarea":"Education", "details":"this is the best problem" }
 	
 	try {
 		$db = getConnection();
@@ -491,7 +495,6 @@ function addProblem() {
 		$stmt->bindParam("details", $problem->details );
 		$stmt->bindParam("created_dt", $today_date_time);
 		
-
 		// commit to db and return the ID used 
 		$stmt->execute();
 		$lastID = $db->lastInsertId();
@@ -506,7 +509,67 @@ function addProblem() {
 		gmsError( 'api.postProblem' , $e->getMessage(), '', '' );
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
+	return;
 }
+
+
+/**  JSW
+ * REST function to POST a new 'comment' - for a single problem 
+ * @param 
+ * @return  via Echo : the resulting json 'comment' object for the row commited to table 'comment'
+ * @throws
+*/
+function addComment() {
+	gmsLog('addComment', '', '', '' );
+
+	// get the form values posted and convert to json 
+	$request = Slim::getInstance()->request();
+	$comment = json_decode($request->getBody());
+	
+	$today_date_time = gmdate('Y-m-d H:i:s');     // using UTC for now. can decode to any timezone later.
+	
+	$db_table = 'comment';
+	$sql = "INSERT into comment (comment_txt, related_to, liked, disliked, created_by) VALUES (:comment_txt, :related_to, :liked, :disliked, :created_by)";
+				
+	gmsLog( "POST addComment : ". $request->getBody(),  '', '', '' );
+	gmsLog( "DB Insert comment: ". $sql, '', '', '' );
+
+	# example POST to add a comment to a problem
+	# {"id":"", "comment_txt":"I do not like green eggs and ham", "related_to":"3", "created_by":"1"}
+	# 
+
+	// find the user that is posting this comment 
+#	$created_by = 1;    // initially, all are by anonymous
+	$created_by = $comment->created_by;
+	$liked = 0; $disliked = 0;
+	
+	try {
+		$db = getConnection();
+		$stmt = $db->prepare($sql);  
+
+		// Bind the values from the POST request that are stored in the json object "comment" to the parameters in the Sql statment
+		$stmt->bindParam("comment_txt", $comment->comment_txt );
+		$stmt->bindParam("related_to", $comment->related_to  );
+		$stmt->bindParam("liked", $liked );
+		$stmt->bindParam("disliked", $disliked );
+		$stmt->bindParam("created_by", $created_by );
+		# db col is TIMESTAMP   $stmt->bindParam("created_dt", $today_date_time);
+
+		// commit to db and return the ID used 
+		$stmt->execute();
+		$lastID = $db->lastInsertId();
+		$comment->id = $lastID;
+		$db = null;
+		
+		// return json object from POST 
+		echo json_encode($comment); 
+
+	} catch(PDOException $e) {
+		gmsError( 'api.postComment' , $e->getMessage(), '', '' );
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
 
 
 
