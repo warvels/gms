@@ -24,7 +24,6 @@ ProblemDataSource.prototype = {
      * @param {function} callback To be called with the requested data.
      */
     data:function (options, callback) {
-         // var url = 'http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=d6d798f51bbd5ec0a1f9e9f1e62c43ab&format=json';
         var url = 'api/problems';
         var self = this;
 

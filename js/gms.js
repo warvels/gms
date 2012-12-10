@@ -7,7 +7,7 @@
 // define shortcut name for paths to JavaScript code we will be including
 requirejs.config({
     paths:{
-        'jquery':'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery',
+        'jquery':'https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery',
         'underscore':'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min',
         'bootstrap':'lib/bootstrap',
         'fuelux':'lib/fuelux'
@@ -25,7 +25,8 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
 
         //$('#myTab a:last').tab('show');
         //$('.hometext').fadeOut(2).fadeIn(1000);
-        $('#earth-img').fadeIn(1000);
+         $('#earth-img').fadeIn(5000);
+        //$('#earth-img').show();
 
 
         // define submit button event handler for problem submit form
@@ -41,8 +42,16 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
 
         // click handler for comment link, opens comment div modal
         $('.comment-link').live('click', function () {
-            $('#commentsModal').modal('show');
-            getComments();
+            // get problem id from data-probId attribute
+            var probId = $(this).attr("data-probid");
+            getComments(probId);
+
+            // get problem name attribute from this comment link, and display in modal popup
+            var probName = $(this).attr("data-probname");
+            $('#spanCommentsModalProblemName').html(probName);
+            // display popup (might want to move this to happen after comments retrieved from server)
+            //$('#commentsModal').modal('show');
+
         });
 
 
@@ -137,8 +146,12 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
                 }
             ],
             formatter:function (items) {
+                // defines how to display each element in our json object
+                // for each comment, make it look like a link, and include the problem ID as a data
+                // attribute so we can have it later when we want to fetch comments for that problem
                 $.each(items, function (index, item) {
-                    item.comments = "<span class='comment-link'>Comments</span>";
+                    item.comments = "<a href='#'><span class='comment-link' data-probId='"
+                        + item.idinput + "' data-probname='" + item.suggestion + "'>Comments</span></a>";
                 });
             },
             search:''
@@ -151,7 +164,7 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
     }
 
     // load comments from server
-    function getComments() {
+    function getComments(problemId) {
         console.log('GETting comments');
         // get the DOM element for the comment list
         $listComments = $('#listComments');
@@ -159,7 +172,8 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
         $listComments.html('');
 
         // url to get a list of comments for a problem
-        var url = "api/comments";
+        var url = "api/problems/" + problemId + "/comments";
+
 
         // fire the ajax request for comments  (this is a deferred object whose .done and .fail
         // functions don't happen until a response is received from the server
@@ -168,28 +182,34 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
             type:'GET'
         });
 
+
         // when data returned successfully, populate list
         req.done(function (response, textStatus, jqXHR) {
             // array of comments is in response.comments
             // iterate over the list, adding each comment to the displayed list
-            $.each(response.comments, function (i, comment) {
-                $('#listComments').append('<li>' +  comment.comment_txt + '</li>');
-            });
+            if (response.length) {
+                $.each(response, function (i, comment) {
+                    $('#listComments').append('<li>' + comment.comment_txt + '</li>');
+                });
+            } else {
+                $('#listComments').append('<li>No comments on this issue</li>')
+            }
 
+            $('#commentsModal').modal('show');
 
         });
 
         // if request fails, display an error
-        req.fail(function(jqXHR, textSTatus, errorThrown ){
+        req.fail(function (jqXHR, textSTatus, errorThrown) {
             debugger;
         });
 
         /*
-        // do this every time (not used)
-        req.always(function(jqXHR, textSTatus, errorThrown ){
-            debugger;
-        });
-        */
+         // do this every time (not used)
+         req.always(function(jqXHR, textSTatus, errorThrown ){
+         debugger;
+         });
+         */
     }
 
 
