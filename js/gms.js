@@ -36,6 +36,8 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
 
         // initialize and display problem data grid
         createProblemDataGrid();
+		
+		getannouncements();
 
         // make comments div a modal (using Twitter Bootstrap modal widget)
         $('#commentsModal').modal({show:false});
@@ -255,6 +257,51 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
         });
 
     }
+	
+	
+    /* ******************************  Announcements functions ***********************************  */
+    // load announcements from server
+    function getannouncements() {
+        console.log('GETting announcements');
+        // get the DOM element for the comment list
+        $listAnnouncements = $('#listAnnouncements');
+        // clear the list and input
+        $listAnnouncements.html('');
+
+        // url to get a list of announcements  (rostrums - thanks george )
+        var url = "api/rostrums";
+
+        // fire the ajax request for announcements (this is a deferred object whose .done and .fail
+        // functions don't happen until a response is received from the server
+        var req = $.ajax(url, {
+            dataType:'json',
+            type:'GET'
+        });
+
+        // when data returned successfully, populate list
+        req.done(function (response, textStatus, jqXHR) {
+            // array of announcements is in response
+            // iterate over the list, adding each announcement to the displayed list
+            if (response.length) {
+                $.each(response, function (i, announcement) {
+                    $('#listAannouncements').append('<li>' + '<b>' + announcement.created_on + '</b>' + announcement.our_text + '</li>');
+                });
+            } else {
+                $('#listAnnouncements').append('<li>No Frickin announcements</li>')
+            }
+
+        });
+
+        // if request fails, display an error
+        req.fail(function (jqXHR, textSTatus, errorThrown) {
+            debugger;
+        });
+
+
+    }
+
+	
+	
 
 
 });
