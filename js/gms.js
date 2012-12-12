@@ -283,8 +283,8 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
             // array of announcements is in response
             // iterate over the list, adding each announcement to the displayed list
             if (response.length) {
-                $.each(response, function (i, announcement) {
-                    $('#listAnnouncements').append('<li>' + '<b>' + announcement.created_on + '</b>' + announcement.our_text + '</li>');
+                $.each(response, function (i, announcements) {
+                    $('#listAnnouncements').append('<li>' + '<b>' + announcements.created_on + '</b>' + announcements.our_text + '</li>');
                 });
             } else {
                 $('#listAnnouncements').append('<li>No Frickin announcements</li>')

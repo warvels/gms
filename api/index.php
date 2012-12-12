@@ -280,12 +280,24 @@ function getComment($id) {
 */
 function getAnnouncements() {
 	$sql = "select * FROM rostrum ORDER BY created_on desc";
+
+	# get the parameter from util via Slim 
+	$request = Slim::getInstance()->request();
+	$limit_search  = $request->get('last');	
+	if ($limit_search) {
+		if (is_numeric($limit_search)) {
+			gmsLog( "GET Announcements. Limit to ". $limit_search,  '', '', '' );
+			$sql .= " limit ". $limit_search;
+		}
+	}
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);  
-		$subjectareas = $stmt->fetchAll(PDO::FETCH_OBJ);
+gmsLog($sql, '', '', '');		
+		$announcements = $stmt->fetchAll(PDO::FETCH_OBJ);
+gmsLog('getting announce ', '', '', '');		
 		$db = null;
-		echo '{"comments": ' . json_encode($subjectareas) . '}';
+		echo '{"announcements": ' . json_encode($announcements) . '}';
 	} catch(PDOException $e) {
 		gmsError( 'api.getAnnouncements' , $e->getMessage(), '', '' );
 		# returns error as json objects
@@ -323,7 +335,7 @@ function getAnnouncement($id) {
 
 /**  
  * REST GET function for all "PROBLEMS" (join of tables)
- * @param 
+ * @param  
  * @return  via Echo : the json object for all "PROBLEMS" problems are a join of 'input' 
  *          'subjarea' and later the 'fellow' table
  * @throws
