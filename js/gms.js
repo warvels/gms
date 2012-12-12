@@ -282,8 +282,9 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
         req.done(function (response, textStatus, jqXHR) {
             // array of announcements is in response
             // iterate over the list, adding each announcement to the displayed list
-            if (response.length) {
-                $.each(response, function (i, announcements) {
+            var announcements = response.announcements;
+            if (announcements.length) {
+                $.each(announcements, function (i, announcements) {
                     $('#listAnnouncements').append('<li>' + '<b>' + announcements.created_on + '</b>' + announcements.our_text + '</li>');
                 });
             } else {
