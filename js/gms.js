@@ -268,8 +268,8 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
         // clear the list and input
         $listAnnouncements.html('');
 
-        // url to get a list of announcements  (rostrums - thanks george )
-        var url = "api/rostrums";
+        // url to get a list of the Last N announcements  (rostrums - thanks george )
+        var url = "api/rostrums?last=3";
 
         // fire the ajax request for announcements (this is a deferred object whose .done and .fail
         // functions don't happen until a response is received from the server
@@ -285,10 +285,10 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
             var announcements = response.announcements;
             if (announcements.length) {
                 $.each(announcements, function (i, announcements) {
-                    $('#listAnnouncements').append('<li>' + '<b>' + announcements.created_on + '</b>' + announcements.our_text + '</li>');
+                    $('#listAnnouncements').append('<li>' + '<font color="#0B75AF"><b>' + announcements.created_on + ' </b></font><font color="white">' + announcements.our_text + '</font></li>');
                 });
             } else {
-                $('#listAnnouncements').append('<li>No Frickin announcements</li>')
+                $('#listAnnouncements').append('<li>No Recent Announcements</li>')
             }
 
         });
@@ -302,8 +302,6 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
     }
 
 	
-	
-
 
 });
 

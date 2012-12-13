@@ -13,6 +13,7 @@
  * 2012-12-09 - added INPUT.IDINPUT as for element in json object for getProblems
  * 				added POST to add a comment to a problem  : /gms/api/comments
  * 				POST to problems will now find subjarea ID based on passed subjarea text
+ * 2012-12-12 - added rostrusm (ANNOUNCEMENT) GET.  also optional parameter to select recent last=N : gms/api/rostrums?last=3
 */
 
 # GMS basic fuctions.
@@ -273,13 +274,15 @@ function getComment($id) {
 
 
 /**  
- * REST GET function for all rows in the table 'rostrum'  (Announcements)
+ * REST GET function for all rows in the table 'rostrum'  (Announcements)		gms/api/rostrums?last=1
  * @param 
  * @return  via Echo : the json object for all 'rostrum' rows
  * @throws
 */
 function getAnnouncements() {
 	$sql = "select * FROM rostrum ORDER BY created_on desc";
+
+	gmsLog('GETting announcemetsn '.$sql, '', '', '');		
 
 	# get the parameter from util via Slim 
 	$request = Slim::getInstance()->request();
@@ -293,9 +296,7 @@ function getAnnouncements() {
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);  
-gmsLog($sql, '', '', '');		
 		$announcements = $stmt->fetchAll(PDO::FETCH_OBJ);
-gmsLog('getting announce ', '', '', '');		
 		$db = null;
 		echo '{"announcements": ' . json_encode($announcements) . '}';
 	} catch(PDOException $e) {
