@@ -285,7 +285,8 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
             var announcements = response.announcements;
             if (announcements.length) {
                 $.each(announcements, function (i, announcements) {
-                    $('#listAnnouncements').append('<li>' + '<font color="#0B75AF"><b>' + announcements.created_on + ' </b></font><font color="white">' + announcements.our_text + '</font></li>');
+                    // show each announcement date and text
+                    $('#listAnnouncements').append('<li>' + announcements.created_on + ' <font color="white">' + announcements.our_text + '</font></li>');
                 });
             } else {
                 $('#listAnnouncements').append('<li>No Recent Announcements</li>')

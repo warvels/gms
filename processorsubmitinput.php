@@ -17,7 +17,7 @@ session_start();
 if( ($_SESSION['security_code']==$_POST['security_code']) && (!empty($_POST['security_code'])) ) { 
 
 	# Include the Mysql DB configuration file and all GMS functions file
-	require_once("config.db.active.php");
+	require_once("config.db.php");
 	$gmsfunctions_page  = 'functionsGMS.php';
 	require_once($gmsfunctions_page);
 

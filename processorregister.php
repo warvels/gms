@@ -5,7 +5,7 @@ $where_form_is="http://".$_SERVER['SERVER_NAME'].strrev(strstr(strrev($_SERVER['
 session_start();
 if( ($_SESSION['security_code']==$_POST['security_code']) && (!empty($_POST['security_code'])) ) { 
  # DB configuration file 
- include("config.db.active.php");
+ include("config.db.php");
 
  $link = mysql_connect($db_host,$db_user,$db_pass);
  if(!$link) die ('Could not connect to database: '.mysql_error());

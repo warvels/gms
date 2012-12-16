@@ -23,7 +23,7 @@ body
 
 <?php
 
- include("config.db.active.php");
+ include("config.db.php");
  
  # Old mysql connect before PDO
  #$link = mysql_connect($db_host,$db_user,$db_pass);

@@ -27,7 +27,7 @@ $br = '<br>';
 $debuggms = 0;
 
 # required db configuration info
-require_once("config.db.active.php");
+require_once("config.db.php");
  
 $gmsfunctions_page  = 'functionsGMS.php';
 

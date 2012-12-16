@@ -24,7 +24,7 @@ body
 <?php
 
 # required db configuration info
-include("config.db.active.php");
+include("config.db.php");
  
 function htmlthequery( $queryStatement, $tcols ) {
 	# for all rows in the queryStatement - create a table. 

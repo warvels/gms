@@ -156,7 +156,7 @@ function dbopenGMS( $db_link, $db_task )
 		#printf('  db link is already set and is Not NULL <br>' );
 		return $db_link;
 	}
-	include("config.db.active.php");
+	include("config.db.php");
 	
 ##printf(' pre try pdo open ');			
 	try {

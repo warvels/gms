@@ -100,7 +100,7 @@ catch(Exception $e)
 # Ver 1 - core database function to Open and Close GMS database
 function dbfunc_gms( $curr_db_link, $db_task, $db_conn, $db_name )
 {
-	include("config.db.active.php");
+	include("config.db.php");
 
 	switch ($db_task) {
     case "open":
@@ -207,7 +207,7 @@ return $qlist;
 # DBTEST - for Try and Catch exceptions.
 function dbtest( $curr_db_link, $db_task )
 {
-	include("config.db.active.php");
+	include("config.db.php");
 
 	
 try {
@@ -341,7 +341,7 @@ function dbopenGMS( $db_link, $db_task )
 		#printf('  db link is already set and is Not NULL <br>' );
 		return $db_link;
 	}
-	include("config.db.active.php");
+	include("config.db.php");
 	
 ##printf(' pre try pdo open ');			
 	try {
