@@ -100,7 +100,7 @@ if (is_writable($filename)) {
 */
 function getConnection() {
 	require("config.db.php");
-	$dbh = new PDO($pdo_connect, $dbuser, $dbpass);	
+	$dbh = new PDO($pdo_connect, $db_user, $db_pass);	
 	$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	return $dbh;
 }

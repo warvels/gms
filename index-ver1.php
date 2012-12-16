@@ -2,7 +2,7 @@
 <!--
   GMS nice slide down menu navigation
   using ?page=xxx.php  and include() function for menu navigaiton
-  gms/index.php
+  gms/index-ver1.php
   REVISIONS
 	1.9 - 2012-11-26 Added an html table that has all content in left col And annoucements in the right panel - 20%  
 	1.91 - 2012-11-26 now load annoucements via php script that will pull all from 'rostrum' table
@@ -88,11 +88,11 @@
 
 
 	<!-- this puts the GMS logo image above. make it a link to home too. -->
-	<a href="index.php"> <h1 class="title"></h1>	</a>
+	<a href="index-ver1.php"> <h1 class="title"></h1>	</a>
 	<ul id="sdt_menu" class="sdt_menu">
 		<li>
 			<!-- Vision -->
-			<a href="index.php?page=vision">
+			<a href="index-ver1.php?page=vision">
 				<img src="images/vision.jpg" alt=""/>
 				<span class="sdt_active"></span>
 				<span class="sdt_wrap">
@@ -103,7 +103,7 @@
 		</li>
 		<li>
 			<!-- About Us -->
-			<a href="index.php?page=aboutus">
+			<a href="index-ver1.php?page=aboutus">
 				<img src="images/aboutus.jpg" alt=""/>
 				<span class="sdt_active"></span>
 				<span class="sdt_wrap">
@@ -120,7 +120,7 @@
 <!-- 		
 		<li>
 			<!-- Register Form 
-			<a href="index.php?page=register">
+			<a href="index-ver1.php?page=register">
 				<img src="images/register.jpg" alt=""/>
 				<span class="sdt_active"></span>
 				<span class="sdt_wrap">
@@ -132,7 +132,7 @@
 -->		
 		<li>
 			<!-- Submit new issue Form -->
-			<a href="index.php?page=submitinput">
+			<a href="index-ver1.php?page=submitinput">
 				<img src="images/submit.jpg" alt=""/>
 				<span class="sdt_active"></span>
 				<span class="sdt_wrap">
@@ -156,7 +156,7 @@
 		
 		<li>
 			<!--Terms of use-->
-			<a href="index.php?page=termsofuse">
+			<a href="index-ver1.php?page=termsofuse">
 				<img src="images/termsofuse.jpg" alt=""/>
 				<span class="sdt_active"></span>
 				<span class="sdt_wrap">
@@ -168,7 +168,7 @@
 		
 		<li>
 			<!--Donations-->
-			<a href="index.php?page=donations">
+			<a href="index-ver1.php?page=donations">
 				<img src="images/donate-thCAQM49AO.jpg" alt=""/>
 				<span class="sdt_active"></span>
 				<span class="sdt_wrap">
@@ -193,7 +193,7 @@
 				<a href="showTableINPUT.php">List Input <b>V 2.0</b></a>
 				<a href="input_select.php">List Input V 1.0</a>
 				<a href="fellow_select.php">List Fellow</a>
-				<a href="index.php?page=register">Register User</a>
+				<a href="index-ver1.php?page=register">Register User</a>
 			</div>
 		</li>
 -->
@@ -287,7 +287,7 @@ else {
 <!-- Contact-us Global Mind Share - Social Media Links -->
 <div id="ContactRight">
 <!-- <p align="right"><strong><span class="grays-subtitle">Connect to GMS</span></strong></p> 
-	<a href="index.php">GMS</a>
+	<a href="index-ver1.php">GMS</a>
 -->
 	<p align="right">
 	<a href="http://www.facebook.com/globalmindshare" target="_blank">
