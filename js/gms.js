@@ -10,7 +10,8 @@ requirejs.config({
         'jquery':'https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery',
         'underscore':'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min',
         'bootstrap':'lib/bootstrap',
-        'fuelux':'lib/fuelux'
+        'fuelux':'lib/fuelux',
+		'validate':'lib/validate/jquery.validate'
     }
 });
 
@@ -18,9 +19,10 @@ requirejs.config({
 // include required JS libraries
 // jquery and fuelux/all use global namespace.  problemDatasource is modularized, so pass it along
 // to require.js and it will take care of things!
-require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDataSource) {
+require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function ($, problemDataSource, validate) {
 
     // after document is loaded, set event handlers and create grids
+	// anonymous main document function
     $(document).ready(function () {
 
         //$('#myTab a:last').tab('show');
@@ -31,7 +33,8 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
 
         // define submit button event handler for problem submit form
         $('#btnProblemSubmit').click(function () {
-            addProblem();
+            // addProblem();
+			checkProblemForm(); 
         });
 
         // initialize and display problem data grid
@@ -69,8 +72,37 @@ require(['jquery', 'js/problemDatasource', 'fuelux/all'], function ($, problemDa
 
     });
 
+	
     // ****************  Submit problem functions  ***************************
-
+	
+	
+	// validate the form for add a problem
+    function checkProblemForm() {
+        console.log('checking problem form');
+	
+		$('#problem-form').validate({
+	    rules: {
+	      inpProblemSuggestion: {
+	      	minlength: 8,
+	        required: true
+	      },
+	      email: {
+	        required: true,
+	        email: true
+	      }
+	    },
+	    highlight: function(label) {
+	    	$(label).closest('.control-group').addClass('error');
+	    },
+	    success: function(label) {
+	    	label
+	    		.text('OK!').addClass('valid')
+	    		.closest('.control-group').addClass('success');
+	    }
+	  });
+    }	
+	
+	
     // called when submit button clicked
     // get form inputs and post to problem add API on server
     function addProblem() {

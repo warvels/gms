@@ -250,14 +250,14 @@ INSERT INTO `subjarea` (`idsubjarea`, `area`, `created_by`, `created_dt`) VALUES
 INSERT INTO `rostrum` (`idrostrum`, `our_text`, `created_by`, `created_on`) VALUES
 (1, 'Liftoff : we have now launched the amazing GMS website for all members of the Earth to join in a unilateral effort to solve the problems that face us all', 2, '2012-11-26 09:15:00'),
 (2, 'Version 1.8 of GMS was launched.', 2, '2012-11-18 03:00:00');
-(3, 'Phase 1 of Global Mind Share will use the New MVC model website with fantastic Grids.', 2, '2012-12-09 18:30:00');
+(3, 'Phase 1 of Global Mind Share will run Version 2 - Utilizing an improved MVC model', 2, '2012-12-15 19:30:00');
 
 
 --
 -- Dumping data for table `comment`
 --
 INSERT INTO `comment` ( `idcomment` ,  `comment_txt` ,  `related_to` ,  `liked` ,  `disliked` ,  `created_by` )  VALUES 
-(1, 'I do no like Eggs', 2, 0, 1, 1);
+(1, 'I do NOT like Eggs', 2, 0, 1, 1);
 (2, 'I DO like Eggs', 2, 1, 0, 1);
 --
 --
