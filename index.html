@@ -8,11 +8,13 @@
     <link href="css/bootstrap/bootstrap-responsive.css" rel="stylesheet">
     <link href="css/fuelux/fuelux.css" rel="stylesheet">
     <link href="css/fuelux/fuelux-responsive.css" rel="stylesheet">
-    <link href="css/gms.css" rel="stylesheet" media="screen">
+
 
 	<!-- Bootstrap Validate  -->
     <link href="css/stylevalidate.css" rel="stylesheet">
-	
+
+    <link href="css/gms.css" rel="stylesheet" media="screen">
+
 </head>
 <body>
 
@@ -321,7 +323,7 @@
 
                 <div class="controls">
 					<!-- size='110'   this would not work. getting input box dimensions from css? JSW -->
-                    <input type="text" id="inpProblemSuggestion" placeholder="Problem" class="span6" maxlength="100" />
+                    <input type="text" id="inpProblemSuggestion" name="inpProblemSuggestion" placeholder="Problem" class="span6" maxlength="100" />
                 </div>
             </div>
 
@@ -350,7 +352,7 @@
                 <label class="control-label" for="inpProblemEmail">Email</label>
 
                 <div class="controls">
-                    <input type="text" id="inpProblemEmail" placeholder="Email" class="span4"/>
+                    <input type="text" id="inpProblemEmail" name="inpProblemEmail" placeholder="Email" class="span4"/>
                 </div>
             </div>
             <div class="control-group">
@@ -365,7 +367,7 @@
                     <label class="checkbox">
                         <input type="checkbox"/> Remember me
                     </label>
-                    <button id="btnProblemSubmit" type="submit" class="btn">Submit</button>
+                    <button id="btnProblemSubmit"  class="btn">Submit</button>
                 </div>
             </div>
         </form>

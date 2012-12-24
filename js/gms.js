@@ -5,13 +5,18 @@
 // Use require.js library to modularize our functions
 
 // define shortcut name for paths to JavaScript code we will be including
-requirejs.config({
+
+ require.config({
     paths:{
         'jquery':'https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery',
         'underscore':'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min',
         'bootstrap':'lib/bootstrap',
         'fuelux':'lib/fuelux',
 		'validate':'lib/validate/jquery.validate'
+    }, shim: {
+        validate:{
+            deps:["jquery"]
+        }
     }
 });
 
@@ -19,11 +24,13 @@ requirejs.config({
 // include required JS libraries
 // jquery and fuelux/all use global namespace.  problemDatasource is modularized, so pass it along
 // to require.js and it will take care of things!
-require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function ($, problemDataSource, validate) {
+require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function ($, problemDataSource) {
 
     // after document is loaded, set event handlers and create grids
 	// anonymous main document function
     $(document).ready(function () {
+
+       setupProblemFormValidation();
 
         //$('#myTab a:last').tab('show');
         //$('.hometext').fadeOut(2).fadeIn(1000);
@@ -32,9 +39,14 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 
 
         // define submit button event handler for problem submit form
-        $('#btnProblemSubmit').click(function () {
-            // addProblem();
-			checkProblemForm(); 
+        $('#btnProblemSubmit').click(function (e) {
+            e.preventDefault();
+            if ($('#problem-form').valid()) {
+                console.log("valid");
+                addProblem();
+            } else {
+                console.log("oops!");
+            }
         });
 
         // initialize and display problem data grid
@@ -77,7 +89,7 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 	
 	
 	// validate the form for add a problem
-    function checkProblemForm() {
+    function setupProblemFormValidation() {
         console.log('checking problem form');
 	
 		$('#problem-form').validate({
@@ -86,7 +98,7 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 	      	minlength: 8,
 	        required: true
 	      },
-	      email: {
+	      inpProblemEmail: {
 	        required: true,
 	        email: true
 	      }
@@ -98,7 +110,8 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 	    	label
 	    		.text('OK!').addClass('valid')
 	    		.closest('.control-group').addClass('success');
-	    }
+	    },
+        onsubmit: false
 	  });
     }	
 	
