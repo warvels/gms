@@ -282,7 +282,7 @@ function getComment($id) {
 function getAnnouncements() {
 	$sql = "select * FROM rostrum ORDER BY created_on desc";
 
-	gmsLog('GETting announcements '.$sql, '', '', '');		
+	gmsLog('GET ting announcements '.$sql, '', '', '');		
 
 	# get the parameter from util via Slim 
 	$request = Slim::getInstance()->request();
@@ -375,8 +375,17 @@ function getProblems() {
 			return;
 		}
 	}
-	# finish of sql to order by xxx	
-	$sql .= ' order by sa.area, i.created_dt desc '.';' ;	
+	
+	$sortcol_passed = $request->get('sort');
+	if ($sortcol_passed ) { 
+	}
+	
+	# finish of sql to order by xxx	(should be the passed sort=Name
+	//$sql .= ' order by sa.area, i.created_dt desc '.';' ;
+	$sortcol = 'i.created_dt desc';
+	$sql .= ' order by '. $sortcol . ';' ;	
+	//gmsLog( "GET Problems SQL = $sql",  '', '', '' );	
+	
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);  

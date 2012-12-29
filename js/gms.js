@@ -3,7 +3,7 @@
 
 // Revisions
 // 2012-12-24 : Comments and cleanup
-// 2012-12-29 : Added all  "required" fields of Submit form 
+// 2012-12-29 : Added all  "required" fields of Submit form (email is NOT required)
 //            : use new gmstrace() function to deal with IE inability ot handle console.log()
 
 
@@ -114,8 +114,7 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 	        required: true
 	      },
 	      inpProblemEmail: {
-	        email: true,
-	        required: true
+	        email: true
 	      },
 		  txtProblemDetails: {
 	      	minlength: 10,
@@ -217,14 +216,15 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
                 },
                 {
                     property:'suggestion',
-                    label:'Suggestion',
+                    label:'Problem',
                     sortable:true
                 },
-                {
+                /* hide these per George - will need some way to see the full details
+				{
                     property:'details',
                     label:'Details',
                     sortable:true
-                },
+                },*/
                 {
                     property:'comments',
                     label:'Comments',
@@ -390,7 +390,7 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 	function gmstrace(tracestr) {
 		try { console.log(tracestr) } catch (e) { 
 			// only turn on the alert() if you want IE to show you a million debugging alerts.
-			alert('TRACE: ' + tracestr) 
+			//alert('TRACE: ' + tracestr) 
 		}
 		
 	}

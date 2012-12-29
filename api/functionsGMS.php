@@ -35,14 +35,20 @@ function gmsError( $errorCode, $errorText, $av1, $av2 )
 	return 1;
 }
 
+# GMS logging 
 function gmsLog( $logData, $newFile, $av1, $av2 )
 {
 	# 
 	$log_file = 'logs/gmslog.log';
 	$dlm = ';';
 	# create an entry with date.time, errorcode, error text. to get NEWLINE must put \r\n in double quotes.
-	$logdata = gmdate('Y-m-d H:i:s'). ' UTC '. $dlm. $logData. "\r\n";
-	error_log($logdata, 3, $log_file);
+	try {
+		$logdata = gmdate('Y-m-d H:i:s'). ' UTC '. $dlm. $logData. "\r\n";
+		error_log($logdata, 3, $log_file);
+	} catch(GMSLOGException $e) {
+		# returns error as json objects
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
 	return 1;
 }
 
