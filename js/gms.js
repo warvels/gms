@@ -2,7 +2,11 @@
 // handles events and display enhancements
 
 // Revisions
-// 2012-12-24 - Comments and cleanup
+// 2012-12-24 : Comments and cleanup
+// 2012-12-29 : Added all  "required" fields of Submit form 
+//            : use new gmstrace() function to deal with IE inability ot handle console.log()
+
+
 
 // Use require.js library to modularize our functions
 // define shortcut name for paths to JavaScript code we will be including
@@ -44,12 +48,14 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
         $('#btnProblemSubmit').click(function (e) {
             e.preventDefault();
             if ($('#problem-form').valid()) {
-                console.log("valid");
+                //console.log("valid");
+				gmstrace('valid');
                 addProblem();
 				//$('#problem-form').resetForm();
 				
             } else {
-                console.log("oops!");
+                //console.log("oops!");
+				gmstrace('oops. error adding new problem form');
             }
         });
 
@@ -94,17 +100,28 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 	
 	// use jquery.validate the validate the "add a new problem Form"
     function setupProblemFormValidation() {
-        console.log('setup problem form Validate');
-	
+        //console.log('setup problem form Validate');
+		gmstrace('setup problem form Validate');
+		
 		$('#problem-form').validate({
 	    rules: {
 	      inpProblemSuggestion: {
 	      	minlength: 8,
 	        required: true
 	      },
+		  inpProblemCategory: {
+	      	minlength: 8,
+	        required: true
+	      },
 	      inpProblemEmail: {
-	        email: true
+	        email: true,
+	        required: true
+	      },
+		  txtProblemDetails: {
+	      	minlength: 10,
+	        required: true
 	      }
+		  
 	    },
 	    highlight: function(label) {
 	    	$(label).closest('.control-group').addClass('error');
@@ -122,7 +139,8 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
     // called when submit button clicked
     // get form inputs and post to problem add API on server
     function addProblem() {
-        console.log('adding problem');
+        //console.log('adding problem');
+		gmstrace('adding problem');
         var data = problemFormToJSON()
         $.ajax({
             type:'POST',
@@ -153,15 +171,16 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
     }
 
 
+	
     // ****************  Problem datagrid functions ********************************
-
     // create a data grid to display problems
     // the ProblemDataSource object is defined in problemDatasource.js
 
     // here we will define the columns to display, and any speciall formatting of data on each row
-//jsw
     function createProblemDataGrid() {
 
+		gmstrace('createProblemDataGrid - start');
+		
         var problemDataSource = new ProblemDataSource({
             columns:[
 				/*
@@ -216,6 +235,8 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
                 // defines how to display each element in our json object
                 // for each comment, make it look like a link, and include the problem ID as a data
                 // attribute so we can have it later when we want to fetch comments for that problem
+				gmstrace('createProblemDataGrid - formatter');
+
                 $.each(items, function (index, item) {
                     item.comments = "<a href='#'><span class='comment-link' data-probId='"
                         + item.idinput + "' data-probname='" + item.suggestion + "'>Comments</span></a>";
@@ -224,9 +245,13 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
             search:''
         });
 
+		gmstrace('createProblemDataGrid - after setup columns');
+
         $('#MyGrid').datagrid({
             dataSource:problemDataSource
         });
+
+		gmstrace('createProblemDataGrid - after #Mygrid');
 
     }
 
@@ -234,7 +259,8 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
     /* ******************************  Comments functions ***********************************  */
     // load comments from server
     function getComments(problemId) {
-        console.log('GETting comments');
+        //console.log('GET ting comments');
+		gmstrace('GET ting comments');
         // get the DOM element for the comment list
         $listComments = $('#listComments');
         // clear the list and input
@@ -317,7 +343,8 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
     /* ******************************  Announcements functions ***********************************  */
     // load announcements from server
     function getannouncements() {
-        console.log('GETting announcements');
+        //console.log('GET ting announcements');
+		gmstrace('GET ting announcements');
         // get the DOM element for the comment list
         $listAnnouncements = $('#listAnnouncements');
         // clear the list and input
@@ -358,6 +385,15 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
     }
 
 	
+    /* ****************************** Misc Functions ***********************************  */
+	// for IE, gotta catch any error for console.log (not supported)
+	function gmstrace(tracestr) {
+		try { console.log(tracestr) } catch (e) { 
+			// only turn on the alert() if you want IE to show you a million debugging alerts.
+			alert('TRACE: ' + tracestr) 
+		}
+		
+	}
 
 });
 
