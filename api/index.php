@@ -282,7 +282,7 @@ function getComment($id) {
 function getAnnouncements() {
 	$sql = "select * FROM rostrum ORDER BY created_on desc";
 
-	gmsLog('GETting announcemetsn '.$sql, '', '', '');		
+	gmsLog('GETting announcements '.$sql, '', '', '');		
 
 	# get the parameter from util via Slim 
 	$request = Slim::getInstance()->request();

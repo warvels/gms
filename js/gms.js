@@ -1,11 +1,11 @@
-// Javascript code for index-2.html
+// Javascript code for gms 
 // handles events and display enhancements
 
+// Revisions
+// 2012-12-24 - Comments and cleanup
 
 // Use require.js library to modularize our functions
-
 // define shortcut name for paths to JavaScript code we will be including
-
  require.config({
     paths:{
         'jquery':'https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery',
@@ -14,6 +14,7 @@
         'fuelux':'lib/fuelux',
 		'validate':'lib/validate/jquery.validate'
     }, shim: {
+		// jquery.validate depends on jquery
         validate:{
             deps:["jquery"]
         }
@@ -30,7 +31,8 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 	// anonymous main document function
     $(document).ready(function () {
 
-       setupProblemFormValidation();
+		// prepare the add a new problem form validation
+		setupProblemFormValidation();
 
         //$('#myTab a:last').tab('show');
         //$('.hometext').fadeOut(2).fadeIn(1000);
@@ -44,20 +46,23 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
             if ($('#problem-form').valid()) {
                 console.log("valid");
                 addProblem();
+				//$('#problem-form').resetForm();
+				
             } else {
                 console.log("oops!");
             }
         });
 
-        // initialize and display problem data grid
+        // initialize and display for the View Submitted / Problem data grid
         createProblemDataGrid();
 		
+		// get recent annoncements from the DB to display on the home page
 		getannouncements();
 
         // make comments div a modal (using Twitter Bootstrap modal widget)
         $('#commentsModal').modal({show:false});
 
-        // click handler for comment link, opens comment div modal
+        // click handler for comment on a problem link, opens comment div modal
         $('.comment-link').live('click', function () {
             // get problem id from data-probId attribute
             var probId = $(this).attr("data-probid");
@@ -87,10 +92,9 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 	
     // ****************  Submit problem functions  ***************************
 	
-	
-	// validate the form for add a problem
+	// use jquery.validate the validate the "add a new problem Form"
     function setupProblemFormValidation() {
-        console.log('checking problem form');
+        console.log('setup problem form Validate');
 	
 		$('#problem-form').validate({
 	    rules: {
@@ -99,7 +103,6 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 	        required: true
 	      },
 	      inpProblemEmail: {
-	        required: true,
 	        email: true
 	      }
 	    },
@@ -128,7 +131,7 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
             dataType:"json",
             data:data,
             success:function (data, textStatus, jqXHR) {
-                alert('Suggestions added successfully');
+                alert('Your Suggestion / Problem was added successfully');
             },
             error:function (jqXHR, textStatus, errorThrown) {
                 alert('Error adding problem: ' + textStatus);
@@ -156,11 +159,12 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
     // the ProblemDataSource object is defined in problemDatasource.js
 
     // here we will define the columns to display, and any speciall formatting of data on each row
-
+//jsw
     function createProblemDataGrid() {
 
         var problemDataSource = new ProblemDataSource({
             columns:[
+				/*
                 {
                     property:'nick',
                     label:'Nickname',
@@ -176,7 +180,13 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
                     label:'Last Name',
                     sortable:true
                 },
-                /*{
+				*/
+                {
+                    property:'created_dt',
+                    label:'Created on',
+                    sortable:true
+                },
+				/*{
                  property:'email',
                  label:'email',
                  sortable:true

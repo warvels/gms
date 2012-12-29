@@ -1,5 +1,15 @@
 <!DOCTYPE html>
-<!-- UI changes using bootstrap and Fuel UX --->
+<!-- UI changes using bootstrap and Fuel UX -->
+
+
+<!--  GMS Main html page
+ * 
+ * Front page for GMS - 
+ * 
+ * Revisions
+ * 2012-12-24 - Added a bunch of comments 
+ -->
+
 <html>
 <head>
     <title>Global Mind Share</title>
@@ -9,22 +19,30 @@
     <link href="css/fuelux/fuelux.css" rel="stylesheet">
     <link href="css/fuelux/fuelux-responsive.css" rel="stylesheet">
 
-
-	<!-- Bootstrap Validate  -->
+	<!-- jquery Bootstrap Validate  -->
     <link href="css/stylevalidate.css" rel="stylesheet">
 
+	<!-- GMS related styles   -->
     <link href="css/gms.css" rel="stylesheet" media="screen">
 
 </head>
 <body>
 
+<!-- include all related javascript here   -->
 <script src="lib/require/require.js"></script>
 <script src="js/gms.js"></script>
 
+
 <div class="gms">
+
+
 <div class="container-fluid">
 
+
+
 <div id="header">
+
+<!-- GMS and social media -->
 <div class="row-fluid">
     <div class="span8">
         <h2>Global Mind Share</h2>
@@ -32,18 +50,23 @@
     <div class="span2">
         <div class="social-button">
             <a href="http://www.facebook.com/globalmindshare" title="Follow GMS on Facebook" target="_blank">
-                <img class="social-button" src="images/facebook-follow-lg.png"/></a>
+                <img class="social-button" src="images/facebook-follow-lg.png" alt=""/></a>
         </div>
         <div class="social-button">
             <a href="http://www.twitter.com/globalmindshare" title="Follow GMS on Twitter" target="_blank">
-                <img class="social-button" src="images/twitter-follow-lg.png"/></a>
+                <img class="social-button" src="images/twitter-follow-lg.png" alt=""/></a>
         </div>
         <div class="social-button">
             <a href="http://www.youtube.com/globalmindshare" title="Follow GMS on Youtube" target="_blank">
-                <img class="social-button" src="images/youtube-follow-lg.png"/></a>
+                <img class="social-button" src="images/youtube-follow-lg.png" alt=""/></a>
         </div>
+        <div  class="span12">
+			<p>globalmindshare 2.2</p>
+        </div>		
     </div>
-</div>
+</div><!-- .GMS and social media -->
+
+<!-- nav tabs -->
 <div>
     <ul class="nav nav-tabs">
         <li><a href="#home" data-toggle="tab">Home</a></li>
@@ -54,7 +77,9 @@
         <li><a href="#terms" data-toggle="tab">Terms Of Use</a></li>
         <li><a href="#donations" data-toggle="tab">Donations - Contact Us</a></li>
     </ul>
-</div>
+</div><!-- .nav-tabs -->
+
+
 
 <div class="tab-content">
 
@@ -81,10 +106,10 @@
                 </div>
             </div>
             <div class='row-fluid'>
-                <h5>The recipe is simple:</h5></div>
+                <h5>The recipe is simple:</h5>
+			</div>
 
             <div class='row-fluid'>
-
                 <div class="span3">Reveal and formulate the principal problems mankind has now.</div>
                 <div class="span3">Look for all the possible solutions for each problem.</div>
                 <div class="span3">Choose the optimal solution or the optimal combination in each case.
@@ -105,15 +130,11 @@
             </div>
 
 
-			<!-- JSW -->
 			<!-- List recent announcements form the DB table rostrum -->
-
 			<div class="row-fluid">
-		
 				<h4>Announcements : </h4>
 				<span class="announcements">  
 				<ul style = "padding-left:2%;" id="listAnnouncements">
-				
 				</ul>
 				</span>
 			</div>			
@@ -302,7 +323,6 @@
 
     </div>
 
-
 </div>
 
 <!-- ***************************** Problem submission page ***********************************  -->
@@ -313,14 +333,12 @@
     </div>
     <div class="span8">
 
-
         <h3>Submit your ideas for Global Mind Share</h3>
 
         <form id="problem-form" class="form-horizontal">
 
             <div class="control-group">
                 <label class="control-label" for="inpProblemSuggestion">Problem or Question</label>
-
                 <div class="controls">
 					<!-- size='110'   this would not work. getting input box dimensions from css? JSW -->
                     <input type="text" id="inpProblemSuggestion" name="inpProblemSuggestion" placeholder="Problem" class="span6" maxlength="100" />
@@ -350,33 +368,34 @@
 
             <div class="control-group">
                 <label class="control-label" for="inpProblemEmail">Email</label>
-
                 <div class="controls">
                     <input type="text" id="inpProblemEmail" name="inpProblemEmail" placeholder="Email" class="span4"/>
                 </div>
             </div>
+			
             <div class="control-group">
                 <label class="control-label" for="txtProblemDetails">Details</label>
-
                 <div class="controls">
                     <textarea id="txtProblemDetails" class="span6" rows="6" placeholder="Details" maxlength="1000"></textarea>
                 </div>
             </div>
+			
             <div class="control-group">
                 <div class="controls">
+					<!--   disabled until we have real user acounts
                     <label class="checkbox">
                         <input type="checkbox"/> Remember me
                     </label>
+					-->
                     <button id="btnProblemSubmit"  class="btn">Submit</button>
                 </div>
             </div>
+			
         </form>
     </div>
 </div>
 
-<!-- ***************************** Display grid of submitted problems ***********************************  -->
-
-
+<!-- ***************************** Display grid of View Submitted problems ***********************************  -->
 <div class="tab-pane fuelux" id="view-submitted">
     <table id="MyGrid" class="table table-bordered datagrid">
 
@@ -384,9 +403,7 @@
         <tr>
             <th>
                 <span class="datagrid-header-title">Submitted Problems</span>
-
                 <div class="datagrid-header-left">
-
                 </div>
                 <div class="datagrid-header-right">
                     <div class="input-append search">
@@ -437,7 +454,6 @@
 
 
 <!-- ***************************** Terms of Use  ***********************************  -->
-
 <div class="tab-pane" id="terms">
 
     <div class="row-fluid">
@@ -472,7 +488,7 @@
 </div>
 
 
-<!-- ***************************** Doncation / Contact info  ***********************************  -->
+<!-- ***************************** Donation / Contact info  ***********************************  -->
 <div class="tab-pane" id="donations">
     <div class="row-fluid">
 
@@ -495,7 +511,6 @@
 
             <p>
                 We appreciate your interest and support.</p>
-
             <p>
                 We have applied for a 501(c)(3) tax exempt status and, once that is approved, all donations will be
                 tax deductible.
@@ -526,7 +541,6 @@
     </div>
     <div class="modal-body">
         <ul id="listComments">
-
         </ul>
     </div>
     <div class="modal-body">
@@ -543,10 +557,19 @@
         <button id="btnSaveComment" class="btn btn-primary">Save changes</button>
     </div>
 
-</div>
-</div>
-</div>
-</div>
+</div><!-- comments Modal popup -->
+
+
+
+</div><!-- .tab-content -->
+
+
+</div><!-- .header -->
+
+
+</div><!-- .gms main -->
+
+
 
 </body>
 </html>
