@@ -14,6 +14,7 @@
  * 				added POST to add a comment to a problem  : /gms/api/comments
  * 				POST to problems will now find subjarea ID based on passed subjarea text
  * 2012-12-12 - added rostrusm (ANNOUNCEMENT) GET.  also optional parameter to select recent last=N : gms/api/rostrums?last=3
+ * 2012-12-30 - added 'fakecol' column for problems GET - used to combine liked/disliked into single col 
 */
 
 # GMS basic fuctions.
@@ -337,8 +338,8 @@ function getAnnouncement($id) {
 /**  
  * REST GET function for all "PROBLEMS" (join of tables)
  * @param  
- * @return  via Echo : the json object for all "PROBLEMS" problems are a join of 'input' 
- *          'subjarea' and later the 'fellow' table
+ * @return  via Echo : the json object for all "PROBLEMS" 
+ *          problems are a join of 'input' 'subjarea' and later the 'fellow' table
  * @throws
  * @usage   /api/problems  /api/problems?subjarea=Education		http://localhost/gms/api/problems?subjarea=Education
 */
@@ -357,7 +358,7 @@ function getProblems() {
 	# select to join input, subjarea, fellow for all submitted problems.
 	$sql = 
 	'select i.idinput, f.nick, f.fname, f.lname, f.email as fellow_email, i.created_by, i.created_dt, i.email, sa.area, 
-	i.suggestion, i.details, i.liked, i.disliked from '.
+	i.suggestion, i.details, i.liked, i.disliked, ' . '"" as fakecol '. 'from '.
 	$table_input. ' i '.
 	'join '. $table_subjarea. ' sa on (i.idsubject = sa.idsubjarea) '.
 	'join '. $table_fellow. ' f on (i.created_by = f.idfellow)'.
@@ -375,16 +376,17 @@ function getProblems() {
 			return;
 		}
 	}
-	
+	# should be the passed sort=Name
 	$sortcol_passed = $request->get('sort');
 	if ($sortcol_passed ) { 
+		$sortcol = $sortcol_passed;
+		# validate passed sort col
+	} else {
+		# default :  order by created_dt desc
+		$sortcol = 'i.created_dt desc';
 	}
-	
-	# finish of sql to order by xxx	(should be the passed sort=Name
-	//$sql .= ' order by sa.area, i.created_dt desc '.';' ;
-	$sortcol = 'i.created_dt desc';
 	$sql .= ' order by '. $sortcol . ';' ;	
-	//gmsLog( "GET Problems SQL = $sql",  '', '', '' );	
+	gmsLog( "GET Problems SQL = $sql",  '', '', '' );	
 	
 	try {
 		$db = getConnection();

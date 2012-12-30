@@ -10,6 +10,7 @@
  *  2012-12-24 : Added a bunch of comments 
  *  2012-12-29 : Fixed the "required" fields of Submit form with adding name="inpProblemCategory" to <input> 
  *               added missing "category"
+ *  2012-12-30 : Added "testing" div - hidden for production
  -->
 
 <html>
@@ -78,12 +79,92 @@
         <li><a href="#view-submitted" data-toggle="tab">View Submitted</a></li>
         <li><a href="#terms" data-toggle="tab">Terms Of Use</a></li>
         <li><a href="#donations" data-toggle="tab">Donations - Contact Us</a></li>
+		<!--
+        <li><a href="#testing" data-toggle="tab">test stuff</a></li>		
+		 -->
     </ul>
 </div><!-- .nav-tabs -->
 
 
-
 <div class="tab-content">
+
+
+<!-- ***************************** testing page ***********************************  -->
+<!-- ************* hide this by commentting out the nab-tabs link *****************  -->
+<div class="tab-pane" id="testing">
+	<h3>buttons</h3>
+		<div id="likedislike" class="btn-group" data-toggle="buttons-radio">
+			<button type="button" class="btn btn-primary" data-toggle="button">Like</button>
+			<button type="button" class="btn btn-primary" data-toggle="button">Dislike</button>
+		</div>
+		<div id="gmsld2" class="btn-group" data-toggle="buttons-radio">
+			<button type="button" class="btn btn-primary">Likes</button>
+			<button type="button" class="btn btn-primary">Dislikes</button>
+			<h3>some more text</h3>
+			<a tabindex="-1" href="#">Action</a>
+		</div>
+      <h3>Navigate dropdown</h3>
+          <div class="bs-docs-example">
+            <div id="navbar-example" class="navbar navbar-static">
+			
+              <div class="navbar-inner">
+			  
+                <div class="container" style="width: auto;">
+                  <a class="brand" href="#">Project Name</a>
+				  
+				  
+                  <ul class="nav" role="navigation">
+                    <li class="dropdown">
+                      <a id="drop1" href="#" role="buttonz" class="dropdown-toggle" data-toggle="dropdown">Dropdown 
+					     <b class="caret"></b></a>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+                        <li><a tabindex="-1" href="http://google.com">Google</a></li>
+                        <li><a tabindex="-1" href="#anotherAction">Another action</a></li>
+                        <li><a tabindex="-1" href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a tabindex="-1" href="#">Separated link</a></li>
+                      </ul>
+                    </li>
+					
+                    <li class="dropdown">
+                      <a href="#" id="drop2" role="buttonz" class="dropdown-toggle" data-toggle="dropdown">Dropdown 2 
+					    <b class="caret"></b></a>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+                        <li><a tabindex="-1" href="#">Action</a></li>
+                        <li><a tabindex="-1" href="#">Another action</a></li>
+                        <li><a tabindex="-1" href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a tabindex="-1" href="#">Separated link</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+				  
+				  
+                  <ul class="nav pull-right">
+                    <li id="fat-menu" class="dropdown">
+                      <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown 3 <b class="caret"></b></a>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+                        <li><a tabindex="-1" href="#">Action</a></li>
+                        <li><a tabindex="-1" href="#">Another action</a></li>
+                        <li><a tabindex="-1" href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a tabindex="-1" href="#">Separated link</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+			  
+			  
+            </div> <!-- /navbar-example -->
+			
+			
+          </div> 
+	
+	
+</div>			
+		
+
 
 <!-- ***************************** Home page ***********************************  -->
 <div class="tab-pane active" id="home">
@@ -146,7 +227,7 @@
         <div class="span6"><img id="earth-img" src="images/earth_from_space_2.png"></div>
 
     </div>
-
+	
 </div>
 
 <!-- ***************************** Vision page ***********************************  -->
@@ -353,11 +434,10 @@
                 <div class="controls">
                     <div class="input-append dropdown combobox">
                         <input id="inpProblemCategory" name="inpProblemCategory" class="span4" type="text"/>
-
-                        <button class="btn" data-toggle="dropdown"><i class="caret"></i></button>
-						<!-- this is the original. didn't work correctly with a down arrow.
-                        <ul class="notarealmenu">
+						<button class="btn" data-toggle="dropdown"><i class="caret"></i></button>
+						<!-- this will create a link that can also deploy the dropdown menu
 						-->
+						<a class="dropdown-toggle" id="Label" role="button" data-toggle="dropdown" >&nbsp;Pick a Category<b class="caret"></b>
 						<ul class="dropdown-menu">
                             <li><a href="#">Science and Tecnology</a></li>
                             <li><a href="#">Human Rights</a></li>
@@ -459,7 +539,6 @@
     </table>
 </div>
 
-
 <!-- ***************************** Terms of Use  ***********************************  -->
 <div class="tab-pane" id="terms">
 
@@ -493,7 +572,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- ***************************** Donation / Contact info  ***********************************  -->
 <div class="tab-pane" id="donations">
@@ -535,10 +613,9 @@
 
         </div>
 
-
     </div>
-</div>
 
+</div>
 
 <!-- ***************************** div for COMMENTS modal popup  ***********************************  -->
 <div id="commentsModal" class="modal hide fade" role="dialog">

@@ -1,10 +1,12 @@
 // Javascript code for gms 
 // handles events and display enhancements
 
+
 // Revisions
 // 2012-12-24 : Comments and cleanup
 // 2012-12-29 : Added all  "required" fields of Submit form (email is NOT required)
 //            : use new gmstrace() function to deal with IE inability ot handle console.log()
+// 2012-12-30 : Added like/dislike button and counts to grid - using fakecol from api
 
 
 
@@ -229,6 +231,12 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
                     property:'comments',
                     label:'Comments',
                     sortable:false
+                },
+				// api returns a magical 'fakecol' this is used here to combine the liked, disliked values
+                {
+                    property:'fakecol',
+                    label:'Like/Dislike',
+                    sortable:false
                 }
             ],
             formatter:function (items) {
@@ -240,6 +248,14 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
                 $.each(items, function (index, item) {
                     item.comments = "<a href='#'><span class='comment-link' data-probId='"
                         + item.idinput + "' data-probname='" + item.suggestion + "'>Comments</span></a>";
+					// display liked, disliked data and allow submitting of votes using buttons and bootstrap toggle buttons
+					item.fakecol = "<div id='gmslikedislike' class='btn-group' data-toggle='buttons-radio'><button type='button' class='btn btn-primary'>"
+						+ "Liked " + item.liked + "</button>" 
+						+ "<button type='button' class='btn btn-primary'>"
+						+ "DisLiked " + item.disliked + "</button>" 
+						+ "</div>";
+					// allow link to the 'details' about this problem
+					//item.suggestion = item.suggestion + " <a href='#'>Full Details</a>";
                 });
             },
             search:''

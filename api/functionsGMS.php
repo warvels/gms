@@ -6,6 +6,7 @@
 # Revisions
 #  Ver 0.3 	2012/11/27	Initial GET/POST functions
 #  Ver 0.4 	2012/12/08	Database functions moved to here, Added DB function "findSubjectArea()" to find a SUBJAREA based on passed string
+#  Ver 0.5 	2012/12/30	try and catch for call to error_log
 # ==============================================================================================
 
 
