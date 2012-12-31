@@ -1,0 +1,2 @@
+if this file exists : showallproblem.txt
+then the API will always return all problems regardless of the filter ?status=approved

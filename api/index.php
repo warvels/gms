@@ -14,8 +14,12 @@
  * 				added POST to add a comment to a problem  : /gms/api/comments
  * 				POST to problems will now find subjarea ID based on passed subjarea text
  * 2012-12-12 - added rostrusm (ANNOUNCEMENT) GET.  also optional parameter to select recent last=N : gms/api/rostrums?last=3
- * 2012-12-30 - added 'fakecol' column for problems GET - used to combine liked/disliked into single col 
+ * 2012-12-30 - new default category/subjarea "general" will be used if passed is not valid
+ * 2012-12-31 - added parameters for /api/problems  - for sorting and filtering on the 'approved' column
+ *                ?sort=category  [fellow | suggestion | liked ]
+ *                ?status=approved [ rejected | pending | all ]
 */
+
 
 # GMS basic fuctions.
 require('functionsGMS.php');
@@ -342,6 +346,8 @@ function getAnnouncement($id) {
  *          problems are a join of 'input' 'subjarea' and later the 'fellow' table
  * @throws
  * @usage   /api/problems  /api/problems?subjarea=Education		http://localhost/gms/api/problems?subjarea=Education
+ *          /api/problems?sort=category  [fellow | suggestion | liked ]
+ *          /api/problems?status=approved [ rejected | pending | all ]
 */
 function getProblems() {
 	# include config for table names for query
@@ -358,11 +364,30 @@ function getProblems() {
 	# select to join input, subjarea, fellow for all submitted problems.
 	$sql = 
 	'select i.idinput, f.nick, f.fname, f.lname, f.email as fellow_email, i.created_by, i.created_dt, i.email, sa.area, 
-	i.suggestion, i.details, i.liked, i.disliked, ' . '"" as fakecol '. 'from '.
+	i.suggestion, i.details, i.liked, i.disliked from '.
 	$table_input. ' i '.
 	'join '. $table_subjarea. ' sa on (i.idsubject = sa.idsubjarea) '.
 	'join '. $table_fellow. ' f on (i.created_by = f.idfellow)'.
 	' where idinput > 0';
+	
+	# Passed  REST  parameter:  ?status=xxxxxxx		to find All problems or approved problems
+	$problem_status = $request->get('status');
+	# for testing, allow override of any approved filter when this file exists
+	$showall_problems = 'showallproblems.txt';
+	if (file_exists($showall_problems)) {
+		$problem_status = 'all';
+	}
+	if ($problem_status ) { 
+		# validate passed status 
+		$problem_status = strtolower( $problem_status );
+		switch ($problem_status) {
+			case 'all';			;	break;
+			case 'approved';	$sql .= ' and i.approved = "A"'; 	break;
+			case 'rejected';	$sql .= ' and i.approved = "R"'; 	break;
+			case 'pending';		$sql .= ' and i.approved = "W"'; 	break;
+	    break;
+		}
+	} 	
 	
 	# if passed a subjarea filter (text name of subjarea), then only return those INPUT rows for that subjrea.
 	# if passed subjarea is not found, then will return no problems.
@@ -376,16 +401,25 @@ function getProblems() {
 			return;
 		}
 	}
-	# should be the passed sort=Name
+	# should be the REST passed parameter:  ?sort=name
+	$sortcol = 'i.created_dt desc';        // default
 	$sortcol_passed = $request->get('sort');
 	if ($sortcol_passed ) { 
-		$sortcol = $sortcol_passed;
 		# validate passed sort col
-	} else {
-		# default :  order by created_dt desc
-		$sortcol = 'i.created_dt desc';
-	}
+		$sortcol_passed = strtolower( $sortcol_passed );
+		switch ($sortcol_passed) {
+			case 'category';	$sortcol = 'sa.area';	break;
+			case 'fellow';		$sortcol = 'f.nick';	break;
+			case 'eamil';		$sortcol = 'f.email';	break;
+			case 'suggestion';	$sortcol = 'i.suggestion';	break;
+			case 'liked';		$sortcol = 'i.liked desc';	break;
+	    break;
+		}
+	} 
+	// append selected or default sorting column
 	$sql .= ' order by '. $sortcol . ';' ;	
+	
+	
 	gmsLog( "GET Problems SQL = $sql",  '', '', '' );	
 	
 	try {
@@ -493,7 +527,7 @@ function addProblem() {
 		$subject_id = findSubjectArea($subject);
 	} else {
 		gmsLog('addProblem could not find subjarea: '. $subject, '', '', '' );
-		$subject_id = 14;     # default is : "Education"
+		$subject_id = 9;     # default is : "General"
 	}
 	
 	$today_date_time = gmdate('Y-m-d H:i:s');     // using UTC for now. can decode to any timezone later.

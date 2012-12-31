@@ -51,13 +51,13 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
             e.preventDefault();
             if ($('#problem-form').valid()) {
                 //console.log("valid");
-				gmstrace('valid');
+				gmstrace('Problem Submit form is Valid');
                 addProblem();
 				//$('#problem-form').resetForm();
 				
             } else {
                 //console.log("oops!");
-				gmstrace('oops. error adding new problem form');
+				gmstrace('oops. Error adding new Problem form');
             }
         });
 
@@ -70,7 +70,9 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
         // make comments div a modal (using Twitter Bootstrap modal widget)
         $('#commentsModal').modal({show:false});
 
-        // click handler for comment on a problem link, opens comment div modal
+		// COMMENTS - showing Modal and adding more comments on Click
+        //  click handler for comment on a problem link, opens comment div modal
+		//  .live will create event handler for this and future clicks
         $('.comment-link').live('click', function () {
             // get problem id from data-probId attribute
             var probId = $(this).attr("data-probid");
@@ -84,7 +86,7 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 
         });
 
-        // click handler for save comment button
+        // click handler for Save the new comment button in Comments Modal
         $('#btnSaveComment').live('click', function () {
             saveComment();
         });
@@ -174,7 +176,7 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 
 	
     // ****************  Problem datagrid functions ********************************
-    // create a data grid to display problems
+    // create a data-grid to display problems
     // the ProblemDataSource object is defined in problemDatasource.js
 
     // here we will define the columns to display, and any speciall formatting of data on each row
@@ -234,28 +236,31 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
                 },
 				// api returns a magical 'fakecol' this is used here to combine the liked, disliked values
                 {
-                    property:'fakecol',
+                    property:'fakecolumn',
                     label:'Like/Dislike',
                     sortable:false
-                }
+                },
+				//{	property:'anything', label: 'junk', sortable:false }
             ],
             formatter:function (items) {
                 // defines how to display each element in our json object
                 // for each comment, make it look like a link, and include the problem ID as a data
                 // attribute so we can have it later when we want to fetch comments for that problem
-				gmstrace('createProblemDataGrid - formatter');
-
+				gmstrace('createProblemDataGrid - formatter:function');
+				
                 $.each(items, function (index, item) {
                     item.comments = "<a href='#'><span class='comment-link' data-probId='"
                         + item.idinput + "' data-probname='" + item.suggestion + "'>Comments</span></a>";
+gmstrace(item.comments);						
 					// display liked, disliked data and allow submitting of votes using buttons and bootstrap toggle buttons
-					item.fakecol = "<div id='gmslikedislike' class='btn-group' data-toggle='buttons-radio'><button type='button' class='btn btn-primary'>"
-						+ "Liked " + item.liked + "</button>" 
+					item.fakecolumn = "<div id='gmslikedislike' class='btn-group' data-toggle='buttons-radio'><button type='button' class='btn btn-primary'>"
+						+ "Like " + item.liked + "</button>" 
 						+ "<button type='button' class='btn btn-primary'>"
-						+ "DisLiked " + item.disliked + "</button>" 
+						+ "DisLike " + item.disliked + "</button>" 
 						+ "</div>";
+					item.anything = "";	
 					// allow link to the 'details' about this problem
-					//item.suggestion = item.suggestion + " <a href='#'>Full Details</a>";
+					// item.suggestion = item.suggestion + " <a href='#'>Full Details</a>";
                 });
             },
             search:''
@@ -277,13 +282,15 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
     function getComments(problemId) {
         //console.log('GET ting comments');
 		gmstrace('GET ting comments');
-        // get the DOM element for the comment list
+        // get the DOM element for the comment list (jquery function to find "listComments" <div> in the DOM)
         $listComments = $('#listComments');
-        // clear the list and input
+        // clear the list and input (set the html for this div to empty)
         $listComments.html('');
+		
         // include problemId on data-probid attribute of Save Comment button, we'll
         // need the problem ID when we want to save the comment
         $('#btnSaveComment').attr('data-probid',problemId);
+		// clear input box for the comment(s)
         $('#inpComment').val('');
 
         // url to get a list of comments for a problem

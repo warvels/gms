@@ -231,6 +231,7 @@ CREATE TABLE IF NOT EXISTS `subjarea` (
 --
 
 INSERT INTO `subjarea` (`idsubjarea`, `area`, `created_by`, `created_dt`) VALUES
+( 9, 'General', 2, '2012-12-30 18:45:00'),
 (10, 'Society and Politics', 2, '2012-07-12 02:17:28'),
 (11, 'Economy and Finance', 2, '2012-07-12 02:18:05'),
 (12, 'Environment and Climate Changes', 2, '2012-07-12 02:18:34'),
@@ -241,7 +242,8 @@ INSERT INTO `subjarea` (`idsubjarea`, `area`, `created_by`, `created_dt`) VALUES
 (17, 'Art and Culture', 2, '2012-07-12 02:24:23'),
 (18, 'Religion and Philosophy', 2, '2012-07-12 02:24:46');
 
-
+INSERT INTO `subjarea` (`idsubjarea`, `area`, `approved`, `created_by`, `created_dt`) VALUES
+( 9, 'General', 'Y', 2, '2012-12-30 18:45:00');
 
 --
 -- Dumping data for table `rostrum`
