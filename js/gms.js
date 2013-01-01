@@ -280,6 +280,8 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 				// gmstrace('createProblemDataGrid - formatter:function');
 				var tempvalue = '';
                 $.each(items, function (index, item) {
+
+					// create the details link span that contains problem id and suggestion
 					tempvalue = "<a href='#'><span class='comment-link' data-probId='"
                         + item.idinput + "' data-probname='" + item.suggestion + "'>Comments</span></a>";
                     item.comments = tempvalue;
@@ -291,9 +293,10 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 						+ "<span class='dislike-problem' data-probId='" + item.idinput + "'><button type='button' class='btn btn-primary' id='btndislikeProblem'>"
 						+ "DisLike " + item.disliked + "</button></span>" 
 						+ "</div>";
-						 gmstrace(tempvalue);
+						// gmstrace(tempvalue);
 					item.likeanddislike = tempvalue;
 
+					// create the details link span that contains problem id and suggestion
 					tempvalue = "<a href='#'><span class='details-link' data-probId='"
                         + item.idinput + "' data-probname='" + item.suggestion + "'>Details</span></a>";
 					item.fakedetails = tempvalue;
@@ -434,9 +437,9 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
             // iterate over the list, adding each details
             if (response.details) {
                 //$('#listDetails').append('<li>' + response.details + '</li>');
-                $('#textDetails').append( response.details );
+                $('#textDetails').html( response.details );
             } else {
-                $('#listDetails').append('<li>No details found for this problem.</li>')
+                $('#textDetails').html('<li>No details found for this problem.</li>')
             }
         });
 

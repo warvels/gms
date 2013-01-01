@@ -10,7 +10,7 @@
  *  2012-12-24 : Added a bunch of comments 
  *  2012-12-29 : Fixed the "required" fields of Submit form with adding name="inpProblemCategory" to <input> 
  *               added missing "category"
- *  2012-12-30 : Added "testing" div - hidden for production
+ *  2012-12-31 : Added details div - to display modal details on a problem
  -->
 
 <html>
@@ -87,83 +87,6 @@
 
 
 <div class="tab-content">
-
-
-<!-- ***************************** testing page ***********************************  -->
-<!-- ************* hide this by commentting out the nab-tabs link *****************  -->
-<div class="tab-pane" id="testing">
-	<h3>buttons</h3>
-		<div id="likedislike" class="btn-group" data-toggle="buttons-radio">
-			<button type="button" class="btn btn-primary" data-toggle="button">Like</button>
-			<button type="button" class="btn btn-primary" data-toggle="button">Dislike</button>
-		</div>
-		<div id="gmsld2" class="btn-group" data-toggle="buttons-radio">
-			<button type="button" class="btn btn-primary">Likes</button>
-			<button type="button" class="btn btn-primary">Dislikes</button>
-			<h3>some more text</h3>
-			<a tabindex="-1" href="#">Action</a>
-		</div>
-      <h3>Navigate dropdown</h3>
-          <div class="bs-docs-example">
-            <div id="navbar-example" class="navbar navbar-static">
-			
-              <div class="navbar-inner">
-			  
-                <div class="container" style="width: auto;">
-                  <a class="brand" href="#">Project Name</a>
-				  
-				  
-                  <ul class="nav" role="navigation">
-                    <li class="dropdown">
-                      <a id="drop1" href="#" role="buttonz" class="dropdown-toggle" data-toggle="dropdown">Dropdown 
-					     <b class="caret"></b></a>
-                      <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
-                        <li><a tabindex="-1" href="http://google.com">Google</a></li>
-                        <li><a tabindex="-1" href="#anotherAction">Another action</a></li>
-                        <li><a tabindex="-1" href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a tabindex="-1" href="#">Separated link</a></li>
-                      </ul>
-                    </li>
-					
-                    <li class="dropdown">
-                      <a href="#" id="drop2" role="buttonz" class="dropdown-toggle" data-toggle="dropdown">Dropdown 2 
-					    <b class="caret"></b></a>
-                      <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
-                        <li><a tabindex="-1" href="#">Action</a></li>
-                        <li><a tabindex="-1" href="#">Another action</a></li>
-                        <li><a tabindex="-1" href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a tabindex="-1" href="#">Separated link</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-				  
-				  
-                  <ul class="nav pull-right">
-                    <li id="fat-menu" class="dropdown">
-                      <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">Dropdown 3 <b class="caret"></b></a>
-                      <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
-                        <li><a tabindex="-1" href="#">Action</a></li>
-                        <li><a tabindex="-1" href="#">Another action</a></li>
-                        <li><a tabindex="-1" href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a tabindex="-1" href="#">Separated link</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-			  
-			  
-            </div> <!-- /navbar-example -->
-			
-			
-          </div> 
-	
-	
-</div>			
-		
 
 
 <!-- ***************************** Home page ***********************************  -->
@@ -631,7 +554,6 @@
     <div class="modal-body">
         <div class="control-group">
             <label class="control-label" for="inpComment">Add a new comment</label>
-
             <div class="controls">
                 <textarea id="inpComment" class="span5" rows="3" placeholder="Comment"></textarea>
             </div>
@@ -647,19 +569,27 @@
 
 <!-- ***************************** div for DETAILS modal popup  ***********************************  -->
 <div id="detailsModal" class="modal hide fade" role="dialog">
+			
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
         <h5 id="detailsModalLabel">Problem : <span id="spanDetailsModalProblemName"></span></h5>
     </div>
     <div class="modal-body">
         <h5 id="headerDetails">Full Details on this problem</h5>
-        <p id="textDetails"></p>
+        <p id="textDetails">Nothing yet</p>
+    </div>
+	<div class="modal-body">
+        <ul id="listDetails">
+        </ul>
     </div>
     <div class="modal-footer">
         <button id="btnCloseDetailsModal" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    </div>
+    </div>			
 
 </div><!-- details Modal popup -->
+
+
+
 
 
 </div><!-- .tab-content -->
