@@ -7,7 +7,8 @@
 // 2012-12-29 : Added all  "required" fields of Submit form (email is NOT required)
 //            : use new gmstrace() function to deal with IE inability ot handle console.log()
 // 2012-12-30 : Added like/dislike button and counts to grid - using fakecol from api
-
+// 2012-12-31 : Added Details (modal popup) to show all details text about a problem
+//            : Added Like and Dislike click handlers to call api 
 
 
 // Use require.js library to modularize our functions
@@ -42,7 +43,7 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 
         //$('#myTab a:last').tab('show');
         //$('.hometext').fadeOut(2).fadeIn(1000);
-        $('#earth-img').fadeIn(5000);
+        $('#earth-img').fadeIn(1000);
         //$('#earth-img').show();
 
 
@@ -85,19 +86,44 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
             $('#commentsModal').modal('show');
 
         });
-
         // click handler for Save the new comment button in Comments Modal
         $('#btnSaveComment').live('click', function () {
             saveComment();
         });
-
         // click handler for close comments modal button
         $('#btnCloseCommentModal').live('click', function () {
             // clear comment input
             $('inpComment').val('');
         });
 
-    });
+		
+		// DETAILS modal btn click function - get the details for the probid and then "show" that modal popup
+		$('.details-link').live('click', function () {
+            // get problem id from data-probId attribute
+            var probId = $(this).attr("data-probid");
+            getDetails(probId);
+            // get problem name attribute from this details link, and display problem and details in modal popup
+            var probName = $(this).attr("data-probname");
+            $('#spanDetailsModalProblemName').html(probName);
+            // display popup (might want to move this to happen after comments retrieved from server)
+            $('#detailsModal').modal('show');
+        });
+
+		// like / dislike button click handlers - simply increment the liked and disliked fields for this problem
+		$('.like-problem').live('click', function () {
+            // get problem id from data-probId attribute
+            var probId = $(this).attr("data-probid");
+            likeProblem(probId);
+            // inform user of action taken - How do we update the like/dislike counter?
+        });
+		$('.dislike-problem').live('click', function () {
+            // get problem id from data-probId attribute
+            var probId = $(this).attr("data-probid");
+            dislikeProblem(probId);
+            // inform user of action taken - How do we update the like/dislike counter?
+        });
+
+	});
 
 	
     // ****************  Submit problem functions  ***************************
@@ -234,31 +260,45 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
                     label:'Comments',
                     sortable:false
                 },
-				// api returns a magical 'fakecol' this is used here to combine the liked, disliked values
+				{	
+					property:'fakedetails',
+					label: 'Details', 
+					sortable:false 
+				},
+				// Create a pseudo column that is used to combine the liked, disliked values into buttons
                 {
-                    property:'fakecolumn',
+                    property:'likeanddislike',
                     label:'Like/Dislike',
                     sortable:false
-                },
-				//{	property:'anything', label: 'junk', sortable:false }
+                }
+				
             ],
             formatter:function (items) {
                 // defines how to display each element in our json object
                 // for each comment, make it look like a link, and include the problem ID as a data
                 // attribute so we can have it later when we want to fetch comments for that problem
-				gmstrace('createProblemDataGrid - formatter:function');
-				
+				// gmstrace('createProblemDataGrid - formatter:function');
+				var tempvalue = '';
                 $.each(items, function (index, item) {
-                    item.comments = "<a href='#'><span class='comment-link' data-probId='"
+					tempvalue = "<a href='#'><span class='comment-link' data-probId='"
                         + item.idinput + "' data-probname='" + item.suggestion + "'>Comments</span></a>";
-gmstrace(item.comments);						
-					// display liked, disliked data and allow submitting of votes using buttons and bootstrap toggle buttons
-					item.fakecolumn = "<div id='gmslikedislike' class='btn-group' data-toggle='buttons-radio'><button type='button' class='btn btn-primary'>"
-						+ "Like " + item.liked + "</button>" 
-						+ "<button type='button' class='btn btn-primary'>"
-						+ "DisLike " + item.disliked + "</button>" 
+                    item.comments = tempvalue;
+
+					// display liked, disliked data and allow submitting of votes using buttons from bootstrap toggle buttons
+					tempvalue = "<div id='gms-like-dislike' class='btn-group' data-toggle='buttons-radio'>"
+						+ "<span class='like-problem' data-probId='" + item.idinput + "'><button type='button' class='btn btn-primary' id='btnlikeProblem'>"
+						+ "Like " + item.liked + "</button></span>" 
+						+ "<span class='dislike-problem' data-probId='" + item.idinput + "'><button type='button' class='btn btn-primary' id='btndislikeProblem'>"
+						+ "DisLike " + item.disliked + "</button></span>" 
 						+ "</div>";
-					item.anything = "";	
+						 gmstrace(tempvalue);
+					item.likeanddislike = tempvalue;
+
+					tempvalue = "<a href='#'><span class='details-link' data-probId='"
+                        + item.idinput + "' data-probname='" + item.suggestion + "'>Details</span></a>";
+					item.fakedetails = tempvalue;
+					
+					
 					// allow link to the 'details' about this problem
 					// item.suggestion = item.suggestion + " <a href='#'>Full Details</a>";
                 });
@@ -266,13 +306,13 @@ gmstrace(item.comments);
             search:''
         });
 
-		gmstrace('createProblemDataGrid - after setup columns');
+		//gmstrace('createProblemDataGrid - after setup columns');
 
         $('#MyGrid').datagrid({
             dataSource:problemDataSource
         });
 
-		gmstrace('createProblemDataGrid - after #Mygrid');
+		//gmstrace('createProblemDataGrid - after #Mygrid');
 
     }
 
@@ -332,7 +372,6 @@ gmstrace(item.comments);
     // called when submit button clicked
     // get form inputs and post to problem add API on server
     function saveComment() {
-
         // convert inputs to JSON string
         var data = JSON.stringify({ id:"",
             comment_txt:$('#inpComment').val(),
@@ -362,6 +401,110 @@ gmstrace(item.comments);
 
     }
 	
+	
+	
+
+    /* ******************************  Details functions ***********************************  */
+    // load details from server based on problemID
+    function getDetails(problemId) {
+		gmstrace('GET ting Details on ' + problemId);
+
+        // get the DOM element for the comment list (jquery function to find "listDetails" <div> in the DOM)
+        // clear the details (set the html for this div to empty)
+        //$listDetails = $('#listDetails');
+        //$listDetails.html('');
+
+		// get DOM element for the textDetails and set that html in that div to null
+        $textDetails = $('#textDetails');
+        $textDetails.html('');
+		
+        // url to get the details for a problem
+        var url = "api/problems/" + problemId;
+
+        // fire the ajax request for problem  (this is a deferred object whose .done and .fail
+        //   functions don't happen until a response is received from the server)
+        var req = $.ajax(url, {
+            dataType:'json',
+            type:'GET'
+        });
+
+        // when data returned successfully, populate html div with Details
+        req.done(function (response, textStatus, jqXHR) {
+            // array of details is in response
+            // iterate over the list, adding each details
+            if (response.details) {
+                //$('#listDetails').append('<li>' + response.details + '</li>');
+                $('#textDetails').append( response.details );
+            } else {
+                $('#listDetails').append('<li>No details found for this problem.</li>')
+            }
+        });
+
+        // if request fails, display an error
+        req.fail(function (jqXHR, textSTatus, errorThrown) {
+            debugger;
+        });
+
+
+    }
+
+
+	
+    /* ******************************  Like / Dislike functions ***********************************  */
+    // 
+	function likeProblem(problemId) {
+        // url to PUT the like 
+        var url = "api/problems/" + problemId + "/like"
+        // fire the ajax request to PUT this like onto the problem
+        var req = $.ajax(url, {
+            dataType:'json',
+            type:'PUT'
+        });
+
+        // when data PUT  successfully = show alert and update 
+        req.done(function (response, textStatus, jqXHR) {
+            // check the response for the liked count and display to usre
+            var liked = response.liked;
+            if (liked) {
+                alert('This problem has now been liked ' + liked + ' times.');
+            } else {
+                alert('Unable to like this problem');
+            }
+        });
+
+        // if request fails, display an error
+        req.fail(function (jqXHR, textSTatus, errorThrown) {
+            debugger;
+        });		
+	}
+    // 
+	function dislikeProblem(problemId) {
+        // url to PUT the dislike 
+        var url = "api/problems/" + problemId + "/dislike"
+        // fire the ajax request to PUT this like onto the problem
+        var req = $.ajax(url, {
+            dataType:'json',
+            type:'PUT'
+        });
+
+        // when data PUT  successfully = show alert and update 
+        req.done(function (response, textStatus, jqXHR) {
+            // check the response for the disliked count and display to user
+            var disliked = response.disliked;
+            if (disliked) {
+                alert('This problem has now been disliked ' + disliked + ' times.');
+            } else {
+                alert('Unable to dislike this problem');
+            }
+        });
+
+        // if request fails, display an error
+        req.fail(function (jqXHR, textSTatus, errorThrown) {
+            debugger;
+        });		
+	}
+
+
 	
     /* ******************************  Announcements functions ***********************************  */
     // load announcements from server

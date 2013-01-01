@@ -15,9 +15,10 @@
  * 				POST to problems will now find subjarea ID based on passed subjarea text
  * 2012-12-12 - added rostrusm (ANNOUNCEMENT) GET.  also optional parameter to select recent last=N : gms/api/rostrums?last=3
  * 2012-12-30 - new default category/subjarea "general" will be used if passed is not valid
- * 2012-12-31 - added parameters for /api/problems  - for sorting and filtering on the 'approved' column
- *                ?sort=category  [fellow | suggestion | liked ]
- *                ?status=approved [ rejected | pending | all ]
+ * 2012-12-31 - added 2 parameters for /api/problems  : To allow sorting and Filtering on the 'approved' column
+ *                ?sort=category  or [fellow | suggestion | email | liked ]
+ *                ?status=approved  or [ rejected | pending | all ]
+ * 2012-12-31 - added api to Like / Dislike a problem  :  /api/problems/<id>/like  :
 */
 
 
@@ -32,6 +33,8 @@ $app->get('/problems',      'getProblems');
 $app->get('/problems/:id',	'getProblem');
 $app->get('/problems/:id/comments',	'getProblemComments');
 $app->post('/problems',	'addProblem');
+$app->put('/problems/:id/like',	'likeProblem');
+$app->put('/problems/:id/dislike',	'dislikeProblem');
 $app->get('/users',     'getUsers');
 $app->get('/users/:id',	'getUser');
 $app->get('/subjectareas',      'getSubjectareas');
@@ -410,7 +413,7 @@ function getProblems() {
 		switch ($sortcol_passed) {
 			case 'category';	$sortcol = 'sa.area';	break;
 			case 'fellow';		$sortcol = 'f.nick';	break;
-			case 'eamil';		$sortcol = 'f.email';	break;
+			case 'email';		$sortcol = 'f.email';	break;
 			case 'suggestion';	$sortcol = 'i.suggestion';	break;
 			case 'liked';		$sortcol = 'i.liked desc';	break;
 	    break;
@@ -482,8 +485,6 @@ function getProblem($id) {
 	
 	try {
 		$db = getConnection();
-
-		
 		$stmt = $db->prepare($sql);  
 		$stmt->bindParam("id", $id);            # binds the "id" in sql to the "id" from API
 		$stmt->execute();
@@ -496,7 +497,6 @@ function getProblem($id) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
 }
-
 
 
 
@@ -630,6 +630,129 @@ function addComment() {
 
 
 
+/**  JSW
+ * REST function to PUT a like (increment this integer) to an existing problem (input table)
+ * @param 
+ * @return  via Echo : the resulting json 'problem' object with like and dislike counts for the row updated to the table 'input'
+ * @throws
+*/
+function likeProblem($id) {
+	gmsLog('likeProblem', '', '', '' );
+
+	// get the form values posted and convert to json 
+	$request = Slim::getInstance()->request();
+	$liked_form = json_decode($request->getBody());
+	$problem_id = $id;
+	
+	# example PUT to increment the liked count for a problem
+	# {"id":"107", "liked":"33"}   - no form data needed for this.            http://localhost/gms/api/problems/107/like
+
+	$db_table = 'input';
+	$liked = 0; $disliked = 0;
+
+	// get the current liked count for this problem - will also validate we have been give a good input.idinput  value (problem identifier)
+	$sql = "SELECT idinput, liked, disliked from ". $db_table. " where idinput = :idinput ;"; 
+	try {
+		$db = getConnection();
+		$stmt = $db->prepare($sql);  
+
+		// Bind the values from the PUT request that are stored in the json object to the parameters in the Sql statment
+		$stmt->bindParam("idinput", $problem_id );
+		// commit to db and return the ID used 
+		$stmt->execute();
+		$problem = $stmt->fetchObject(); 
+		$liked = $problem->liked;
+				
+	} catch(PDOException $e) {
+		gmsError( 'api.putLike - Get current problem.liked' , $e->getMessage(), '', '' );
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+		return;
+	}
+	
+	// increment counter and setup sql for UPDATE to db
+	$liked += 1;
+	$sql = "UPDATE ". $db_table. " SET liked = ". $liked. " where idinput = ". $problem_id. ";"; 
+	gmsLog( "PUT likeProblem : ". $request->getBody(),  '', '', '' );
+	gmsLog( "DB update liked count of $liked to $db_table : ". $sql, '', '', '' );
+
+	
+	try {
+		$db = getConnection();
+		$stmt = $db->prepare($sql);  
+		// commit to db and return the ID used 
+		$stmt->execute();
+		//$problem_updated = $stmt->fetchObject(); 
+		$db = null;
+		$problem->liked = $liked;
+		// return json object of the problem and both liked/disliked values
+		echo json_encode($problem); 
+	} catch(PDOException $e) {
+		gmsError( 'api.putLiked' , $e->getMessage(), '', '' );
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
+
+
+/**  JSW
+ * REST function to PUT a dislike (increment this integer) to an existing problem (input table)
+ * @param 
+ * @return  via Echo : the resulting json 'problem' object with like and dislike counts for the row updated to the table 'input'
+ * @throws
+*/
+function dislikeProblem($id) {
+	gmsLog('dislikeProblem', '', '', '' );
+	// get the form values posted and convert to json 
+	$request = Slim::getInstance()->request();
+	$disliked_form = json_decode($request->getBody());
+	$problem_id = $id;
+	
+	# example PUT to increment the liked count for a problem
+	# {"id":"107", "disliked":"33"}   - no form data needed for this.            http://localhost/gms/api/problems/107/dislike
+
+	$db_table = 'input';
+	$liked = 0; $disliked = 0;
+
+	// get the current liked count for this problem - will also validate we have been give a good input.idinput  value (problem identifier)
+	$sql = "SELECT idinput, liked, disliked from ". $db_table. " where idinput = :idinput ;"; 
+	try {
+		$db = getConnection();
+		$stmt = $db->prepare($sql);  
+
+		// Bind the values from the PUT request that are stored in the json object to the parameters in the Sql statment
+		$stmt->bindParam("idinput", $problem_id );
+		$stmt->execute();
+		$problem = $stmt->fetchObject(); 
+		$disliked = $problem->disliked;
+				
+	} catch(PDOException $e) {
+		gmsError( 'api.putDislike - Get current problem.liked' , $e->getMessage(), '', '' );
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+		return;
+	}
+	
+	// increment counter and setup sql for UPDATE to db
+	$disliked += 1;
+	$sql = "UPDATE ". $db_table. " SET disliked = ". $disliked. " where idinput = ". $problem_id. ";"; 
+	gmsLog( "PUT dislikeProblem : ". $request->getBody(),  '', '', '' );
+	gmsLog( "DB update liked count of $disliked to $db_table : ". $sql, '', '', '' );
+
+	
+	try {
+		$db = getConnection();
+		$stmt = $db->prepare($sql);  
+		$stmt->execute();
+		$db = null;
+		$problem->disliked = $disliked;
+		// return json object of the problem and both liked/disliked values
+		echo json_encode($problem); 
+	} catch(PDOException $e) {
+		gmsError( 'api.putDislked' , $e->getMessage(), '', '' );
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+	
+	
+}
 
 
 
