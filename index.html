@@ -64,7 +64,8 @@
                 <img class="social-button" src="images/youtube-follow-lg.png" alt=""/></a>
         </div>
         <div  class="span12">
-			<p>globalmindshare 2.6</p>
+			<!-- gms version -->
+			<p>globalmindshare 2.9</p>
         </div>		
     </div>
 </div><!-- .GMS and social media -->
@@ -251,7 +252,7 @@
         </div>
         <div class="span8">
             <h3>Our Founders</h3>
-            <h4>George E. Mikhailovsky (Mi khile hof sky)</h4>
+            <h4>George E. Mikhailovsky (Mi hai ‘lov sky)</h4>
 
             <p>Dear friends,<br>Let me introduce myself. I am George Mikhailovsky, President and founder of Global Mind
                 Share. I was born in Moscow, Russia and graduated from Moscow State University as a biophysicist. After
@@ -398,6 +399,8 @@
                     </label>
 					-->
                     <button id="btnProblemSubmit" class="btn">Submit</button>
+					<button class="btn btn-danger" type="reset">Reset</button>
+					<!-- http://www.redips.net/javascript/clear-form/  --> 
                 </div>
             </div>
 			
@@ -544,7 +547,8 @@
 <!-- ***************************** div for COMMENTS modal popup  ***********************************  -->
 <div id="commentsModal" class="modal hide fade" role="dialog">
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+		<!-- orig strange little char :   ×    -->
         <h5 id="commentsModalLabel">Comments : <span id="spanCommentsModalProblemName"></span></h5>
     </div>
     <div class="modal-body">
@@ -555,7 +559,7 @@
         <div class="control-group">
             <label class="control-label" for="inpComment">Add a new comment</label>
             <div class="controls">
-                <textarea id="inpComment" class="span5" rows="3" placeholder="Comment"></textarea>
+                <textarea id="inpComment" class="span5" rows="3" placeholder="Comment" maxlength=1000></textarea>
             </div>
         </div>
     </div>

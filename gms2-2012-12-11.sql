@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
 --
 
 INSERT INTO `comment` (`idcomment`, `comment_txt`, `related_to`, `liked`, `disliked`, `approved`, `approved_by`, `created_by`, `created_dt`) VALUES
-(3, 'This screen will have the same Subject Area Drop Down as GMS Problem Submit screen and collapsable List of Submitted Problems. This List will be popualted with approved Problems for Subject Area chosen in its Drop Down. Click on a Problem highlights it. DoubleClick opens second level (Comments) of collapsable for respective Problem. ', 2, 0, 0, 'W', 2, 1, '2012-08-25 03:24:55');
+(3, 'Here are is a the first comment submitted about an existing problem. This is linked to the problem via the related_to column.', 2, 0, 0, 'W', 2, 1, '2012-12-31 03:20:00');
 
 -- --------------------------------------------------------
 
@@ -109,8 +109,8 @@ CREATE TABLE IF NOT EXISTS `fellow` (
 --
 
 INSERT INTO `fellow` (`idfellow`, `nick`, `password`, `fname`, `lname`, `email`, `address`, `city`, `country`, `state`, `zip`, `disputer`, `moderator`, `member`, `expert`, `volunteer`, `comments`, `created_dt`, `updated_dt`) VALUES
-(1, 'anonymous ', NULL, NULL, NULL, 'N/A', NULL, NULL, NULL, NULL, NULL, 'N', 'N', 'N', 'N', 'N', NULL, '2012-08-23 00:00:00', '0000-00-00 00:00:00'),
-(2, 'gmik', '12345', 'George', 'Mikhailovsky', 'gmikhai@yahoo.com', '6603 Tucker Ave.', 'McLean', 'USA', 'VA', '22101', 'Y', 'Y', 'Y', 'Y', 'Y', 'This is a comment', '2012-07-12 00:58:10', '0000-00-00 00:00:00'),
+(1, 'anonymous ', 'xxx85810', 'Any', 'User', 'info@globalmindshare.org', NULL, NULL, NULL, NULL, NULL, 'N', 'N', 'N', 'N', 'N', NULL, '2012-08-23 00:00:00', '0000-00-00 00:00:00'),
+(2, 'gmik', 'passwordthatisfake', 'George', 'Mikhailovsky', 'gmikhai@yahoo.com', '6603 Tucker Ave.', 'McLean', 'USA', 'VA', '22101', 'Y', 'Y', 'Y', 'Y', 'Y', 'This is a comment', '2012-07-12 00:58:10', '0000-00-00 00:00:00'),
 (3, 'petr', NULL, NULL, NULL, '', NULL, NULL, NULL, NULL, NULL, 'N', 'N', 'N', 'N', 'N', NULL, '2012-07-12 01:04:54', '0000-00-00 00:00:00'),
 (4, 'SQuick', 'pass1234', 'Simon', 'Quick', 'sq@hotmail.com', NULL, 'Pert', 'Andorra', 'Mississippi', NULL, 'N', 'N', 'N', 'N', 'N', NULL, '2012-10-09 22:52:23', '2012-10-09 22:52:23');
 
@@ -241,19 +241,17 @@ INSERT INTO `subjarea` (`idsubjarea`, `area`, `created_by`, `created_dt`) VALUES
 (16, 'Science and Technology', 2, '2012-07-12 02:23:58'),
 (17, 'Art and Culture', 2, '2012-07-12 02:24:23'),
 (18, 'Religion and Philosophy', 2, '2012-07-12 02:24:46');
+-- INSERT INTO `subjarea` (`idsubjarea`, `area`, `approved`, `created_by`, `created_dt`) VALUES ( 9, 'General', 'Y', 2, '2012-12-30 18:45:00');
 
-INSERT INTO `subjarea` (`idsubjarea`, `area`, `approved`, `created_by`, `created_dt`) VALUES
-( 9, 'General', 'Y', 2, '2012-12-30 18:45:00');
 
 --
 -- Dumping data for table `rostrum`
 --
 
 INSERT INTO `rostrum` (`idrostrum`, `our_text`, `created_by`, `created_on`) VALUES
-(1, 'Liftoff : we have now launched the amazing GMS website for all members of the Earth to join in a unilateral effort to solve the problems that face us all', 2, '2012-11-26 09:15:00'),
-(2, 'Version 1.8 of GMS was launched.', 2, '2012-11-18 03:00:00');
-(3, 'Phase 1 of Global Mind Share will run Version 2 - Utilizing an improved MVC model', 2, '2012-12-15 19:30:00');
-
+-- (1, 'Phase 1 of Global Mind Share will run Version 2 - Utilizing an improved MVC model', 2, '2012-12-15 19:30:00');
+-- (2, 'Beta Version 1.8 of the GMS website was launched.', 2, '2012-11-18 03:00:00');
+(3, 'Liftoff! : The Global Mind Share expeience and website has been officially launched. A community where all members of the Earth can join in a unilateral effort to solve the problems that face us all. ', 2, '2013-01-01 09:15:00')
 
 --
 -- Dumping data for table `comment`

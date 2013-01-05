@@ -9,6 +9,7 @@
 // 2012-12-30 : Added like/dislike button and counts to grid - using fakecol from api
 // 2012-12-31 : Added Details (modal popup) to show all details text about a problem
 //            : Added Like and Dislike click handlers to call api 
+// 2013-01-01 : Validated entered comments (length and existance)
 
 
 // Use require.js library to modularize our functions
@@ -49,13 +50,21 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 
         // define submit button event handler for problem submit form
         $('#btnProblemSubmit').click(function (e) {
+			// prevent other event handlers from executing 
             e.preventDefault();
-            if ($('#problem-form').valid()) {
+			
+			var validator = $('#problem-form').valid();
+			
+            if  (validator) {
                 //console.log("valid");
 				gmstrace('Problem Submit form is Valid');
                 addProblem();
+				// now clear the form
 				//$('#problem-form').resetForm();
-				
+				//validator.resetForm();
+				//form.reset();
+				//$("problem-form").focusout();
+				//$('#problem-form').get(0).reset();
             } else {
                 //console.log("oops!");
 				gmstrace('oops. Error adding new Problem form');
@@ -148,7 +157,7 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
 	      },
 		  txtProblemDetails: {
 	      	minlength: 10,
-	        required: true
+	        required: false
 	      }
 		  
 	    },
@@ -214,6 +223,10 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
             columns:[
 				/*
                 {
+                    property:'idinput',
+                    label:'ID',
+                    sortable:true
+                },                
                     property:'nick',
                     label:'Nickname',
                     sortable:true
@@ -310,7 +323,8 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
         });
 
 		//gmstrace('createProblemDataGrid - after setup columns');
-
+		
+		// Load the data from problemDatasource into the fuelex data grid
         $('#MyGrid').datagrid({
             dataSource:problemDataSource
         });
@@ -375,7 +389,20 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
     // called when submit button clicked
     // get form inputs and post to problem add API on server
     function saveComment() {
+	
+		// Validate the comment text (must exist and cannot be > 1000
+		var comment_entered = $('#inpComment').val();
+		if (!comment_entered) {
+			alert('Please enter a comment or close to exit');
+			return false;
+		}
+		if (comment_entered.length > 1000) {
+			// should do this in the UI
+			alert('comment truncated to 1000 characters');
+			comment_entered = comment_entered.substring(0, 999);
+		}
         // convert inputs to JSON string
+		// created_by = 1  where 1 is the id of the fellow table - 1 is the anonymous default user
         var data = JSON.stringify({ id:"",
             comment_txt:$('#inpComment').val(),
             related_to:$('#btnSaveComment').attr('data-probid'),
@@ -439,7 +466,7 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
                 //$('#listDetails').append('<li>' + response.details + '</li>');
                 $('#textDetails').html( response.details );
             } else {
-                $('#textDetails').html('<li>No details found for this problem.</li>')
+                $('#textDetails').html('No additional details found for this problem.')
             }
         });
 
@@ -473,6 +500,9 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
             } else {
                 alert('Unable to like this problem');
             }
+			
+		// jsw  $('#MyGrid').datagrid({  refreshData });
+			
         });
 
         // if request fails, display an error
@@ -499,6 +529,8 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
             } else {
                 alert('Unable to dislike this problem');
             }
+			
+
         });
 
         // if request fails, display an error
