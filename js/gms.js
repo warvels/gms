@@ -205,7 +205,7 @@ require(['jquery', 'js/problemDatasource', 'validate', 'fuelux/all' ], function 
     }
 
 
-    // called when submit button clicked
+    // called when submit button clicked on Submit problem Form
     // get form inputs and post to problem add API on server
     function addProblem() {
         //console.log('adding problem');

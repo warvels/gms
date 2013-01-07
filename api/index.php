@@ -19,6 +19,7 @@
  *                ?sort=category  or [fellow | suggestion | email | liked ]
  *                ?status=approved  or [ rejected | pending | all ]
  * 2012-12-31 - added api to Like / Dislike a problem  :  /api/problems/<id>/like  :
+ * 2013-01-06 - cleanup and logging during all functions
 */
 
 
@@ -50,8 +51,6 @@ $app->get('/testing',	'testParameters');
 $app->run();
 
 
-
-
 /**  
  * testing:  REST GET function to test parameter passing
  * @param 
@@ -60,6 +59,12 @@ $app->run();
  *   http://localhost/gms/api/testing?jeff=hi
  *   http://localhost/gms/api/testing?param1=hi&param2=education
 */
+# JSW
+# get parameters (if they exist) = ?param1=xxx?param2=yyy
+#  localhost/gms/api/subjectareas?jeff=j1
+#  http://localhost/gms/api/subjectareas?jeff=whatdoyousee&jill=any
+#   will show both params
+
 function testParameters() {
 	$p1='param1';
 	echo 'test full param get '. Slim::getInstance()->request()->get($p1);
@@ -73,8 +78,8 @@ function testParameters() {
 	} 
 
 	# see if you can find param to in subjarea table
-$y=$request->get($p1);	
-echo 'search for sa = '.$y.' ID= '.findSubjectArea($y);
+	$y=$request->get($p1);	
+	echo 'search for sa = '.$y.' ID= '.findSubjectArea($y);
 
 	#echo '{results}';
 }
@@ -96,6 +101,9 @@ echo 'search for sa = '.$y.' ID= '.findSubjectArea($y);
 */
 function getInputs() {
 	$sql = "select * FROM input ORDER BY created_dt";
+
+	gmsLog('GET ting input '.$sql, '', '', '');		
+	
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);  
@@ -118,6 +126,9 @@ function getInputs() {
 */
 function getInput($id) {
 	$sql = "SELECT * FROM input WHERE idinput=:id";
+
+	gmsLog('GET ting input ID '.$sql, '', '', '');		
+	
 	try {
 		$db = getConnection();
 		$stmt = $db->prepare($sql);  
@@ -165,6 +176,9 @@ function getUsers() {
 */
 function getUser($id) {
 	$sql = "SELECT * FROM fellow WHERE idfellow=:id";
+	
+	gmsLog('GET ting fellow ID  '.$sql, '', '', '');		
+	
 	try {
 		$db = getConnection();
 		$stmt = $db->prepare($sql);  
@@ -188,13 +202,10 @@ function getUser($id) {
  * @throws
 */
 function getSubjectareas() {
-
-# JSW
-# get parameters (if they exist) = ?param1=xxx?param2=yyy
-#  localhost/gms/api/subjectareas?jeff=j1
-#  http://localhost/gms/api/subjectareas?jeff=whatdoyousee&jill=any
-#   will show both params
 	$sql = "select * FROM subjarea ORDER BY area";
+
+	gmsLog('GET ting subjarea '.$sql, '', '', '');		
+	
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);  
@@ -216,6 +227,9 @@ function getSubjectareas() {
 */
 function getSubjectarea($id) {
 	$sql = "SELECT * FROM subjarea WHERE idsubjarea=:id";
+
+	gmsLog('GET ting subjarea ID '.$sql, '', '', '');		
+	
 	try {
 		#debug printf($id);	
 		$db = getConnection();
@@ -242,6 +256,9 @@ function getSubjectarea($id) {
 */
 function getComments() {
 	$sql = "select * FROM comment ORDER BY related_to, created_dt";
+
+	gmsLog('GET ting comments '.$sql, '', '', '');		
+
 	try {
 		$db = getConnection();
 		$stmt = $db->query($sql);  
@@ -263,6 +280,9 @@ function getComments() {
 */
 function getComment($id) {
 	$sql = "SELECT * FROM comment WHERE idcomment=:id";
+
+	gmsLog('GET ting comment ID '.$sql, '', '', '');		
+	
 	try {
 		$db = getConnection();
 		$stmt = $db->prepare($sql);  
@@ -360,8 +380,6 @@ function getProblems() {
 	$request = Slim::getInstance()->request();
 	
 	gmsLog( "GET Problems : request : ",  '', '', '' );
-	#gmsLog( "GET Problems Request getBody : ". $request->getBody(),  '', '', '' );
-	#gmsLog( "GET Problems Param : ". $request->get('jeff'),  '', '', '' );
 
 	# setup the sql to search for INPUT table and join with FELLOW and SUBJAREA
 	# select to join input, subjarea, fellow for all submitted problems.
@@ -392,7 +410,7 @@ function getProblems() {
 		}
 	} 	
 	
-	# if passed a subjarea filter (text name of subjarea), then only return those INPUT rows for that subjrea.
+	# if passed param "subjarea filter" (text name of subjarea), then only return those INPUT rows for that subjrea.
 	# if passed subjarea is not found, then will return no problems.
 	$subjarea_str = $request->get('subjarea');
 	#echo 'Parameters : '.$p1.' = '.$request->get($p1);  echo '<br>';
@@ -404,7 +422,7 @@ function getProblems() {
 			return;
 		}
 	}
-	# should be the REST passed parameter:  ?sort=name
+	# Determine sorting of resulting prolbems. Can have a REST passed parameter:  ?sort=name
 	$sortcol = 'i.created_dt desc';        // default
 	$sortcol_passed = $request->get('sort');
 	if ($sortcol_passed ) { 
@@ -421,9 +439,8 @@ function getProblems() {
 	} 
 	// append selected or default sorting column
 	$sql .= ' order by '. $sortcol . ';' ;	
-	
-	
-	gmsLog( "GET Problems SQL = $sql",  '', '', '' );	
+		
+	gmsLog( "GET Problems sql = $sql",  '', '', '' );	
 	
 	try {
 		$db = getConnection();
@@ -450,9 +467,10 @@ function getProblems() {
 function getProblemComments($id) {
 	#$request = Slim::getInstance();
 	#var_dump( $request );	
-	gmsLog( 'getProblemComments', '', '', '' );		
-	
 	$sql = 'select * from comment co where co.related_to=:id Order by created_dt desc ';
+	
+	gmsLog('GET ting problems comments '.$sql, '', '', '');		
+
 	try {
 		$db = getConnection();
 		$stmt = $db->prepare($sql);  		# preparse
@@ -481,7 +499,8 @@ function getProblemComments($id) {
 
 function getProblem($id) {
 	$sql = "SELECT * FROM input WHERE idinput=:id";
-	gmsLog( 'getProblem', '', '', '' );		
+
+	gmsLog('GET ting problem ID '.$sql, '', '', '');		
 	
 	try {
 		$db = getConnection();
@@ -514,8 +533,6 @@ function getProblem($id) {
  * @throws
 */
 function addProblem() {
-	gmsLog('addProblem', '', '', '' );
-
 	// get the form values posted and convert to json 
 	$request = Slim::getInstance()->request();
 	$problem = json_decode($request->getBody());
@@ -534,9 +551,8 @@ function addProblem() {
 
 	$db_table = 'input';
 	$sql = "INSERT into input (suggestion, idsubject, email, details, created_dt) VALUES (:suggestion, :idsubject, :email, :details, :created_dt )";
-				
-	gmsLog( "POST Request : ". $request->getBody(),  '', '', '' );
-	gmsLog( "DB Insert : ". $sql, '', '', '' );
+
+	gmsLog( "POST addProblem sql = ". $sql, '', '', '' );
 
 	# example POST  a submitted item 
 	# {"id":"", "suggestion":"It is a REAL problem", "email":"restpost@testemail.com", "subjarea":"Education", "details":"this is how we solve the POST data problem" }
@@ -561,7 +577,6 @@ function addProblem() {
 		
 		// return json object to ui
 		echo json_encode($problem); 
-#echo "email - ";
 
 	} catch(PDOException $e) {
 		gmsError( 'api.postProblem' , $e->getMessage(), '', '' );
@@ -578,7 +593,6 @@ function addProblem() {
  * @throws
 */
 function addComment() {
-	gmsLog('addComment', '', '', '' );
 
 	// get the form values posted and convert to json 
 	$request = Slim::getInstance()->request();
@@ -589,8 +603,7 @@ function addComment() {
 	$db_table = 'comment';
 	$sql = "INSERT into comment (comment_txt, related_to, liked, disliked, created_by) VALUES (:comment_txt, :related_to, :liked, :disliked, :created_by)";
 				
-	gmsLog( "POST addComment : ". $request->getBody(),  '', '', '' );
-	gmsLog( "DB Insert comment: ". $sql, '', '', '' );
+	gmsLog( "POST addComment sql = ". $sql, '', '', '' );
 
 	# example POST to add a comment to a problem
 	# {"id":"", "comment_txt":"I do not like green eggs and ham", "related_to":"3", "created_by":"1"}
@@ -637,7 +650,6 @@ function addComment() {
  * @throws
 */
 function likeProblem($id) {
-	gmsLog('likeProblem', '', '', '' );
 
 	// get the form values posted and convert to json 
 	$request = Slim::getInstance()->request();
@@ -672,9 +684,7 @@ function likeProblem($id) {
 	// increment counter and setup sql for UPDATE to db
 	$liked += 1;
 	$sql = "UPDATE ". $db_table. " SET liked = ". $liked. " where idinput = ". $problem_id. ";"; 
-	gmsLog( "PUT likeProblem : ". $request->getBody(),  '', '', '' );
-	gmsLog( "DB update liked count of $liked to $db_table : ". $sql, '', '', '' );
-
+	gmsLog( "DB update liked count of $liked to $db_table id $problem_id ". $sql, '', '', '' );
 	
 	try {
 		$db = getConnection();
@@ -701,7 +711,6 @@ function likeProblem($id) {
  * @throws
 */
 function dislikeProblem($id) {
-	gmsLog('dislikeProblem', '', '', '' );
 	// get the form values posted and convert to json 
 	$request = Slim::getInstance()->request();
 	$disliked_form = json_decode($request->getBody());
@@ -734,8 +743,7 @@ function dislikeProblem($id) {
 	// increment counter and setup sql for UPDATE to db
 	$disliked += 1;
 	$sql = "UPDATE ". $db_table. " SET disliked = ". $disliked. " where idinput = ". $problem_id. ";"; 
-	gmsLog( "PUT dislikeProblem : ". $request->getBody(),  '', '', '' );
-	gmsLog( "DB update liked count of $disliked to $db_table : ". $sql, '', '', '' );
+	gmsLog( "DB update disliked count of $disliked to $db_table id $problem_id ". $sql, '', '', '' );
 
 	
 	try {

@@ -19,6 +19,14 @@ CSS tips and tricks -
 div or body or p or <x> - entire DOM for all those elements
 */
 
+.gmstiny {
+  /*  tiny text on the gms site */
+  font-size:12px;
+}
+.gmsverytiny {
+  /*  really tiny text on the gms site */
+  font-size:8px;
+}
 
 .page-header-img{
     margin: 30px;
